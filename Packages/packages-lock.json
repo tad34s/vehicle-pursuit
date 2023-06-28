@@ -90,7 +90,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents": {
-      "version": "file:D:/Projects/CVUT/self-driving/ml-agents-release_20_branch/com.unity.ml-agents",
+      "version": "file:../ML Agents packages/com.unity.ml-agents",
       "depth": 0,
       "source": "local",
       "dependencies": {
@@ -100,7 +100,7 @@
       }
     },
     "com.unity.ml-agents.extensions": {
-      "version": "file:D:/Projects/CVUT/self-driving/ml-agents-release_20_branch/com.unity.ml-agents.extensions",
+      "version": "file:../ML Agents packages/com.unity.ml-agents.extensions",
       "depth": 0,
       "source": "local",
       "dependencies": {
