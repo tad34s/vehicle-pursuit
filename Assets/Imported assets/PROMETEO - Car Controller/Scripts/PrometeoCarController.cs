@@ -164,7 +164,7 @@ public class PrometeoCarController : MonoBehaviour
 	  float RRWextremumSlip;
 
 	// Start is called before the first frame update
-	void Start()
+	public void Start()
 	{
 	  //In this part, we set the 'carRigidbody' value with the Rigidbody attached to this
 	  //gameObject. Also, we define the center of mass of the car with the Vector3 given

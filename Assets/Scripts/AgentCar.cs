@@ -3,7 +3,6 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using System.Collections.Generic;
-using System.Net.Mime;
 
 public class AgentCar : Agent
 {
@@ -13,48 +12,59 @@ public class AgentCar : Agent
 
 	private Quaternion startingRotation;
 
+	private bool pauseLearning = false;
+
 	const int k_Forward = 0;
 	const int k_Back = 1;
-	const int k_Left = 1;
-	const int k_Right = 2;
+	const int k_Left = 2;
+	const int k_Right = 3;
 
-	private PrometeoCarController carController;
-	private Rigidbody rBody;
+	public PrometeoCarController carController;
+	public Rigidbody rBody;
+	public TrackGenerator trackGenerator;
 
     public void Start()
     {
-		carController = GetComponent<PrometeoCarController>();
 		carController.useControls = false;
-
-		rBody = GetComponent<Rigidbody>();
-
-		startingRotation = transform.rotation;
-
-		for(int i = 0; i < parentCheckpoint.transform.childCount; i++)
-		{
-			checkpoints.Add(parentCheckpoint.transform.GetChild(i).gameObject);
-		}
+		carController.Start();
     }
+
+	public void setParentCheckpoint(GameObject checkpoint)
+	{
+		if(checkpoint == null)
+		{
+			parentCheckpoint = null;
+			checkpoints.Clear();
+		} else
+		{
+			parentCheckpoint = checkpoint;
+            for(int i = 0; i < parentCheckpoint.transform.childCount; i++)
+            {
+                checkpoints.Add(parentCheckpoint.transform.GetChild(i).gameObject);
+            }
+		}
+	}
 
     public override void OnEpisodeBegin()
     {
-		transform.position = new Vector3(0f, 0.1f, 0f);
-		transform.rotation = startingRotation;
+		Debug.Log("New episode");
 
-		rBody.velocity = Vector3.zero;
-		rBody.angularVelocity = Vector3.zero;
+		pauseLearning = true;
+		trackGenerator.Init();
+		pauseLearning = false;
 
 		currentCheckpoint = 0;
 
-		Debug.Log("New episode");
+        rBody.velocity = Vector3.zero;
+        rBody.angularVelocity = Vector3.zero;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-		sensor.AddObservation(carController.carSpeed);
-		sensor.AddObservation(carController.steeringAxis);
+        sensor.AddObservation(carController.carSpeed);
+        sensor.AddObservation(carController.steeringAxis);
 
-		sensor.AddObservation(calcDistanceToNextCheckpoint());
+        sensor.AddObservation(calcDistanceToNextCheckpoint());
     }
 
 	private GameObject getNextCheckpoint()
@@ -62,12 +72,6 @@ public class AgentCar : Agent
 		if(currentCheckpoint + 1 >= checkpoints.Count)
 			return checkpoints[0];
 		return checkpoints[currentCheckpoint + 1];
-	}
-	private GameObject getPreviousCheckpoint()
-	{
-		if(currentCheckpoint - 1 < 0)
-			return checkpoints[checkpoints.Count - 1];
-		return checkpoints[currentCheckpoint - 1];
 	}
 
 	private float calcDistance(Vector3 pos1, Vector3 pos2)
@@ -80,13 +84,14 @@ public class AgentCar : Agent
 
 	private float calcDistanceToNextCheckpoint()
 	{
-		Vector3 nextCheckpointPosition = getNextCheckpoint().transform.position;
-		return calcDistance(nextCheckpointPosition, transform.position);
-	}
-	private float calcDistanceToPreviousCheckpoint()
-	{
-		Vector3 previousCheckpointPosition = getPreviousCheckpoint().transform.position;
-		return calcDistance(previousCheckpointPosition, transform.position);
+		if(checkpoints.Count == 0)
+			return -1;
+
+		GameObject nextCheckpoint = getNextCheckpoint();
+		if (nextCheckpoint == null)
+			return -1;
+
+		return calcDistance(nextCheckpoint.transform.position, transform.position);
 	}
 
 	private float getDrivenDistance()
@@ -113,8 +118,8 @@ public class AgentCar : Agent
 	{
 		bool goForward = actions.DiscreteActions[k_Forward] == 1;
 		// bool goForward = true;
-		// bool goBack = actions.DiscreteActions[k_Back] == 1;
-		bool goBack = false;
+		bool goBack = actions.DiscreteActions[k_Back] == 1;
+		// bool goBack = false;
 		bool turnLeft = actions.DiscreteActions[k_Left] == 1;
 		bool turnRight = actions.DiscreteActions[k_Right] == 1;
 		// Debug.Log($"Forward: {goForward}\nBackward: {goBack}\nLeft: {turnLeft}\nRight: {turnRight}");
@@ -153,7 +158,11 @@ public class AgentCar : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-		if(calcDistanceToNextCheckpoint() < 3f)
+		if (pauseLearning)
+			return;
+
+		float distanceToCheckpoint = calcDistanceToNextCheckpoint();
+		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 3f)
 		{
             AddReward(5f);
             currentCheckpoint++;
@@ -169,16 +178,15 @@ public class AgentCar : Agent
 		// SetReward(carController.getAmountOfWheelsOnRoad() * 0.0001f);
 		// SetReward(4 - carController.getAmountOfWheelsOnRoad() * -0.1f);
 
-
         if(carController.carSpeed > 2f)
         {
             float reward = getDrivenDistance() * 0.5f;
-            Debug.Log(reward);
+            // Debug.Log(reward);
             AddReward(reward);
         } else
-		{
-			AddReward(-1f);
-		}
+        {
+            AddReward(-1f);
+        }
 
 		TriggerAction(actions);
     }
@@ -188,7 +196,7 @@ public class AgentCar : Agent
 		var discreteActionsOut = actionsOut.DiscreteActions;
 
 		discreteActionsOut[k_Forward] = Input.GetKey(KeyCode.W) ? 1 : 0;
-		// discreteActionsOut[k_Back] = Input.GetKey(KeyCode.S) ? 1 : 0;
+		discreteActionsOut[k_Back] = Input.GetKey(KeyCode.S) ? 1 : 0;
 		discreteActionsOut[k_Left] = Input.GetKey(KeyCode.A) ? 1 : 0;
 		discreteActionsOut[k_Right] = Input.GetKey(KeyCode.D) ? 1 : 0;
     }

@@ -18,7 +18,8 @@ public class Wheel : MonoBehaviour
         WheelHit hit;
         if(wCollider.GetGroundHit(out hit))
         {
-            onRoad = (hit.collider.gameObject.name != "Terrain");
+            // onRoad = (hit.collider.gameObject.name != "Terrain");
+            onRoad = (hit.collider.gameObject.tag == "Road");
         }
     }
 }

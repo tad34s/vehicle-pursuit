@@ -10733,12 +10733,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6282186034757043644}
-  - component: {fileID: 6282186034757048900}
+  - component: {fileID: -1987677041437309144}
+  - component: {fileID: 6282186034757043645}
   - component: {fileID: 6282186034757043643}
   - component: {fileID: 6282186034757043641}
   - component: {fileID: 6282186034757043640}
   - component: {fileID: 6282186034757043642}
-  - component: {fileID: 6282186034757043645}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -10753,8 +10753,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6282186036658918038}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.000032424927, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10765,7 +10765,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &6282186034757048900
+--- !u!54 &-1987677041437309144
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10781,6 +10781,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6282186034757043645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282186036658918038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d559bce4c0b1ff4dbf889ebeb295f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 10000
+  parentCheckpoint: {fileID: 0}
+  currentCheckpoint: 0
+  carController: {fileID: 6282186034757043643}
+  rBody: {fileID: -1987677041437309144}
+  trackGenerator: {fileID: 0}
 --- !u!114 &6282186034757043643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10801,7 +10822,7 @@ MonoBehaviour:
   brakeForce: 600
   decelerationMultiplier: 3
   handbrakeDriftMultiplier: 1
-  useControls: 1
+  useControls: 0
   bodyMassCenter: {x: 0, y: 0, z: 0}
   frontLeftMesh: {fileID: 6282186034747460593}
   frontLeftCollider: {fileID: 6282186035272500274}
@@ -10863,14 +10884,14 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 020000000200000002000000
-    VectorActionSize: 020000000200000002000000
+      BranchSizes: 02000000020000000200000002000000
+    VectorActionSize: 02000000020000000200000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 1
-  m_BehaviorType: 0
+  m_InferenceDevice: 0
+  m_BehaviorType: 1
   m_BehaviorName: CarBehavior
   TeamId: 0
   m_UseChildSensors: 1
@@ -10894,24 +10915,6 @@ MonoBehaviour:
   m_Grayscale: 1
   m_ObservationStacks: 1
   m_Compression: 1
---- !u!114 &6282186034757043645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6282186036658918038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d559bce4c0b1ff4dbf889ebeb295f8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
-  parentCheckpoint: {fileID: 0}
-  currentCheckpoint: 0
 --- !u!1 &6282186036672718645
 GameObject:
   m_ObjectHideFlags: 0

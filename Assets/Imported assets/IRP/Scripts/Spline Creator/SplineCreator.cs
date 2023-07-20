@@ -100,6 +100,11 @@ public class SplineCreator : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         if (Spline == null)
             Spline = new Spline();
     }
@@ -107,7 +112,7 @@ public class SplineCreator : MonoBehaviour
     /// <summary>
     /// Create the track
     /// </summary>
-    public void CreateTrack()
+    public GameObject CreateTrack()
     {
         if (Spline.AllSmoothPoints.Count > 0)
         {
@@ -117,13 +122,15 @@ public class SplineCreator : MonoBehaviour
             trackMesh = CreateTackMesh(pTwoDShape);
             CreateCurbVertices();
 
-            GenerateTrackObject();
+            return GenerateTrackObject();
         }
         else
         {
             Debug.Log("SPLICE CREATOR: There is no spline. Make sure there is a Voronoi diagram gnerated. Then press the" +
                 " 'Generate Spline'");
         }
+
+        return null;
     }
 
     /// <summary>
@@ -229,7 +236,6 @@ public class SplineCreator : MonoBehaviour
     /// </summary>
     public void GenerateSpline()
     {
-        Debug.Log(Spline);
         Spline.CreateSpline(_voronoi.SplineOutterEdge());
     }
 
@@ -395,7 +401,7 @@ public class SplineCreator : MonoBehaviour
     /// <summary>
     /// Generate a new GameObject and add the track to it
     /// </summary>
-    private void GenerateTrackObject()
+    private GameObject GenerateTrackObject()
     {
         //if both the trackMesh and curbMesh are not null
         if (trackMesh != null && curbsMesh != null)
@@ -405,12 +411,15 @@ public class SplineCreator : MonoBehaviour
             track.AddComponent<MeshFilter>();
             track.AddComponent<MeshRenderer>();
             track.AddComponent<PGSave>();
+            track.AddComponent<MeshCollider>();
 
             //set the mesh filter and mesh renderer
             track.GetComponent<MeshFilter>().sharedMesh = trackMesh;
+            track.GetComponent<MeshCollider>().sharedMesh = trackMesh;
             track.GetComponent<MeshRenderer>().sharedMaterial = TrackMaterial;
 
             track.tag = "Road";
+            track.transform.position = new Vector3(0, 0.01f, 0);
 
             //then create a new GameObject add a mesh filter and mesh renderer to it
             GameObject curb = new GameObject("Curbs");
@@ -421,7 +430,11 @@ public class SplineCreator : MonoBehaviour
             //set the mesh filter and mesh renderer
             curb.GetComponent<MeshFilter>().sharedMesh = curbsMesh;
             curb.GetComponent<MeshRenderer>().sharedMaterial = CurbMaterial;
+
+            return track;
         }
+
+        return null;
     }
 
     /// <summary>
