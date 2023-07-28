@@ -108,20 +108,6 @@ public class TrackGenerator : MonoBehaviour
 			secondCheckpoint.position.z
 		);
 
-		/*
-		Vector3 startingPosition = new Vector3(
-			(vertices[0].x + vertices[1].x) / 2,
-			yLevel,
-			(vertices[0].z + vertices[1].z) / 2
-		);
-
-		Vector3 nextPos = new Vector3(
-			(vertices[2].x + vertices[3].x) / 2,
-			yLevel,
-			(vertices[2].z + vertices[3].z) / 2
-		);
-		*/
-
 		Vector3 targetDir = (nextPos - startingPosition);
 
 		float angle = Vector3.SignedAngle(targetDir, Vector3.forward, Vector3.up);

@@ -173,7 +173,7 @@ public class AgentCar : Agent
         if(carController.carSpeed > 2f)
         {
             float reward = getDrivenDistance() * 0.5f;
-            // Debug.Log(reward);
+            Debug.Log(reward);
             AddReward(reward);
         } else
         {
