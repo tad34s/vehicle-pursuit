@@ -7,7 +7,8 @@ import os
 
 if __name__ == "__main__":
     # set up the environment
-    env_location = "C:\\Users\\tasek\\Desktop\\programovani\\staz\\auticka\\self-driving\\Python Trainer\\env\\Self driving.exe"
+    # env_location = "C:\\Users\\tasek\\Desktop\\programovani\\staz\\auticka\\self-driving\\Python Trainer\\env\\Self driving.exe"
+    env_location = './env/Self driving.exe'
     env = UnityEnvironment(file_name=env_location)
     env.reset()
 
