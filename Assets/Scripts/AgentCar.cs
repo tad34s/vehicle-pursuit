@@ -7,7 +7,15 @@ using System.Collections.Generic;
 public class AgentCar : Agent
 {
 	public GameObject parentCheckpoint;
-	List<GameObject> checkpoints = new List<GameObject>();
+	// List<GameObject> checkpoints = new List<GameObject>();
+	List<GameObject> checkpoints
+	{
+		get {
+			return trackGenerator.checkpoints;
+		}
+	}
+
+
 	public int currentCheckpoint = 0;
 
 	private Quaternion startingRotation;
@@ -28,22 +36,6 @@ public class AgentCar : Agent
 		carController.useControls = false;
 		carController.Start();
     }
-
-	public void setParentCheckpoint(GameObject checkpoint)
-	{
-		if(checkpoint == null)
-		{
-			parentCheckpoint = null;
-			checkpoints.Clear();
-		} else
-		{
-			parentCheckpoint = checkpoint;
-            for(int i = 0; i < parentCheckpoint.transform.childCount; i++)
-            {
-                checkpoints.Add(parentCheckpoint.transform.GetChild(i).gameObject);
-            }
-		}
-	}
 
     public override void OnEpisodeBegin()
     {
@@ -107,7 +99,7 @@ public class AgentCar : Agent
 		}
 
 		distance += calcDistance(
-			checkpoints[checkpoints.Count - 1].transform.position,
+			checkpoints[checkpoints.Count - (checkpoints.Count - currentCheckpoint)].transform.position,
 			transform.position
 		);
 
@@ -168,10 +160,10 @@ public class AgentCar : Agent
             currentCheckpoint++;
 		}
 
-		if (carController.getAmountOfWheelsOnRoad() <= 3)
+		if (carController.getAmountOfWheelsOnRoad() <= 2)
 		{
 			Debug.Log("Tire on terrain. Resetting");
-			SetReward(-1f);
+			SetReward(-10f);
 			EndEpisode();
 		}
 
@@ -181,11 +173,11 @@ public class AgentCar : Agent
         if(carController.carSpeed > 2f)
         {
             float reward = getDrivenDistance() * 0.5f;
-            Debug.Log(reward);
+            // Debug.Log(reward);
             AddReward(reward);
         } else
         {
-            AddReward(-1f);
+            AddReward(-5f);
         }
 
 		TriggerAction(actions);

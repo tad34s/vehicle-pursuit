@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TrackGenerator : MonoBehaviour
 {
 	public GameObject marker;
-	public GameObject checkpoints;
+	public GameObject parentCheckpoints;
+	public List<GameObject> checkpoints;
 
 	public SplineCreator sc;
 
@@ -18,6 +21,19 @@ public class TrackGenerator : MonoBehaviour
 
 	public void Start()
 	{
+		/*
+		 * Beginning
+		 *  Spline cell count: 2
+		 *  Num of sites to generate: 10
+		 *  Spline Scale: 0.8
+		 *  Size of voronoi: 200
+		 * 
+		 * End:
+		 *  Spline cell count: 3
+		 *  Num Of Sites to generate: 20
+		 *  Spline scale: 1
+		 *  Size of voronoi: 200
+		 */
 		sc.Init();
 
 		carAgent = agent.GetComponent<AgentCar>();
@@ -29,26 +45,25 @@ public class TrackGenerator : MonoBehaviour
 
 		Mesh roadMesh;
 
-		if(tryCount > triesPerTrack || firstInit)
+		if(tryCount >= triesPerTrack || firstInit)
 		{
             RemoveTrack();
 
             currentRoad = GenerateTrack();
             roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
 
-            RemoveMarkers();
+            // RemoveMarkers();
             CreateMarkers(roadMesh);
 
-			firstInit = false;
 			tryCount = 1;
+			firstInit = false;
 		}
 		else
 		{
 			roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
+			tryCount++;
 		}
 		PlaceAgent(roadMesh);
-
-		tryCount++;
     }
 
 	private void RemoveTrack()
@@ -66,9 +81,8 @@ public class TrackGenerator : MonoBehaviour
 	private void RemoveMarkers()
 	{
 		// Debug.Log("Removing markers");
-		carAgent.setParentCheckpoint(null);
-		foreach(Transform child in checkpoints.transform)
-			Destroy(child.gameObject);
+		foreach(GameObject child in checkpoints)
+			Destroy(child);
 		// Debug.Log("Removed markers");
 	}
 
@@ -79,6 +93,22 @@ public class TrackGenerator : MonoBehaviour
 		Vector3[] vertices = roadMesh.vertices;
 		float yLevel = 0.01f;
 
+		Transform firstCheckpoint = checkpoints[0].transform;
+		Transform secondCheckpoint = checkpoints[1].transform;
+
+		Vector3 startingPosition = new Vector3(
+			firstCheckpoint.position.x,
+			yLevel,
+			firstCheckpoint.position.z
+		);
+
+		Vector3 nextPos = new Vector3(
+			secondCheckpoint.position.x,
+			yLevel,
+			secondCheckpoint.position.z
+		);
+
+		/*
 		Vector3 startingPosition = new Vector3(
 			(vertices[0].x + vertices[1].x) / 2,
 			yLevel,
@@ -90,6 +120,7 @@ public class TrackGenerator : MonoBehaviour
 			yLevel,
 			(vertices[2].z + vertices[3].z) / 2
 		);
+		*/
 
 		Vector3 targetDir = (nextPos - startingPosition);
 
@@ -117,20 +148,34 @@ public class TrackGenerator : MonoBehaviour
 	private void CreateMarkers(Mesh roadMesh)
 	{
 		// Debug.Log("Creating markers");
-		// Debug.Log("Previous checkpoints: " + checkpoints.transform.childCount);
 		Vector3[] vertices = roadMesh.vertices;
-		for (var i = 0; i < vertices.Length - 3; i += 2)
+		int checkpointIndex = 0;
+		for (int i = 0; i < vertices.Length - 3; i += 2, checkpointIndex++)
 		{
 			Vector3 markerPosition = new Vector3(
 				(vertices[i].x + vertices[i + 3].x) / 2,
-				checkpoints.transform.position.y,
+				parentCheckpoints.transform.position.y,
 				(vertices[i].z + vertices[i + 3].z) / 2
 			);
-			Instantiate(marker, markerPosition, Quaternion.identity, checkpoints.transform);
+
+			if(checkpointIndex < checkpoints.Count)
+			{
+				checkpoints[checkpointIndex].transform.position = markerPosition;
+			} else
+			{
+                GameObject ob = Instantiate(marker, markerPosition, Quaternion.identity, parentCheckpoints.transform);
+                checkpoints.Add(ob);
+			}
 		}
 
-		// Debug.Log("Now checkpoints: " + checkpoints.transform.childCount);
-		carAgent.setParentCheckpoint(checkpoints);
+		if(checkpointIndex < checkpoints.Count)
+		{
+			for(int i = checkpointIndex; i < checkpoints.Count; i++)
+			{
+				Destroy(checkpoints[i]);
+			}
+			checkpoints.RemoveRange(checkpointIndex, checkpoints.Count - checkpointIndex);
+		}
 
 		// Debug.Log("Created markers");
 	}
