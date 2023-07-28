@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	print(observation_shape)
 	num_actions = spec.action_spec
 	print(num_actions)
-
+	results = []
 	try:
 		qnet = QNetwork((1, 64, 64), 3, 126, 4)
 		trainer = Trainer(model=qnet,buffer_size=1000)
@@ -33,7 +33,6 @@ if __name__ == "__main__":
 		os.makedirs(folder_name)
 		print(f'---- Will save models into {folder_name}')
 
-		results = []
 		for epoch in range(num_epochs):
 			print(epoch)
 			reward = trainer.train(env)
@@ -49,5 +48,6 @@ if __name__ == "__main__":
 	# Show the training graph
 	try:
 		plt.plot(range(num_epochs), results)
+		plt.show()
 	except ValueError:
 		print("\nPlot failed on interrupted training.")
