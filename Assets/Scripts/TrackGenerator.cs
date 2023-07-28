@@ -12,6 +12,10 @@ public class TrackGenerator : MonoBehaviour
 
 	private GameObject currentRoad = null;
 
+	public int triesPerTrack = 2;
+	private int tryCount = 1;
+	private bool firstInit = true;
+
 	public void Start()
 	{
 		sc.Init();
@@ -23,14 +27,28 @@ public class TrackGenerator : MonoBehaviour
     {
 		// Debug.Log("Init track");
 
-		RemoveTrack();
+		Mesh roadMesh;
 
-		currentRoad = GenerateTrack();
-		Mesh roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
+		if(tryCount > triesPerTrack || firstInit)
+		{
+            RemoveTrack();
 
-		RemoveMarkers();
-		CreateMarkers(roadMesh);
+            currentRoad = GenerateTrack();
+            roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
+
+            RemoveMarkers();
+            CreateMarkers(roadMesh);
+
+			firstInit = false;
+			tryCount = 1;
+		}
+		else
+		{
+			roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
+		}
 		PlaceAgent(roadMesh);
+
+		tryCount++;
     }
 
 	private void RemoveTrack()
