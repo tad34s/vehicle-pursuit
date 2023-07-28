@@ -4,43 +4,50 @@ from network import QNetwork
 from trainer import Trainer
 import torch
 import os
+import datetime
 
 if __name__ == "__main__":
-    # set up the environment
-    # env_location = "C:\\Users\\tasek\\Desktop\\programovani\\staz\\auticka\\self-driving\\Python Trainer\\env\\Self driving.exe"
-    env_location = './env/Self driving.exe'
-    env = UnityEnvironment(file_name=env_location)
-    env.reset()
+	# set up the environment
+	# env_location = "C:\\Users\\tasek\\Desktop\\programovani\\staz\\auticka\\self-driving\\Python Trainer\\env\\Self driving.exe"
+	env_location = './env/Self driving.exe'
+	env = UnityEnvironment(file_name=env_location)
+	env.reset()
 
-    # get the action space and observation space
-    print(env.behavior_specs)
-    behavior_name = list(env.behavior_specs)[0]
-    print(f"Name of the behavior : {behavior_name}")
-    spec = env.behavior_specs[behavior_name]
+	# get the action space and observation space
+	print(env.behavior_specs)
+	behavior_name = list(env.behavior_specs)[0]
+	print(f"Name of the behavior : {behavior_name}")
+	spec = env.behavior_specs[behavior_name]
 
-    num_epochs = 70
-    observation_shape = spec.observation_specs
-    print(observation_shape)
-    num_actions = spec.action_spec
-    print(num_actions)
+	num_epochs = 70
+	observation_shape = spec.observation_specs
+	print(observation_shape)
+	num_actions = spec.action_spec
+	print(num_actions)
 
-    try:
-        qnet = QNetwork((1, 64, 64), 3, 126, 4)
-        trainer = Trainer(model=qnet,buffer_size=1000)
-        results = []
-        for epoch in range(num_epochs):
-          print(epoch)
-          reward = trainer.train(env)
-          results.append(reward)
+	try:
+		qnet = QNetwork((1, 64, 64), 3, 126, 4)
+		trainer = Trainer(model=qnet,buffer_size=1000)
 
-    except KeyboardInterrupt:
-        print("\nTraining interrupted, continue to next cell to save to save the model.")
+		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
+		os.makedirs(folder_name)
+		print(f'---- Will save models into {folder_name}')
 
-    finally:
-        env.close()
+		results = []
+		for epoch in range(num_epochs):
+			print(epoch)
+			reward = trainer.train(env)
+			results.append(reward)
+			trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
 
-    # Show the training graph
-    try:
-        plt.plot(range(num_epochs), results)
-    except ValueError:
-        print("\nPlot failed on interrupted training.")
+	except KeyboardInterrupt:
+		print("\nTraining interrupted, continue to next cell to save to save the model.")
+
+	finally:
+		env.close()
+
+	# Show the training graph
+	try:
+		plt.plot(range(num_epochs), results)
+	except ValueError:
+		print("\nPlot failed on interrupted training.")

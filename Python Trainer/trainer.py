@@ -6,6 +6,7 @@ from typing import NamedTuple, List
 from network import QNetwork
 import torch
 from torch.utils.data import Dataset, DataLoader
+import torch.onnx
 
 
 class Experience:
@@ -164,3 +165,7 @@ class Trainer:
                 self.optim.zero_grad()
                 loss.backward()
                 self.optim.step()
+
+    def save_model(self, path):
+        dummy_input = [torch.randn((1, 1, 64, 64)), torch.randn((1, 3))]
+        torch.onnx.export(self.model, dummy_input, path)
