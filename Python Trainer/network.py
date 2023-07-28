@@ -2,6 +2,20 @@ import torch
 from typing import Tuple
 from math import floor
 from torch.nn import Parameter
+
+# NOTE: For use in unity, different input and output shape is needed
+# Inputs:
+# - shape: (-1, 64, 64, 1) -> Image
+# - shape: (-1, 1, 1, 3) -> Additional info
+# - shape: (-1, 1, 1, 8) -> IDK
+#
+# Outputs:
+# - version_number: shape (1, 1, 1, 1) = [3]
+# - memory_size: shape (1, 1, 1, 1) = [0]
+# - discrete_actions: shape (1, 1, 1, 4) = [[2, 2, 2, 2]]
+# - discrete_action_output_shape: shape (1, 1, 1, 4)
+# - deterministic_discrete_actions: shape (1, 1, 1, 4)
+
 class QNetwork(torch.nn.Module):
 
     def __init__(self, visual_input_shape,nonvis_input_shape, encoding_size,output_size):
