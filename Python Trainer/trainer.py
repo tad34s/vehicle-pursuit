@@ -93,7 +93,7 @@ class Trainer:
         self.memory = ReplayBuffer(buffer_size)
         self.model = model
         self.loss_fn = torch.nn.MSELoss()
-        self.optim = torch.optim.Adam(self.model.parameters(), lr=0.001)
+        self.optim = torch.optim.Adam(self.model.parameters(), lr=0.0005)
 
 
     def train(self, env,exploration_chance):
