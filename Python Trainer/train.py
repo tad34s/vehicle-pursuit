@@ -20,15 +20,15 @@ if __name__ == "__main__":
 	behavior_name = list(env.behavior_specs)[0]
 	print(f"Name of the behavior : {behavior_name}")
 	spec = env.behavior_specs[behavior_name]
-
-	num_epochs = 70
-	exploration_chance = 0.99
-	# calculate the reduce so that at the half of the training is the exploration chance 0,01
-	exploration_reduce = math.log(num_epochs/2, 0.01/exploration_chance)
 	observation_shape = spec.observation_specs
 	print(observation_shape)
 	num_actions = spec.action_spec
 	print(num_actions)
+
+	num_epochs = 70
+	exploration_chance = 0.99
+	exploration_reduce = 0.91
+
 	results = []
 	try:
 		qnet = QNetwork((1, 64, 64), 3, 126, 4)
@@ -39,11 +39,12 @@ if __name__ == "__main__":
 		print(f'---- Will save models into {folder_name}')
 
 		for epoch in range(num_epochs):
-			print(epoch)
+			print(f"epoch: {epoch}, exploration chance:{exploration_chance}")
 			reward = trainer.train(env,exploration_chance)
 			results.append(reward)
 			exploration_chance *= exploration_reduce
 			trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
+			print(f"reward earned: {reward}")
 
 	except KeyboardInterrupt:
 		print("\nTraining interrupted, continue to next cell to save to save the model.")
