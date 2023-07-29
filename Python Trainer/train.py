@@ -1,3 +1,5 @@
+import math
+
 import matplotlib.pyplot as plt
 from mlagents_envs.environment import UnityEnvironment
 from network import QNetwork
@@ -20,6 +22,9 @@ if __name__ == "__main__":
 	spec = env.behavior_specs[behavior_name]
 
 	num_epochs = 70
+	exploration_chance = 0.99
+	# calculate the reduce so that at the half of the training is the exploration chance 0,01
+	exploration_reduce = math.log(num_epochs/2, 0.01/exploration_chance)
 	observation_shape = spec.observation_specs
 	print(observation_shape)
 	num_actions = spec.action_spec
@@ -35,8 +40,9 @@ if __name__ == "__main__":
 
 		for epoch in range(num_epochs):
 			print(epoch)
-			reward = trainer.train(env)
+			reward = trainer.train(env,exploration_chance)
 			results.append(reward)
+			exploration_chance *= exploration_reduce
 			trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
 
 	except KeyboardInterrupt:

@@ -29,8 +29,11 @@ class Experience:
         for e, observation in enumerate(self.observations):
             if self.actions[e] is None:
                 break
-            reward_mask = self.actions[e] * self.rewards[e]
-            target = self.predicted_values[e] + reward_mask
+            # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
+            # and the value of the next state
+            target_matrix = self.predicted_values[e] * (1-self.actions[e]) # zero-out the predicted values we will
+            # adjust
+            target = target_matrix + (self.rewards[e] + self.predicted_values[e] * 0.95) * self.actions[e]
             observation = [arr.astype("float32") for arr in observation]
             target = target.astype("float32")
             states.append(observation)
@@ -91,21 +94,21 @@ class Trainer:
         self.model = model
         self.loss_fn = torch.nn.MSELoss()
         self.optim = torch.optim.Adam(self.model.parameters(), lr=0.001)
-        self.exploration_time = 10
 
-    def train(self, env):
+
+    def train(self, env,exploration_chance):
         """
         Create dataset, fit the model, delete dataset
         :param env:
         :return rewards earned:
         """
         env.reset()
-        rewards_stat = self.create_dataset(env)
+        rewards_stat = self.create_dataset(env,exploration_chance)
         self.fit(10)
         self.memory.wipe()
         return rewards_stat
 
-    def create_dataset(self, env):
+    def create_dataset(self, env, exploration_chance):
         behavior_name = list(env.behavior_specs)[0]
         all_rewards = 0
         # Read and store the Behavior Specs of the Environment
@@ -123,19 +126,21 @@ class Trainer:
                 decision_steps.obs[0] = np.transpose(decision_steps.obs[0], order)
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)
 
-                if len(terminal_steps) == 1 and len(decision_steps) == 0:
-                    exp.add_instance(terminal_steps.obs, None, None, terminal_steps.reward)
+                if len(decision_steps) == 0:
+                    exp.add_instance(terminal_steps.obs, None, np.zeros((1,4)), terminal_steps.reward)
+                    env.step()
                     break
 
                 # Get the action
-                if num_exp > self.exploration_time:
-                    q_values, action_values = self.model.get_actions(decision_steps.obs)
+                if np.random.random() < exploration_chance :
+                    q_values = np.zeros((1, 4))
+                    array_probabilities = np.array([[0.3, 0.7, 0.5, 0.5]])  # backward, forward, right, left
+                    action_values = (np.random.random(size=(1, 4)) > array_probabilities).astype(int)
 
                 else:
-                    q_values = np.zeros((1, 4))
-                    action_values = np.random.randint(2, size=(1, 4))
+                    q_values, action_values = self.model.get_actions(decision_steps.obs)
 
-                exp.add_instance(decision_steps.obs, action_values, q_values, decision_steps.reward)
+                exp.add_instance(decision_steps.obs, action_values, q_values.copy(), decision_steps.reward)
                 action_tuple = ActionTuple()
                 action_tuple.add_discrete(action_values)
                 env.set_actions(behavior_name, action_tuple)
