@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from typing import Tuple
 from math import floor
@@ -15,6 +16,8 @@ from torch.nn import Parameter
 # - discrete_actions: shape (1, 1, 1, 4) = [[2, 2, 2, 2]]
 # - discrete_action_output_shape: shape (1, 1, 1, 4)
 # - deterministic_discrete_actions: shape (1, 1, 1, 4)
+
+# - action shape: [backward, forward, right, left]
 
 class QNetwork(torch.nn.Module):
 
@@ -56,9 +59,12 @@ class QNetwork(torch.nn.Module):
         self.eval()
         with torch.no_grad():
             q_values = self.forward(observation)
-        action_values = q_values.numpy()
-        action_values[action_values > 0.0] = 1.0
-        return q_values.numpy(), action_values
+        q_values = q_values.numpy().flatten()
+        action_values = np.array([[q_values[0]>q_values[1],
+                                  q_values[0]<q_values[1],
+                                  q_values[2]>q_values[3],
+                                  q_values[2]<q_values[3]]])
+        return q_values, action_values
     @staticmethod
     def conv_output_shape(
         h_w: Tuple[int, int],
