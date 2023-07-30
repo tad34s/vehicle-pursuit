@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
 	num_epochs = 70
 	exploration_chance = 0.99
-	exploration_reduce = 0.91
+	exploration_reduce = 0.93
 
 	results = []
 	try:

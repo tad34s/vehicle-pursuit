@@ -6,6 +6,8 @@ from typing import NamedTuple, List
 from network import QNetwork
 import torch
 from torch.utils.data import Dataset, DataLoader
+
+from WrapperNet import WrapperNet
 import torch.onnx
 
 
@@ -172,5 +174,17 @@ class Trainer:
                 self.optim.step()
 
     def save_model(self, path):
-        dummy_input = [torch.randn((1, 1, 64, 64)), torch.randn((1, 3))]
-        torch.onnx.export(self.model, dummy_input, path)
+        torch.onnx.export(
+            WrapperNet(self.model, [2, 2, 2, 2]),
+            ([torch.randn((1, 1, 64, 64)), torch.ones((1, 3))], torch.ones((1, 4))), # TODO: Use env for settings the shapes
+            path,
+            opset_version=9,
+            input_names=['obs_0', 'obs_1', 'action_masks'],
+            output_names=['version_number', 'memory_size', 'discrete_actions', 'discrete_action_output_shape', 'deterministic_discrete_actions'],
+            dynamic_axes={
+                'obs_0': {0: 'batch'},
+                'obs_1': {0: 'batch'},
+                'action_masks': {0: 'batch'},
+                'discrete_action_output_shape': {0: 'batch'},
+            }
+        )
