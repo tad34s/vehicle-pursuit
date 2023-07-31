@@ -3,7 +3,7 @@ from typing import Dict
 import random
 import numpy as np
 from typing import NamedTuple, List
-from network import QNetwork
+from network import QNetwork, action_options
 import torch
 from torch.utils.data import Dataset, DataLoader
 
@@ -29,17 +29,20 @@ class Experience:
         targets = []
         states = []
         for e, observation in enumerate(self.observations):
+            action_index = self.actions[e]
             if self.actions[e] is None:
                 break
             # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
             # and the value of the next state
-            target_matrix = self.predicted_values[e] * (1-self.actions[e]) # zero-out the predicted values we will
+            target_matrix = self.predicted_values[e].copy()
+
             # adjust
-            target = target_matrix + (self.rewards[e] + self.predicted_values[e] * 0.95) * self.actions[e]
+            target_matrix[action_index] = self.rewards[e] + max(self.predicted_values[e + 1]) * 0.95
+
             observation = [arr.astype("float32") for arr in observation]
-            target = target.astype("float32")
+            target_matrix = target_matrix.astype("float32")
             states.append(observation)
-            targets.append(target)
+            targets.append(target_matrix)
 
         return states, targets
 
@@ -97,15 +100,15 @@ class Trainer:
         self.loss_fn = torch.nn.MSELoss()
         self.optim = torch.optim.Adam(self.model.parameters(), lr=0.0005)
 
-
-    def train(self, env,exploration_chance):
+    def train(self, env, exploration_chance):
         """
         Create dataset, fit the model, delete dataset
+        :param exploration_chance:
         :param env:
         :return rewards earned:
         """
         env.reset()
-        rewards_stat = self.create_dataset(env,exploration_chance)
+        rewards_stat = self.create_dataset(env, exploration_chance)
         self.fit(4)
         self.memory.wipe()
         return rewards_stat
@@ -129,20 +132,21 @@ class Trainer:
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)
 
                 if len(decision_steps) == 0:
-                    exp.add_instance(terminal_steps.obs, None, np.zeros((1,4)), terminal_steps.reward)
+                    exp.add_instance(terminal_steps.obs, None, np.zeros(self.model.output_shape[1]),
+                                     terminal_steps.reward)
                     env.step()
                     break
 
                 # Get the action
-                if np.random.random() < exploration_chance :
-                    q_values = np.zeros((1, 4))
-                    array_probabilities = np.array([[0.3, 0.7, 0.5, 0.5]])  # backward, forward, right, left
-                    action_values = (np.random.random(size=(1, 4)) > array_probabilities).astype(int)
+                if np.random.random() < exploration_chance:
+                    q_values = np.zeros(self.model.output_shape[1])
+                    action_index = random.choices(range(len(action_options)), weights=[5, 5, 5, 10, 10, 10], k=1)[0]
 
                 else:
-                    q_values, action_values = self.model.get_actions(decision_steps.obs)
+                    q_values, action_index = self.model.get_actions(decision_steps.obs)
 
-                exp.add_instance(decision_steps.obs, action_values, q_values.copy(), decision_steps.reward)
+                action_values = action_options[action_index]
+                exp.add_instance(decision_steps.obs, action_index, q_values.copy(), decision_steps.reward)
                 action_tuple = ActionTuple()
                 action_tuple.add_discrete(action_values)
                 env.set_actions(behavior_name, action_tuple)
@@ -164,7 +168,7 @@ class Trainer:
                 # We run the training step with the recorded inputs and new Q value targets.
                 X, y = batch
                 X = [X[0].view((-1, 1, 64, 64)), X[1].view((-1, 3))]
-                y = y.view(-1, 4)
+                y = y.view(-1, self.model.output_shape[1])
                 y_hat = self.model(X)
                 loss = self.loss_fn(y_hat, y)
                 print("loss", loss)
@@ -176,11 +180,13 @@ class Trainer:
     def save_model(self, path):
         torch.onnx.export(
             WrapperNet(self.model, [2, 2, 2, 2]),
-            ([torch.randn((1, 1, 64, 64)), torch.ones((1, 3))], torch.ones((1, 4))), # TODO: Use env for settings the shapes
+            ([torch.randn((1) + self.model.visual_input_shape), torch.ones(self.model.nonvis_input_shape)],
+             torch.ones(self.model.output_shape)),  # TODO: Use env for settings the shapes
             path,
             opset_version=9,
             input_names=['obs_0', 'obs_1', 'action_masks'],
-            output_names=['version_number', 'memory_size', 'discrete_actions', 'discrete_action_output_shape', 'deterministic_discrete_actions'],
+            output_names=['version_number', 'memory_size', 'discrete_actions', 'discrete_action_output_shape',
+                          'deterministic_discrete_actions'],
             dynamic_axes={
                 'obs_0': {0: 'batch'},
                 'obs_1': {0: 'batch'},
