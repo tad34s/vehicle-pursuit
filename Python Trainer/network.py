@@ -4,18 +4,6 @@ from typing import Tuple
 from math import floor
 from torch.nn import Parameter
 
-# NOTE: For use in unity, different input and output shape is needed
-# Inputs:
-# - shape: (-1, 64, 64, 1) -> Image
-# - shape: (-1, 1, 1, 3) -> Additional info
-# - shape: (-1, 1, 1, 8) -> IDK
-#
-# Outputs:
-# - version_number: shape (1, 1, 1, 1) = [3]
-# - memory_size: shape (1, 1, 1, 1) = [0]
-# - discrete_actions: shape (1, 1, 1, 4) = [[2, 2, 2, 2]]
-# - discrete_action_output_shape: shape (1, 1, 1, 4)
-# - deterministic_discrete_actions: shape (1, 1, 1, 4)
 
 # - action shape: [backward, forward, right, left]
 
@@ -58,7 +46,7 @@ class QNetwork(torch.nn.Module):
         output = self.dense2(hidden)
         return output
 
-    def get_actions(self, observation):
+    def get_actions(self, observation, use_tensor=False):
         """
         Get the q values, if positive we do the action
         :param observation:
@@ -68,8 +56,13 @@ class QNetwork(torch.nn.Module):
         self.eval()
         with torch.no_grad():
             q_values = self.forward(observation)
-        q_values = q_values.numpy().flatten()
-        action_index = np.argmax(q_values)
+        
+        if not use_tensor:
+            q_values = q_values.numpy().flatten()
+            action_index = np.argmax(q_values)
+        else:
+            q_values = q_values.flatten().view((-1, 6))
+            action_index = torch.argmax(q_values, dim=1, keepdim=True)
         return q_values, action_index
 
     @staticmethod

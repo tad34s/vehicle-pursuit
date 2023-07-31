@@ -2,7 +2,6 @@ from mlagents_envs.environment import ActionTuple, BaseEnv
 from typing import Dict
 import random
 import numpy as np
-from typing import NamedTuple, List
 from network import QNetwork, action_options
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -180,8 +179,7 @@ class Trainer:
         torch.onnx.export(
             WrapperNet(self.model, [2, 2, 2, 2]),
             ([torch.randn((1,) + self.model.visual_input_shape), torch.ones(self.model.nonvis_input_shape)],
-             torch.ones((1,4))),  # TODO: Use env for settings the shapes
-                                # nebo torch.ones(self.model.output_shape) - to znamena (1,6)
+             torch.ones((1, 4))),
             path,
             opset_version=9,
             input_names=['obs_0', 'obs_1', 'action_masks'],
