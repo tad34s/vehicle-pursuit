@@ -117,7 +117,6 @@ class Trainer:
         behavior_name = list(env.behavior_specs)[0]
         all_rewards = 0
         # Read and store the Behavior Specs of the Environment
-        print(self.memory.is_full())
         num_exp = 0
 
         while not self.memory.is_full():
@@ -180,8 +179,9 @@ class Trainer:
     def save_model(self, path):
         torch.onnx.export(
             WrapperNet(self.model, [2, 2, 2, 2]),
-            ([torch.randn((1) + self.model.visual_input_shape), torch.ones(self.model.nonvis_input_shape)],
-             torch.ones(self.model.output_shape)),  # TODO: Use env for settings the shapes
+            ([torch.randn((1,) + self.model.visual_input_shape), torch.ones(self.model.nonvis_input_shape)],
+             torch.ones((1,4))),  # TODO: Use env for settings the shapes
+                                # nebo torch.ones(self.model.output_shape) - to znamena (1,6)
             path,
             opset_version=9,
             input_names=['obs_0', 'obs_1', 'action_masks'],

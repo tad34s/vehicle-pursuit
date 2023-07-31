@@ -70,7 +70,6 @@ class QNetwork(torch.nn.Module):
             q_values = self.forward(observation)
         q_values = q_values.numpy().flatten()
         action_index = np.argmax(q_values)
-        print(action_index)
         return q_values, action_index
 
     @staticmethod
