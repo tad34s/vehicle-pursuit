@@ -44,6 +44,6 @@ class WrapperNet(torch.nn.Module):
             [1, 0, 0, 1],
         ])
         output = action_options[action_index]
-        output = torch.mul(output, mask).to(dtype=torch.int64).view((-1, 4)) # .permute(0, 3, 1, 2)
+        output = torch.mul(output, mask).to(dtype=torch.int64).view((-1, 4))
 
         return self.version_number, self.memory_size, output, self.discrete_shape, output

@@ -1,10 +1,7 @@
-import math
-
 import matplotlib.pyplot as plt
 from mlagents_envs.environment import UnityEnvironment
 from network import QNetwork
 from trainer import Trainer
-import torch
 import os
 import datetime
 
