@@ -8,7 +8,7 @@ import datetime
 if __name__ == "__main__":
 	# set up the environment
 	env_location = './env/Self driving.exe'
-	env = UnityEnvironment(file_name=env_location)
+	env = UnityEnvironment(file_name=env_location, num_areas=1) # TODO: Make more num_areas work
 	env.reset()
 
 	# get the action space and observation space
@@ -27,12 +27,14 @@ if __name__ == "__main__":
 
 	results = []
 	try:
-		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,3), encoding_size=126, output_shape=(1,6))
+		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126, output_shape=(1,6))
 		trainer = Trainer(model=qnet,buffer_size=10)
 
 		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
 		os.makedirs(folder_name)
 		print(f'---- Will save models into {folder_name}')
+
+		# trainer.save_model('train.onnx')
 
 		for epoch in range(num_epochs):
 			print(f"epoch: {epoch}, exploration chance:{exploration_chance}")

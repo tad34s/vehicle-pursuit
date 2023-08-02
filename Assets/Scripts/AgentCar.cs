@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class AgentCar : Agent
 {
 	public GameObject parentCheckpoint;
-	// List<GameObject> checkpoints = new List<GameObject>();
 	List<GameObject> checkpoints
 	{
 		get {
@@ -17,8 +16,6 @@ public class AgentCar : Agent
 
 
 	public int currentCheckpoint = 0;
-
-	private Quaternion startingRotation;
 
 	private bool pauseLearning = false;
 
@@ -42,21 +39,25 @@ public class AgentCar : Agent
 		Debug.Log("New episode");
 
 		pauseLearning = true;
-		trackGenerator.Init();
+		trackGenerator.ResetTrack();
 		pauseLearning = false;
 
 		currentCheckpoint = 0;
 
         rBody.velocity = Vector3.zero;
         rBody.angularVelocity = Vector3.zero;
+
+		// transform.position = Vector3.zero;
+		transform.position = transform.parent.position;
+		transform.rotation = Quaternion.identity;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(carController.carSpeed);
+        // sensor.AddObservation(carController.carSpeed);
         sensor.AddObservation(carController.steeringAxis);
 
-        sensor.AddObservation(calcDistanceToNextCheckpoint());
+        // sensor.AddObservation(calcDistanceToNextCheckpoint());
     }
 
 	private GameObject getNextCheckpoint()
@@ -154,10 +155,11 @@ public class AgentCar : Agent
 			return;
 
 		float distanceToCheckpoint = calcDistanceToNextCheckpoint();
-		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 3f)
+		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 10f)
 		{
             AddReward(5f);
             currentCheckpoint++;
+			trackGenerator.UpdateTrack(currentCheckpoint);
 		}
 
 		if (carController.getAmountOfWheelsOnRoad() <= 2)
@@ -173,7 +175,7 @@ public class AgentCar : Agent
         if(carController.carSpeed > 2f)
         {
             float reward = getDrivenDistance();
-            Debug.Log(reward);
+            // Debug.Log(reward);
             AddReward(reward);
         } else
         {

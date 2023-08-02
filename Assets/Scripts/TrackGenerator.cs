@@ -1,168 +1,149 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TrackGenerator : MonoBehaviour
 {
-	public GameObject marker;
-	public GameObject parentCheckpoints;
-	public List<GameObject> checkpoints;
+	[System.Serializable]
+	public struct TrackPiece
+	{
+		public GameObject prefab;
+		public float angle;
+		[HideInInspector] public GameObject go;
 
-	public SplineCreator sc;
+		public TrackPiece(GameObject _prefab, float _angle)
+		{
+			prefab = _prefab;
+			angle = _angle;
+			go = null;
+		}
+	}
+	public TrackPiece[] trackPieces;
+	public float trackPieceSize = 2;
+	public int activeTracksAtOnce = 4;
 
-	public GameObject agent;
-	private AgentCar carAgent;
-
-	private GameObject currentRoad = null;
+	private List<TrackPiece> track = new List<TrackPiece>();
 
 	public int triesPerTrack = 2;
-	private int tryCount = 1;
-	private bool firstInit = true;
+	private int currentTry = 1;
 
-	public void Start()
+	public GameObject checkpointParent;
+	public GameObject checkpointMarker;
+	public List<GameObject> checkpoints = new List<GameObject>();
+
+    public void ResetTrack()
 	{
-		/*
-		 * Beginning
-		 *  Spline cell count: 2
-		 *  Num of sites to generate: 10
-		 *  Spline Scale: 0.8
-		 *  Size of voronoi: 200
-		 * 
-		 * End:
-		 *  Spline cell count: 3
-		 *  Num Of Sites to generate: 20
-		 *  Spline scale: 1
-		 *  Size of voronoi: 200
-		 */
-		sc.Init();
+		if(track.Count != 0 && currentTry < triesPerTrack)
+		{
+			foreach(TrackPiece trackPiece in track)
+			{
+				trackPiece.go.SetActive(false);
+			}
 
-		carAgent = agent.GetComponent<AgentCar>();
+			for(int i = 0; i < activeTracksAtOnce; i++)
+			{
+				PlacePiece(i);
+			}
+
+            Debug.Log("Resetting track");
+
+			currentTry++;
+			return;
+		}
+
+		Debug.Log("Generating new track");
+
+		RemoveCheckpoints();
+		foreach(TrackPiece trackPiece in track)
+		{
+			Destroy(trackPiece.go);
+		}
+
+		track.Clear();
+		foreach(TrackPiece piece in trackPieces)
+		{
+			if(piece.angle == 0)
+			{
+				track.Add(piece);
+				break;
+			}
+		}
+
+		PlacePiece(0);
+
+		for (int i = 0; i < activeTracksAtOnce - 1; i++) GenerateTrackPiece();
+
+		currentTry = 1;
 	}
 
-    public void Init()
-    {
-		// Debug.Log("Init track");
+	void RemoveCheckpoints()
+	{
+		foreach (GameObject checkpoint in checkpoints)
+			Destroy(checkpoint);
 
-		Mesh roadMesh;
+		checkpoints.Clear();
+	}
 
-		if(tryCount >= triesPerTrack || firstInit)
+	void GenerateTrackPiece()
+	{
+		track.Add(trackPieces[Random.Range(0, trackPieces.Length)]);
+
+		PlacePiece(track.Count - 1);
+	}
+
+	void PlacePiece(int index)
+	{
+		TrackPiece currentTrackPiece = track[index];
+
+		if (currentTrackPiece.go != null)
 		{
-            RemoveTrack();
-
-            currentRoad = GenerateTrack();
-            roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
-
-            // RemoveMarkers();
-            CreateMarkers(roadMesh);
-
-			tryCount = 1;
-			firstInit = false;
+			track[index].go.SetActive(true);
+			return;
 		}
+
+		float angle = 0;
+		Vector3 pos = transform.parent.transform.localPosition;
+		if(index != 0)
+		{
+            TrackPiece previousTrackPiece = track[index - 1];
+            Track previousTrack = previousTrackPiece.go.GetComponent<Track>();
+            angle = previousTrack.continueAngle;
+
+            float rad = angle * Mathf.Deg2Rad;
+            Vector3 dir = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * trackPieceSize;
+
+            pos = previousTrackPiece.go.transform.position + dir;
+		}
+
+		Quaternion rotation = Quaternion.Euler(0, angle, 0);
+		GameObject go = Instantiate(currentTrackPiece.prefab, pos, rotation, this.transform);
+		currentTrackPiece.go = go;
+		track[index] = currentTrackPiece;
+
+		PlaceCheckpoint(pos);
+
+		Track currentTrack = go.GetComponent<Track>();
+		currentTrack.continueAngle = angle + track[index].angle;
+	}
+
+	public void UpdateTrack(int index)
+	{
+		for(int i = 0; i < index - 1; i++)
+		{
+			track[i].go.SetActive(false);
+		}
+
+		int newPieceIndex = index + activeTracksAtOnce - 1;
+		if (newPieceIndex < track.Count)
+			PlacePiece(newPieceIndex);
 		else
-		{
-			roadMesh = currentRoad.GetComponent<MeshFilter>().mesh;
-			tryCount++;
-		}
-		PlaceAgent(roadMesh);
-    }
-
-	private void RemoveTrack()
-	{
-		// Debug.Log("Removing track");
-		if (currentRoad != null)
-		{
-			Destroy(currentRoad);
-			currentRoad = null;
-		}
-
-		// Debug.Log("Removed track");
-	}
-	
-	private void RemoveMarkers()
-	{
-		// Debug.Log("Removing markers");
-		foreach(GameObject child in checkpoints)
-			Destroy(child);
-		// Debug.Log("Removed markers");
+            GenerateTrackPiece();
 	}
 
-    private void PlaceAgent(Mesh roadMesh)
+	void PlaceCheckpoint(Vector3 position)
 	{
-		// Debug.Log("Placing agent");
+		Vector3 newPos = position + Vector3.up * 15;
+        GameObject checkpoint = Instantiate(checkpointMarker, newPos, Quaternion.identity, checkpointParent.transform);
 
-		Vector3[] vertices = roadMesh.vertices;
-		float yLevel = 0.01f;
-
-		Transform firstCheckpoint = checkpoints[0].transform;
-		Transform secondCheckpoint = checkpoints[1].transform;
-
-		Vector3 startingPosition = new Vector3(
-			firstCheckpoint.position.x,
-			yLevel,
-			firstCheckpoint.position.z
-		);
-
-		Vector3 nextPos = new Vector3(
-			secondCheckpoint.position.x,
-			yLevel,
-			secondCheckpoint.position.z
-		);
-
-		Vector3 targetDir = (nextPos - startingPosition);
-
-		float angle = Vector3.SignedAngle(targetDir, Vector3.forward, Vector3.up);
-		// Debug.Log("Angle: " + angle);
-		Quaternion rotation = Quaternion.Euler(0, -angle, 0);
-
-		agent.transform.position = startingPosition;
-		agent.transform.rotation = rotation;
-
-		// Debug.Log("Placed agent");
-	}
-
-	private GameObject GenerateTrack()
-	{
-		// Debug.Log("Generating track");
-		sc.GenerateVoronoi();
-		sc.GenerateSpline();
-		GameObject track = sc.CreateTrack();
-
-		// Debug.Log("Generated track");
-		return track;
-	}
-
-	private void CreateMarkers(Mesh roadMesh)
-	{
-		// Debug.Log("Creating markers");
-		Vector3[] vertices = roadMesh.vertices;
-		int checkpointIndex = 0;
-		for (int i = 0; i < vertices.Length - 3; i += 2, checkpointIndex++)
-		{
-			Vector3 markerPosition = new Vector3(
-				(vertices[i].x + vertices[i + 3].x) / 2,
-				parentCheckpoints.transform.position.y,
-				(vertices[i].z + vertices[i + 3].z) / 2
-			);
-
-			if(checkpointIndex < checkpoints.Count)
-			{
-				checkpoints[checkpointIndex].transform.position = markerPosition;
-			} else
-			{
-                GameObject ob = Instantiate(marker, markerPosition, Quaternion.identity, parentCheckpoints.transform);
-                checkpoints.Add(ob);
-			}
-		}
-
-		if(checkpointIndex < checkpoints.Count)
-		{
-			for(int i = checkpointIndex; i < checkpoints.Count; i++)
-			{
-				Destroy(checkpoints[i]);
-			}
-			checkpoints.RemoveRange(checkpointIndex, checkpoints.Count - checkpointIndex);
-		}
-
-		// Debug.Log("Created markers");
+        checkpoints.Add(checkpoint);
 	}
 }
