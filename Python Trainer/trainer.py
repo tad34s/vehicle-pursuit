@@ -138,7 +138,7 @@ class Trainer:
                 # Get the action
                 if np.random.random() < exploration_chance:
                     q_values = np.zeros(self.model.output_shape[1])
-                    action_index = random.choices(range(len(action_options)), weights=[5, 5, 5, 10, 10, 10], k=1)[0]
+                    action_index = random.choices(range(len(action_options)), k=1)[0]
 
                 else:
                     q_values, action_index = self.model.get_actions(decision_steps.obs)
@@ -165,7 +165,7 @@ class Trainer:
             for batch in dataloader:
                 # We run the training step with the recorded inputs and new Q value targets.
                 X, y = batch
-                X = [X[0].view((-1, 1, 64, 64)), X[1].view((-1, 3))]
+                X = [X[0].view((-1, 1, 64, 64)), X[1].view((-1, 1))]
                 y = y.view(-1, self.model.output_shape[1])
                 y_hat = self.model(X)
                 loss = self.loss_fn(y_hat, y)

@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
 	results = []
 	try:
-		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126, output_shape=(1,6))
-		trainer = Trainer(model=qnet,buffer_size=20)
+		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126)
+		trainer = Trainer(model=qnet,buffer_size=1)
 
 		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
 		os.makedirs(folder_name)

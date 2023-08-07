@@ -5,21 +5,20 @@ from math import floor
 from torch.nn import Parameter
 
 
-# - action shape: [backward, forward, right, left]
+# - action shape: [forward, backward, right, left]
 
-action_options = [np.array([[0, 1, 1, 0]]), np.array([[0, 1, 0, 0]]), np.array([[0, 1, 0, 1]]),
-                  np.array([[1, 0, 1, 0]]), np.array([[1, 0, 0, 0]]), np.array([[1, 0, 0, 1]])]
+action_options = [np.array([[1, 0, 1, 0]]), np.array([[1, 0, 0, 0]]), np.array([[1, 0, 0, 1]])]
 
 
 class QNetwork(torch.nn.Module):
 
-    def __init__(self, visual_input_shape, nonvis_input_shape, encoding_size, output_shape):
+    def __init__(self, visual_input_shape, nonvis_input_shape, encoding_size):
         super(QNetwork, self).__init__()
         height = visual_input_shape[1]
         width = visual_input_shape[2]
         initial_channels = visual_input_shape[0]
 
-        self.output_shape = output_shape
+        self.output_shape = (1,len(action_options))
         self.visual_input_shape = visual_input_shape
         self.nonvis_input_shape = nonvis_input_shape
         # calculating required size of the dense layer based on the conv layers
@@ -31,11 +30,10 @@ class QNetwork(torch.nn.Module):
         self.conv2 = torch.nn.Conv2d(16, 32, 3)
         self.nonvis_dense = torch.nn.Linear(nonvis_input_shape[1], 8)
         self.dense1 = torch.nn.Linear(self.final_flat + 8, encoding_size)
-        self.dense2 = torch.nn.Linear(encoding_size, output_shape[1])
+        self.dense2 = torch.nn.Linear(encoding_size, self.output_shape[1])
 
     def forward(self, observation: Tuple):
         visual_obs, nonvis_obs = observation
-        visual_obs, nonvis_obs = torch.Tensor(visual_obs), torch.Tensor(nonvis_obs)
         conv_1 = torch.relu(self.conv1(visual_obs))
         conv_2 = torch.relu(self.conv2(conv_1))
         nonvis_dense = torch.relu(self.nonvis_dense(nonvis_obs))
@@ -52,17 +50,22 @@ class QNetwork(torch.nn.Module):
         :param observation:
         :return q_values:
         """
-
-        self.eval()
-        with torch.no_grad():
-            q_values = self.forward(observation)
         
         if not use_tensor:
+            observation = (torch.from_numpy(observation[0]), torch.from_numpy(observation[1]))
+            self.eval()
+            with torch.no_grad():
+                q_values = self.forward(observation)
             q_values = q_values.numpy().flatten()
             action_index = np.argmax(q_values)
+
         else:
-            q_values = q_values.flatten().view((-1, 6))
+            self.eval()
+            with torch.no_grad():
+                q_values = self.forward(observation)
+            q_values = q_values.flatten().view((-1, self.output_shape[1]))
             action_index = torch.argmax(q_values, dim=1, keepdim=True)
+
         return q_values, action_index
 
     @staticmethod
