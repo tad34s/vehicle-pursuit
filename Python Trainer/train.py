@@ -21,14 +21,14 @@ if __name__ == "__main__":
 	num_actions = spec.action_spec
 	print(num_actions)
 
-	num_epochs = 70
+	num_epochs = 300
 	exploration_chance = 0.99
-	exploration_reduce = 0.93
+	exploration_reduce = 0.75
 
 	results = []
 	try:
 		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126, output_shape=(1,6))
-		trainer = Trainer(model=qnet,buffer_size=10)
+		trainer = Trainer(model=qnet,buffer_size=20)
 
 		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
 		os.makedirs(folder_name)
