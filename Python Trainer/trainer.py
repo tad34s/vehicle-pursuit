@@ -28,10 +28,13 @@ class Experience:
         targets = []
         states = []
         for e, observation in enumerate(self.observations):
+
             if self.actions[e] is None:
                 break
+
             action_index = self.actions[e]
             reward = self.rewards[e]
+
             if self.actions[e] == self.actions[e+1]:
                 reward += 2.0
 
