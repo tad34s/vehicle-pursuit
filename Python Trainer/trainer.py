@@ -35,8 +35,9 @@ class Experience:
             action_index = self.actions[e]
             reward = self.rewards[e]
 
-            if self.actions[e] == self.actions[e+1]:
-                reward += 2.0
+            if e != 0:
+                if self.actions[e] == self.actions[e-1]:
+                    reward += 2.0
 
             # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
             # and the value of the next state
