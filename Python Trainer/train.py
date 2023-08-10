@@ -4,6 +4,7 @@ from network import QNetwork
 from trainer import Trainer
 import os
 import datetime
+from variables import max_trained_epochs,exploration_chance_start,exploration_reduce,num_training_examples
 
 if __name__ == "__main__":
 	# set up the environment
@@ -21,14 +22,14 @@ if __name__ == "__main__":
 	num_actions = spec.action_spec
 	print(num_actions)
 
-	num_epochs = 300
-	exploration_chance = 0.99
-	exploration_reduce = 0.95 # 0.75
+	num_epochs = max_trained_epochs
+	expl_chance = exploration_chance_start
+	expl_reduce = exploration_reduce
 
 	results = []
 	try:
 		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126)
-		trainer = Trainer(model=qnet,buffer_size=20)
+		trainer = Trainer(model=qnet,buffer_size=num_training_examples)
 
 		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
 		os.makedirs(folder_name)
@@ -37,10 +38,10 @@ if __name__ == "__main__":
 		trainer.save_model('train.onnx')
 
 		for epoch in range(num_epochs):
-			print(f"epoch: {epoch}, exploration chance:{exploration_chance}")
-			reward = trainer.train(env,exploration_chance)
+			print(f"epoch: {epoch}, exploration chance:{expl_chance}")
+			reward = trainer.train(env, expl_chance)
 			results.append(reward)
-			exploration_chance *= exploration_reduce
+			expl_chance *= expl_reduce
 			trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
 			print(f"reward earned: {reward}")
 

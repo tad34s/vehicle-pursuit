@@ -1,13 +1,14 @@
-from mlagents_envs.environment import ActionTuple, BaseEnv
-from typing import Dict
 import random
+
 import numpy as np
-from network import QNetwork, action_options
 import torch
+import torch.onnx
+from mlagents_envs.environment import ActionTuple
 from torch.utils.data import Dataset, DataLoader
 
 from WrapperNet import WrapperNet
-import torch.onnx
+from network import QNetwork, action_options
+from variables import discount, reward_same_action, learning_rate
 
 
 class Experience:
@@ -37,14 +38,14 @@ class Experience:
 
             if e != 0:
                 if self.actions[e] == self.actions[e-1]:
-                    reward += 2.0
+                    reward += reward_same_action
 
             # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
             # and the value of the next state
             target_matrix = self.predicted_values[e].copy()
 
             # adjust
-            target_matrix[action_index] = reward + max(self.predicted_values[e + 1]) * 0.95
+            target_matrix[action_index] = reward + max(self.predicted_values[e + 1]) * discount
 
             observation = [arr.astype("float32") for arr in observation]
             target_matrix = target_matrix.astype("float32")
@@ -105,7 +106,7 @@ class Trainer:
         self.memory = ReplayBuffer(buffer_size)
         self.model = model
         self.loss_fn = torch.nn.MSELoss()
-        self.optim = torch.optim.Adam(self.model.parameters(), lr=0.0005)
+        self.optim = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
 
     def train(self, env, exploration_chance):
         """
