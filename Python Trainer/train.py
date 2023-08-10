@@ -23,18 +23,18 @@ if __name__ == "__main__":
 
 	num_epochs = 300
 	exploration_chance = 0.99
-	exploration_reduce = 0.75
+	exploration_reduce = 0.95 # 0.75
 
 	results = []
 	try:
 		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126)
-		trainer = Trainer(model=qnet,buffer_size=1)
+		trainer = Trainer(model=qnet,buffer_size=20)
 
 		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
 		os.makedirs(folder_name)
 		print(f'---- Will save models into {folder_name}')
 
-		# trainer.save_model('train.onnx')
+		trainer.save_model('train.onnx')
 
 		for epoch in range(num_epochs):
 			print(f"epoch: {epoch}, exploration chance:{exploration_chance}")

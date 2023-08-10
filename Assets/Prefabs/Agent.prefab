@@ -10814,7 +10814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fefceefe666bb4682b272ec8c5bdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 20
+  maxSpeed: 30
   maxReverseSpeed: 20
   accelerationMultiplier: 10
   maxSteeringAngle: 15
@@ -10823,7 +10823,7 @@ MonoBehaviour:
   decelerationMultiplier: 3
   handbrakeDriftMultiplier: 1
   useControls: 0
-  bodyMassCenter: {x: 0, y: 0, z: 0}
+  bodyMassCenter: {x: 0, y: 0.1, z: 0}
   frontLeftMesh: {fileID: 6282186034747460593}
   frontLeftCollider: {fileID: 6282186035272500274}
   frontRightMesh: {fileID: 6282186035612197117}
@@ -10865,8 +10865,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 3
-  TakeActionsBetweenDecisions: 1
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 0
 --- !u!114 &6282186034757043640
 MonoBehaviour:
   m_ObjectHideFlags: 0

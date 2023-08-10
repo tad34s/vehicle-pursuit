@@ -271,58 +271,6 @@ public class PrometeoCarController : MonoBehaviour
 		rearLeftWheel = rearLeftCollider.GetComponent<Wheel>();
 	}
 
-	public void GoForwardAction()
-	{
-		CancelInvoke("DecelerateCar");
-		deceleratingCar = false;
-		GoForward();
-	}
-
-	public void GoReverseAction()
-	{
-		CancelInvoke("DecelerateCar");
-		deceleratingCar = false;
-		GoReverse();
-	}
-
-	public void TurnLeftAction()
-	{
-		TurnLeft();
-	}
-
-	public void TurnRightAction()
-	{
-		TurnRight();
-	}
-
-	public void HandbrakeAction()
-	{
-		  CancelInvoke("DecelerateCar");
-		  deceleratingCar = false;
-		  Handbrake();
-	}
-	
-	public void RecoverTractionAction()
-	{
-		RecoverTraction();
-	}
-
-	public void ThrottleOffAction()
-	{
-		ThrottleOff();
-	}
-
-	public void DecelerateCarAction()
-	{
-		  InvokeRepeating("DecelerateCar", 0f, 0.1f);
-		  deceleratingCar = true;
-	}
-
-	public void ResetCarSteeringAction()
-	{
-		  ResetSteeringAngle();
-	}
-
 	public int getAmountOfWheelsOnRoad()
 	{
 		int amount = 0;
@@ -334,115 +282,96 @@ public class PrometeoCarController : MonoBehaviour
 		return amount;
 	}
 
+	private void Update()
+	{
+		if (useControls) Movement();
+	}
+
 	// Update is called once per frame
-	void Update()
+	public void Movement(bool useParams=false, bool forward=false, bool back=false, bool left=false, bool right=false)
 	{
 
-	  //CAR DATA
+		//CAR DATA
 
-	  // We determine the speed of the car.
-	  carSpeed = (2 * Mathf.PI * frontLeftCollider.radius * frontLeftCollider.rpm * 60) / 1000;
-	  // Save the local velocity of the car in the x axis. Used to know if the car is drifting.
-	  localVelocityX = transform.InverseTransformDirection(carRigidbody.velocity).x;
-	  // Save the local velocity of the car in the z axis. Used to know if the car is going forward or backwards.
-	  localVelocityZ = transform.InverseTransformDirection(carRigidbody.velocity).z;
+		// We determine the speed of the car.
+		carSpeed = (2 * Mathf.PI * frontLeftCollider.radius * frontLeftCollider.rpm * 60) / 1000;
+		// Save the local velocity of the car in the x axis. Used to know if the car is drifting.
+		localVelocityX = transform.InverseTransformDirection(carRigidbody.velocity).x;
+		// Save the local velocity of the car in the z axis. Used to know if the car is going forward or backwards.
+		localVelocityZ = transform.InverseTransformDirection(carRigidbody.velocity).z;
 
-	  //CAR PHYSICS
+		//CAR PHYSICS
 
-	  /*
-	  The next part is regarding to the car controller. First, it checks if the user wants to use touch controls (for
-	  mobile devices) or analog input controls (WASD + Space).
+		/*
+		The next part is regarding to the car controller. First, it checks if the user wants to use touch controls (for
+		mobile devices) or analog input controls (WASD + Space).
 
-	  The following methods are called whenever a certain key is pressed. For example, in the first 'if' we call the
-	  method GoForward() if the user has pressed W.
+		The following methods are called whenever a certain key is pressed. For example, in the first 'if' we call the
+		method GoForward() if the user has pressed W.
 
-	  In this part of the code we specify what the car needs to do if the user presses W (throttle), S (reverse),
-	  A (turn left), D (turn right) or Space bar (handbrake).
-	  */
-	  if (useTouchControls && touchControlsSetup){
+		In this part of the code we specify what the car needs to do if the user presses W (throttle), S (reverse),
+		A (turn left), D (turn right) or Space bar (handbrake).
+		*/
+		bool goForward = Input.GetKey(KeyCode.W);
+		bool goBack = Input.GetKey(KeyCode.S);
+		bool turnLeft = Input.GetKey(KeyCode.A);
+		bool turnRight = Input.GetKey(KeyCode.D);
 
-		if(throttlePTI.buttonPressed){
-		  CancelInvoke("DecelerateCar");
-		  deceleratingCar = false;
-		  GoForward();
-		}
-		if(reversePTI.buttonPressed){
-		  CancelInvoke("DecelerateCar");
-		  deceleratingCar = false;
-		  GoReverse();
-		}
-
-		if(turnLeftPTI.buttonPressed){
-		  TurnLeft();
-		}
-		if(turnRightPTI.buttonPressed){
-		  TurnRight();
-		}
-		if(handbrakePTI.buttonPressed){
-		  CancelInvoke("DecelerateCar");
-		  deceleratingCar = false;
-		  Handbrake();
-		}
-		if(!handbrakePTI.buttonPressed){
-		  RecoverTraction();
-		}
-		if((!throttlePTI.buttonPressed && !reversePTI.buttonPressed)){
-		  ThrottleOff();
-		}
-		if((!reversePTI.buttonPressed && !throttlePTI.buttonPressed) && !handbrakePTI.buttonPressed && !deceleratingCar){
-		  InvokeRepeating("DecelerateCar", 0f, 0.1f);
-		  deceleratingCar = true;
-		}
-		if(!turnLeftPTI.buttonPressed && !turnRightPTI.buttonPressed && steeringAxis != 0f){
-		  ResetSteeringAngle();
+		if(useParams)
+		{
+			goForward = forward;
+			goBack = back;
+			turnLeft = left;
+			turnRight = right;
 		}
 
-	  }else if(useControls){
-
-			if (Input.GetKey(KeyCode.W))
-			{
-				GoForwardAction();
-			}
-			if (Input.GetKey(KeyCode.S))
-			{
-				GoReverseAction();
-			}
-
-			if (Input.GetKey(KeyCode.A))
-			{
-				TurnLeftAction();
-			}
-			if (Input.GetKey(KeyCode.D))
-			{
-				TurnRightAction();
-			}
-			if (Input.GetKey(KeyCode.Space))
-			{
-				HandbrakeAction();
-			}
-			if (Input.GetKeyUp(KeyCode.Space))
-			{
-				RecoverTractionAction();
-			}
-			if ((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)))
-			{
-				ThrottleOffAction();
-			}
-			if ((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)) && !Input.GetKey(KeyCode.Space) && !deceleratingCar)
-			{
-				DecelerateCarAction();
-			}
-			if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && steeringAxis != 0f)
-			{
-				ResetCarSteeringAction();
-			}
-
+		if (goForward)
+		{
+			CancelInvoke("DecelerateCar");
+			deceleratingCar = false;
+			GoForward();
+		}
+		if (goBack)
+		{
+			CancelInvoke("DecelerateCar");
+			deceleratingCar = false;
+			GoReverse();
 		}
 
+		if (turnLeft)
+		{
+			TurnLeft();
+		}
+		if (turnRight)
+		{
+			TurnRight();
+		}
+		if (!useParams && Input.GetKey(KeyCode.Space))
+		{
+			CancelInvoke("DecelerateCar");
+			deceleratingCar = false;
+			Handbrake();
+		}
+		if (!useParams && Input.GetKeyUp(KeyCode.Space))
+		{
+			RecoverTraction();
+		}
+		if ((!goBack && !goForward))
+		{
+			ThrottleOff();
+		}
+		if ((!goBack && !goForward) && !Input.GetKey(KeyCode.Space) && !deceleratingCar)
+		{
+			InvokeRepeating("DecelerateCar", 0f, 0.1f);
+			deceleratingCar = true;
+		}
+		if (!turnLeft && !turnRight && steeringAxis != 0f)
+		{
+			ResetSteeringAngle();
+		}
 
-	  // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
-	  AnimateWheelMeshes();
-
+		// We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
+		AnimateWheelMeshes();
 	}
 
 	// This method converts the car speed data from float to string, and then set the text of the UI carSpeedText with this value.
@@ -521,17 +450,21 @@ public class PrometeoCarController : MonoBehaviour
 	//The following method takes the front car wheels to their default position (rotation = 0). The speed of this movement will depend
 	// on the steeringSpeed variable.
 	public void ResetSteeringAngle(){
-	  if(steeringAxis < 0f){
-		steeringAxis = steeringAxis + (Time.deltaTime * 10f * steeringSpeed);
-	  }else if(steeringAxis > 0f){
-		steeringAxis = steeringAxis - (Time.deltaTime * 10f * steeringSpeed);
-	  }
-	  if(Mathf.Abs(frontLeftCollider.steerAngle) < 1f){
-		steeringAxis = 0f;
-	  }
-	  var steeringAngle = steeringAxis * maxSteeringAngle;
-	  frontLeftCollider.steerAngle = Mathf.Lerp(frontLeftCollider.steerAngle, steeringAngle, steeringSpeed);
-	  frontRightCollider.steerAngle = Mathf.Lerp(frontRightCollider.steerAngle, steeringAngle, steeringSpeed);
+            
+        if(steeringAxis < 0f){
+            steeringAxis = steeringAxis + (Time.deltaTime * 10f * steeringSpeed);
+			if (steeringAxis > 0f) steeringAxis = 0f;
+        }else if(steeringAxis > 0f){
+            steeringAxis = steeringAxis - (Time.deltaTime * 10f * steeringSpeed);
+			if (steeringAxis < 0f) steeringAxis = 0f;
+        }
+
+        if(Mathf.Abs(frontLeftCollider.steerAngle) < 1f){
+            steeringAxis = 0f;
+        }
+        var steeringAngle = steeringAxis * maxSteeringAngle;
+        frontLeftCollider.steerAngle = Mathf.Lerp(frontLeftCollider.steerAngle, steeringAngle, steeringSpeed);
+        frontRightCollider.steerAngle = Mathf.Lerp(frontRightCollider.steerAngle, steeringAngle, steeringSpeed);
 	}
 
 	// This method matches both the position and rotation of the WheelColliders with the WheelMeshes.

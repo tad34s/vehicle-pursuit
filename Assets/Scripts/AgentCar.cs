@@ -25,13 +25,13 @@ public class AgentCar : Agent
 	const int k_Right = 3;
 
 	public PrometeoCarController carController;
+	// public CarController carController;
 	public Rigidbody rBody;
 	public TrackGenerator trackGenerator;
 
     public void Start()
     {
 		carController.useControls = false;
-		carController.Start();
     }
 
     public override void OnEpisodeBegin()
@@ -47,15 +47,15 @@ public class AgentCar : Agent
         rBody.velocity = Vector3.zero;
         rBody.angularVelocity = Vector3.zero;
 
-		// transform.position = Vector3.zero;
 		transform.position = transform.parent.position;
 		transform.rotation = Quaternion.identity;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // sensor.AddObservation(carController.carSpeed);
-        sensor.AddObservation(carController.steeringAxis);
+		// sensor.AddObservation(carController.carSpeed);
+		// sensor.AddObservation(carController.currentSteerAngle);
+		sensor.AddObservation(carController.steeringAxis);
 
         // sensor.AddObservation(calcDistanceToNextCheckpoint());
     }
@@ -117,6 +117,24 @@ public class AgentCar : Agent
 		bool turnRight = actions.DiscreteActions[k_Right] == 1;
 		// Debug.Log($"Forward: {goForward}\nBackward: {goBack}\nLeft: {turnLeft}\nRight: {turnRight}");
 
+		carController.Movement(true, goForward, goBack, turnLeft, turnRight);
+
+		/*
+		carController.verticalInput = carController.horizontalInput = 0;
+		carController.isBreaking = false;
+
+		if (goForward)
+			carController.verticalInput += 1;
+		if (goBack)
+			carController.isBreaking = true;
+
+		if (turnLeft)
+			carController.horizontalInput -= 1;
+		if (turnRight)
+			carController.horizontalInput += 1;
+		*/
+
+		/*
 		if (goForward)
 		{
 			carController.GoForwardAction();
@@ -147,6 +165,7 @@ public class AgentCar : Agent
 		{
 			carController.ResetCarSteeringAction();
 		}
+		*/
 	}
 
     public override void OnActionReceived(ActionBuffers actions)

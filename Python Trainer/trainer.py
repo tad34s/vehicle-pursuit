@@ -144,6 +144,7 @@ class Trainer:
                     q_values, action_index = self.model.get_actions(decision_steps.obs)
 
                 action_values = action_options[action_index]
+                # print(action_values)
                 exp.add_instance(decision_steps.obs, action_index, q_values.copy(), decision_steps.reward)
                 action_tuple = ActionTuple()
                 action_tuple.add_discrete(action_values)
