@@ -28,15 +28,19 @@ class Experience:
         targets = []
         states = []
         for e, observation in enumerate(self.observations):
-            action_index = self.actions[e]
             if self.actions[e] is None:
                 break
+            action_index = self.actions[e]
+            reward = self.rewards[e]
+            if self.actions[e] == self.actions[e+1]:
+                reward += 2.0
+
             # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
             # and the value of the next state
             target_matrix = self.predicted_values[e].copy()
 
             # adjust
-            target_matrix[action_index] = self.rewards[e] + max(self.predicted_values[e + 1]) * 0.95
+            target_matrix[action_index] = reward + max(self.predicted_values[e + 1]) * 0.95
 
             observation = [arr.astype("float32") for arr in observation]
             target_matrix = target_matrix.astype("float32")
