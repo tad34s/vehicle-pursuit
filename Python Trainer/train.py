@@ -35,8 +35,6 @@ if __name__ == "__main__":
 		os.makedirs(folder_name)
 		print(f'---- Will save models into {folder_name}')
 
-		trainer.save_model('train.onnx')
-
 		for epoch in range(num_epochs):
 			print(f"epoch: {epoch}, exploration chance:{expl_chance}")
 			reward = trainer.train(env, expl_chance)

@@ -36,12 +36,9 @@ class WrapperNet(torch.nn.Module):
     def forward(self, obs: torch.Tensor, mask: torch.Tensor):
         qnet_result, action_index = self.qnet.get_actions(obs, use_tensor=True)
         action_options = torch.tensor([
-            [0, 1, 1, 0],
-            [1, 1, 0, 0],
-            [0, 1, 0, 1],
             [1, 0, 1, 0],
             [1, 0, 0, 0],
-            [1, 0, 0, 1],
+            [1, 0, 0, 1]
         ])
         output = action_options[action_index]
         output = torch.mul(output, mask).to(dtype=torch.int64).view((-1, 4))
