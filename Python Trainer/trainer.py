@@ -37,7 +37,7 @@ class Experience:
             reward = self.rewards[e]
 
             if e != 0:
-                if self.actions[e] == self.actions[e-1]:
+                if self.actions[e] == self.actions[e - 1]:
                     reward += reward_same_action
 
             # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
@@ -131,9 +131,8 @@ class Trainer:
         num_exp = 0
 
         while not self.memory.is_full():
-            num_exp += 1
-            exp = Experience()
-
+            num_exp += 1 * self.num_agents
+            exps = [Experience() for _ in range(self.num_agents)]
             while True:
                 decision_steps, terminal_steps = env.get_steps(behavior_name)
 
@@ -146,12 +145,13 @@ class Trainer:
 
                 if len(decision_steps) == 0:
                     for agent_id, i in terminal_steps.agent_id_to_index.items():
-                        exp.add_instance(terminal_steps[agent_id].obs, None, np.zeros(self.model.output_shape[1]), terminal_steps[agent_id].reward)
-
+                        exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
+                                                    np.zeros(self.model.output_shape[1]),
+                                                    terminal_steps[agent_id].reward)
                     env.step()
                     break
 
-                for i in range(0, len(decision_steps)):
+                for agent_id, i in decision_steps.agent_id_to_index.items():
 
                     # Get the action
                     if np.random.random() < exploration_chance:
@@ -164,8 +164,8 @@ class Trainer:
                     # action_values = action_options[action_index]
                     dis_action_values.append(action_options[action_index][0])
                     cont_action_values.append([])
-                    exp.add_instance(decision_steps[i].obs, action_index, q_values.copy(), decision_steps[i].reward)
-
+                    exps[agent_id].add_instance(decision_steps[i].obs, action_index, q_values.copy(),
+                                                decision_steps[i].reward)
 
                 action_tuple = ActionTuple()
                 final_dis_action_values = np.array(dis_action_values)
@@ -176,9 +176,10 @@ class Trainer:
                 env.set_actions(behavior_name, action_tuple)
                 env.step()
 
-            exp.rewards.pop(0)
-            all_rewards += sum(exp.rewards)
-            self.memory.add_exp(exp)
+            for exp in exps:
+                exp.rewards.pop(0)
+                all_rewards += sum(exp.rewards)
+                self.memory.add_exp(exp)
 
         return all_rewards
 
