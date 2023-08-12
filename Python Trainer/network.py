@@ -28,12 +28,14 @@ class QNetwork(torch.nn.Module):
         # layers
         self.conv1 = torch.nn.Conv2d(initial_channels, 16, 5)
         self.conv2 = torch.nn.Conv2d(16, 32, 3)
-        self.nonvis_dense = torch.nn.Linear(nonvis_input_shape[1], 8)
+        self.nonvis_dense = torch.nn.Linear(nonvis_input_shape[0], 8)
         self.dense1 = torch.nn.Linear(self.final_flat + 8, encoding_size)
         self.dense2 = torch.nn.Linear(encoding_size, self.output_shape[1])
 
     def forward(self, observation: Tuple):
         visual_obs, nonvis_obs = observation
+        nonvis_obs = nonvis_obs.view((-1, self.nonvis_input_shape[0]))
+
         conv_1 = torch.relu(self.conv1(visual_obs))
         conv_2 = torch.relu(self.conv2(conv_1))
         nonvis_dense = torch.relu(self.nonvis_dense(nonvis_obs))
@@ -63,7 +65,7 @@ class QNetwork(torch.nn.Module):
             self.eval()
             with torch.no_grad():
                 q_values = self.forward(observation)
-            q_values = q_values.flatten().view((-1, self.output_shape[1]))
+            q_values = q_values.flatten().view((-1, self.output_shape[0]))
             action_index = torch.argmax(q_values, dim=1, keepdim=True)
 
         return q_values, action_index

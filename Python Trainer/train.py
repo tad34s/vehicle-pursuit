@@ -5,11 +5,17 @@ from trainer import Trainer
 import os
 import datetime
 from variables import max_trained_epochs,exploration_chance_start,exploration_reduce,num_training_examples
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-n', '--num-areas', type=int, default=1)
+args = parser.parse_args()
+NUM_AREAS = args.num_areas
 
 if __name__ == "__main__":
 	# set up the environment
 	env_location = './env/Self driving.exe'
-	env = UnityEnvironment(file_name=env_location, num_areas=1) # TODO: Make more num_areas work
+	env = UnityEnvironment(file_name=env_location, num_areas=NUM_AREAS)
 	env.reset()
 
 	# get the action space and observation space
@@ -28,8 +34,8 @@ if __name__ == "__main__":
 
 	results = []
 	try:
-		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,1), encoding_size=126)
-		trainer = Trainer(model=qnet,buffer_size=num_training_examples)
+		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,), encoding_size=126)
+		trainer = Trainer(model=qnet,buffer_size=num_training_examples, num_agents=NUM_AREAS)
 
 		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
 		os.makedirs(folder_name)

@@ -97,16 +97,19 @@ class StateTargetValuesDataset(Dataset):
 
 
 class Trainer:
-    def __init__(self, model: QNetwork, buffer_size):
+    def __init__(self, model: QNetwork, buffer_size, num_agents=1):
         """
         Class that manages creating a dataset and fitting the model
         :param model:
         :param buffer_size:
+        :param num_agents:
         """
         self.memory = ReplayBuffer(buffer_size)
         self.model = model
         self.loss_fn = torch.nn.MSELoss()
         self.optim = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
+
+        self.num_agents = num_agents
 
     def train(self, env, exploration_chance):
         """
@@ -115,7 +118,7 @@ class Trainer:
         :param env:
         :return rewards earned:
         """
-        env.reset()
+        # env.reset()
         rewards_stat = self.create_dataset(env, exploration_chance)
         self.fit(4)
         self.memory.wipe()
@@ -130,33 +133,46 @@ class Trainer:
         while not self.memory.is_full():
             num_exp += 1
             exp = Experience()
-            while True:
 
+            while True:
                 decision_steps, terminal_steps = env.get_steps(behavior_name)
 
                 order = (0, 3, 1, 2)
                 decision_steps.obs[0] = np.transpose(decision_steps.obs[0], order)
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)
 
+                dis_action_values = []
+                cont_action_values = []
+
                 if len(decision_steps) == 0:
-                    exp.add_instance(terminal_steps.obs, None, np.zeros(self.model.output_shape[1]),
-                                     terminal_steps.reward)
+                    for agent_id, i in terminal_steps.agent_id_to_index.items():
+                        exp.add_instance(terminal_steps[agent_id].obs, None, np.zeros(self.model.output_shape[1]), terminal_steps[agent_id].reward)
+
                     env.step()
                     break
 
-                # Get the action
-                if np.random.random() < exploration_chance:
-                    q_values = np.zeros(self.model.output_shape[1])
-                    action_index = random.choices(range(len(action_options)), k=1)[0]
+                for i in range(0, len(decision_steps)):
 
-                else:
-                    q_values, action_index = self.model.get_actions(decision_steps.obs)
+                    # Get the action
+                    if np.random.random() < exploration_chance:
+                        q_values = np.zeros(self.model.output_shape[1])
+                        action_index = random.choices(range(len(action_options)), k=1)[0]
 
-                action_values = action_options[action_index]
-                # print(action_values)
-                exp.add_instance(decision_steps.obs, action_index, q_values.copy(), decision_steps.reward)
+                    else:
+                        q_values, action_index = self.model.get_actions(decision_steps[i].obs)
+
+                    # action_values = action_options[action_index]
+                    dis_action_values.append(action_options[action_index][0])
+                    cont_action_values.append([])
+                    exp.add_instance(decision_steps[i].obs, action_index, q_values.copy(), decision_steps[i].reward)
+
+
                 action_tuple = ActionTuple()
-                action_tuple.add_discrete(action_values)
+                final_dis_action_values = np.array(dis_action_values)
+                final_cont_action_values = np.array(cont_action_values)
+                action_tuple.add_discrete(final_dis_action_values)
+                action_tuple.add_continuous(final_cont_action_values)
+
                 env.set_actions(behavior_name, action_tuple)
                 env.step()
 
@@ -188,7 +204,7 @@ class Trainer:
     def save_model(self, path):
         torch.onnx.export(
             WrapperNet(self.model, [2, 2, 2, 2]),
-            ([torch.randn((1,) + self.model.visual_input_shape), torch.ones(self.model.nonvis_input_shape)],
+            ([torch.randn((1,) + self.model.visual_input_shape), torch.ones((1,) + self.model.nonvis_input_shape)],
              torch.ones((1, 4))),
             path,
             opset_version=9,

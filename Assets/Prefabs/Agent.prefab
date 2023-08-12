@@ -10738,7 +10738,7 @@ GameObject:
   - component: {fileID: 6282186034757043643}
   - component: {fileID: 6282186034757043641}
   - component: {fileID: 6282186034757043640}
-  - component: {fileID: 6282186034757043642}
+  - component: {fileID: 7970076265675784750}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -10898,7 +10898,7 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &6282186034757043642
+--- !u!114 &7970076265675784750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10907,12 +10907,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6282186036658918038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 132e1194facb64429b007ea1edf562d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderTexture: {fileID: 8400000, guid: 80a866ce18543884884dc3a623f5c99f, type: 2}
-  m_SensorName: RenderTextureSensor
+  m_Camera: {fileID: 6282186036672718647}
+  m_SensorName: CameraSensor
+  m_Width: 64
+  m_Height: 64
   m_Grayscale: 1
+  m_ObservationType: 0
+  m_RuntimeCameraEnable: 0
   m_ObservationStacks: 1
   m_Compression: 1
 --- !u!1 &6282186036672718645
