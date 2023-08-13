@@ -118,10 +118,7 @@ class Trainer:
         :param env:
         :return rewards earned:
         """
-        if self.num_agents == 1:
-            env.reset()
         # env.reset()
-
         rewards_stat = self.create_dataset(env, exploration_chance)
         self.fit(4)
         self.memory.wipe()
@@ -136,9 +133,10 @@ class Trainer:
         while not self.memory.is_full():
             num_exp += 1 * self.num_agents
             exps = [Experience() for _ in range(self.num_agents)]
+            terminated = [False for _ in range(self.num_agents)]
             while True:
-                decision_steps, terminal_steps = env.get_steps(behavior_name) # TODO: fix bug
-                # print(len(decision_steps),len(terminal_steps))
+                decision_steps, terminal_steps = env.get_steps(behavior_name)  #
+                print(len(decision_steps), len(terminal_steps))
                 order = (0, 3, 1, 2)
                 decision_steps.obs[0] = np.transpose(decision_steps.obs[0], order)
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)
@@ -146,42 +144,45 @@ class Trainer:
                 dis_action_values = []
                 cont_action_values = []
 
-                for agent_id, i in terminal_steps.agent_id_to_index.items():
-                    # print(agent_id)
-                    exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
-                                                np.zeros(self.model.output_shape[1]),
-                                                terminal_steps[agent_id].reward)
-
-                for agent_id, i in decision_steps.agent_id_to_index.items():
-
-                    # Get the action
-                    if np.random.random() < exploration_chance:
-                        q_values = np.zeros(self.model.output_shape[1])
-                        action_index = random.choices(range(len(action_options)), k=1)[0]
-
-                    else:
-                        q_values, action_index = self.model.get_actions(decision_steps[agent_id].obs)
-
-                    # action_values = action_options[action_index]
-                    dis_action_values.append(action_options[action_index][0])
-                    cont_action_values.append([])
-                    exps[agent_id].add_instance(decision_steps[agent_id].obs, action_index, q_values.copy(),
-                                                decision_steps[agent_id].reward)
-                    # print(agent_id)
-
                 if len(decision_steps) == 0:
-                    # env.step()
-                    break
+                    for agent_id, i in terminal_steps.agent_id_to_index.items():
+                        print(agent_id)
+                        exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
+                                                    np.zeros(self.model.output_shape[1]),
+                                                    terminal_steps[agent_id].reward)
+                        terminated[agent_id] = True
 
-                action_tuple = ActionTuple()
-                final_dis_action_values = np.array(dis_action_values)
-                final_cont_action_values = np.array(cont_action_values)
-                action_tuple.add_discrete(final_dis_action_values)
-                action_tuple.add_continuous(final_cont_action_values)
+                else:
+                    for agent_id, i in decision_steps.agent_id_to_index.items():
 
-                env.set_actions(behavior_name, action_tuple)
+                        if terminated[agent_id]:
+                            dis_action_values.append(np.array([0, 0, 0, 0]))
+                            cont_action_values.append([])
+                            continue
+                        # Get the action
+                        if np.random.random() < exploration_chance:
+                            q_values = np.zeros(self.model.output_shape[1])
+                            action_index = random.choices(range(len(action_options)), k=1)[0]
+
+                        else:
+                            q_values, action_index = self.model.get_actions(decision_steps[i].obs)
+
+                        # action_values = action_options[action_index]
+                        dis_action_values.append(action_options[action_index][0])
+                        cont_action_values.append([])
+                        exps[agent_id].add_instance(decision_steps[i].obs, action_index, q_values.copy(),
+                                                    decision_steps[i].reward)
+                    action_tuple = ActionTuple()
+                    final_dis_action_values = np.array(dis_action_values)
+                    final_cont_action_values = np.array(cont_action_values)
+                    action_tuple.add_discrete(final_dis_action_values)
+                    action_tuple.add_continuous(final_cont_action_values)
+                    env.set_actions(behavior_name, action_tuple)
+
                 env.step()
 
+                if all(terminated):
+                    break
             for exp in exps:
                 exp.rewards.pop(0)
                 all_rewards += sum(exp.rewards)
