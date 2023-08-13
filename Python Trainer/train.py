@@ -6,15 +6,18 @@ import os
 import datetime
 from variables import max_trained_epochs,exploration_chance_start,exploration_reduce,num_training_examples
 import argparse
+import json
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--num-areas', type=int, default=1)
-parser.add_argument('-s', '--save-model', type=bool, default=False)
+parser.add_argument('-s', '--save-model', action='store_true')
 parser.add_argument('-e', '--env', default='./env/Self driving.exe')
+parser.add_argument('-D', '--no-display', action='store_true')
 args = parser.parse_args()
 NUM_AREAS = args.num_areas
 SAVE_MODEL = args.save_model
 ENV_PATH = args.env
+NO_DISPLAY = args.no_display
 
 if __name__ == "__main__":
 	# set up the environment
@@ -68,7 +71,16 @@ if __name__ == "__main__":
 
 	# Show the training graph
 	try:
-		plt.plot(range(num_epochs), results)
-		plt.show()
+		if NO_DISPLAY:
+			training_data = {
+				'num_epochs': num_epochs,
+				'results': results
+			}
+			with open(f'{folder_name}/training-data.json', 'w') as f:
+				json.dump(training_data, f)
+			print(f'Saved training data in {folder_name}/training-data.json')
+		else:
+			plt.plot(range(num_epochs), results)
+			plt.show()
 	except ValueError:
 		print("\nPlot failed on interrupted training.")
