@@ -138,7 +138,7 @@ class Trainer:
             exps = [Experience() for _ in range(self.num_agents)]
             while True:
                 decision_steps, terminal_steps = env.get_steps(behavior_name) # TODO: fix bug
-                print(len(decision_steps),len(terminal_steps))
+                # print(len(decision_steps),len(terminal_steps))
                 order = (0, 3, 1, 2)
                 decision_steps.obs[0] = np.transpose(decision_steps.obs[0], order)
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)

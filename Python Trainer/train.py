@@ -9,8 +9,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--num-areas', type=int, default=1)
+parser.add_argument('-s', '--save-model', type=bool, default=False)
 args = parser.parse_args()
 NUM_AREAS = args.num_areas
+SAVE_MODEL = args.save_model
 
 if __name__ == "__main__":
 	# set up the environment
@@ -37,16 +39,22 @@ if __name__ == "__main__":
 		qnet = QNetwork(visual_input_shape = (1, 64, 64), nonvis_input_shape=(1,), encoding_size=126)
 		trainer = Trainer(model=qnet,buffer_size=num_training_examples, num_agents=NUM_AREAS)
 
-		folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
-		os.makedirs(folder_name)
-		print(f'---- Will save models into {folder_name}')
+		if SAVE_MODEL:
+			folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
+			os.makedirs(folder_name)
+			print(f'---- Will save models into {folder_name}')
+		else:
+			print(f'---- Not saving model as the -s flag is default to "False"')
 
 		for epoch in range(num_epochs):
 			print(f"epoch: {epoch}, exploration chance:{expl_chance}")
 			reward = trainer.train(env, expl_chance)
 			results.append(reward)
 			expl_chance *= expl_reduce
-			trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
+
+			if SAVE_MODEL:
+				trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
+
 			print(f"reward earned: {reward}")
 
 	except KeyboardInterrupt:
