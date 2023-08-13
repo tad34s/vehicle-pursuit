@@ -118,7 +118,10 @@ class Trainer:
         :param env:
         :return rewards earned:
         """
+        if self.num_agents == 1:
+            env.reset()
         # env.reset()
+
         rewards_stat = self.create_dataset(env, exploration_chance)
         self.fit(4)
         self.memory.wipe()
@@ -144,7 +147,7 @@ class Trainer:
                 cont_action_values = []
 
                 for agent_id, i in terminal_steps.agent_id_to_index.items():
-                    print(agent_id)
+                    # print(agent_id)
                     exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
                                                 np.zeros(self.model.output_shape[1]),
                                                 terminal_steps[agent_id].reward)
@@ -157,15 +160,17 @@ class Trainer:
                         action_index = random.choices(range(len(action_options)), k=1)[0]
 
                     else:
-                        q_values, action_index = self.model.get_actions(decision_steps[i].obs)
+                        q_values, action_index = self.model.get_actions(decision_steps[agent_id].obs)
 
                     # action_values = action_options[action_index]
                     dis_action_values.append(action_options[action_index][0])
                     cont_action_values.append([])
-                    exps[agent_id].add_instance(decision_steps[i].obs, action_index, q_values.copy(),
-                                                decision_steps[i].reward)
+                    exps[agent_id].add_instance(decision_steps[agent_id].obs, action_index, q_values.copy(),
+                                                decision_steps[agent_id].reward)
+                    # print(agent_id)
 
                 if len(decision_steps) == 0:
+                    # env.step()
                     break
 
                 action_tuple = ActionTuple()
