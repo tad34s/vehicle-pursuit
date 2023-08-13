@@ -10,13 +10,16 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--num-areas', type=int, default=1)
 parser.add_argument('-s', '--save-model', type=bool, default=False)
+parser.add_argument('-e', '--env', default='./env/Self driving.exe')
 args = parser.parse_args()
 NUM_AREAS = args.num_areas
 SAVE_MODEL = args.save_model
+ENV_PATH = args.env
 
 if __name__ == "__main__":
 	# set up the environment
-	env_location = './env/Self driving.exe'
+	# env_location = './env/Self driving.exe'
+	env_location = ENV_PATH
 	env = UnityEnvironment(file_name=env_location, num_areas=NUM_AREAS)
 	env.reset()
 
