@@ -134,8 +134,8 @@ class Trainer:
             num_exp += 1 * self.num_agents
             exps = [Experience() for _ in range(self.num_agents)]
             while True:
-                decision_steps, terminal_steps = env.get_steps(behavior_name)
-
+                decision_steps, terminal_steps = env.get_steps(behavior_name) # TODO: fix bug
+                print(len(decision_steps),len(terminal_steps))
                 order = (0, 3, 1, 2)
                 decision_steps.obs[0] = np.transpose(decision_steps.obs[0], order)
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)
@@ -143,13 +143,11 @@ class Trainer:
                 dis_action_values = []
                 cont_action_values = []
 
-                if len(decision_steps) == 0:
-                    for agent_id, i in terminal_steps.agent_id_to_index.items():
-                        exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
-                                                    np.zeros(self.model.output_shape[1]),
-                                                    terminal_steps[agent_id].reward)
-                    env.step()
-                    break
+                for agent_id, i in terminal_steps.agent_id_to_index.items():
+                    print(agent_id)
+                    exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
+                                                np.zeros(self.model.output_shape[1]),
+                                                terminal_steps[agent_id].reward)
 
                 for agent_id, i in decision_steps.agent_id_to_index.items():
 
@@ -166,6 +164,9 @@ class Trainer:
                     cont_action_values.append([])
                     exps[agent_id].add_instance(decision_steps[i].obs, action_index, q_values.copy(),
                                                 decision_steps[i].reward)
+
+                if len(decision_steps) == 0:
+                    break
 
                 action_tuple = ActionTuple()
                 final_dis_action_values = np.array(dis_action_values)
