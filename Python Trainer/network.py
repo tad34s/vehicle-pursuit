@@ -65,7 +65,7 @@ class QNetwork(torch.nn.Module):
             self.eval()
             with torch.no_grad():
                 q_values = self.forward(observation)
-            q_values = q_values.flatten().view((-1, self.output_shape[0]))
+            q_values = q_values.view((-1, self.output_shape[1]))
             action_index = torch.argmax(q_values, dim=1, keepdim=True)
 
         return q_values, action_index

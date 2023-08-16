@@ -211,18 +211,13 @@ class Trainer:
 
     def save_model(self, path):
         torch.onnx.export(
-            WrapperNet(self.model, [2, 2, 2, 2]),
-            ([torch.randn((1,) + self.model.visual_input_shape), torch.ones((1,) + self.model.nonvis_input_shape)],
-             torch.ones((1, 4))),
+            WrapperNet(self.model),
+            (
+                torch.randn((1,) + self.model.visual_input_shape), # Vis observation
+                torch.randn((1,) + self.model.nonvis_input_shape), # Non vis observation
+            ),
             path,
             opset_version=9,
-            input_names=['obs_0', 'obs_1', 'action_masks'],
-            output_names=['version_number', 'memory_size', 'discrete_actions', 'discrete_action_output_shape',
-                          'deterministic_discrete_actions'],
-            dynamic_axes={
-                'obs_0': {0: 'batch'},
-                'obs_1': {0: 'batch'},
-                'action_masks': {0: 'batch'},
-                'discrete_action_output_shape': {0: 'batch'},
-            }
+            input_names=['vis_obs', 'nonvis_obs'],
+            output_names=['prediction', 'action'],
         )
