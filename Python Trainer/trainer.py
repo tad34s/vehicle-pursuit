@@ -7,7 +7,7 @@ from mlagents_envs.environment import ActionTuple
 from torch.utils.data import Dataset, DataLoader
 
 from WrapperNet import WrapperNet
-from network import QNetwork, action_options
+from network import QNetwork, action_options, mirrored_actions
 from variables import discount, reward_same_action, learning_rate
 
 
@@ -24,6 +24,19 @@ class Experience:
         self.actions.append(action)
         self.rewards.append(reward)
         self.predicted_values.append(predicted_values)
+
+    def flip(self):
+        new_observations = [(np.flip(vis, 2), nonvis) for vis, nonvis in self.observations]
+        new_actions = [mirrored_actions[x] if x is not None else None for x in self.actions]
+        new_predicted_values = [np.flip(x, 0) for x in self.predicted_values]
+
+        new_exp = Experience()
+        new_exp.observations = new_observations
+        new_exp.actions = new_actions
+        new_exp.rewards = self.rewards.copy()
+        new_exp.predicted_values = new_predicted_values
+        print(new_predicted_values[0],self.predicted_values[0])
+        return new_exp
 
     def calculate_targets(self):
         targets = []
@@ -46,7 +59,6 @@ class Experience:
 
             # adjust
             target_matrix[action_index] = reward + max(self.predicted_values[e + 1]) * discount
-
             observation = [arr.astype("float32") for arr in observation]
             target_matrix = target_matrix.astype("float32")
             states.append(observation)
@@ -76,6 +88,16 @@ class ReplayBuffer():
             targets_dataset += targets
             state_dataset += states
         return state_dataset, targets_dataset
+
+    def flip_dataset(self):
+        """
+        Mirrors the image and action data in dataset, effectively doubles it.
+        :return:
+        """
+        new_exps = []
+        for exp in self.buffer:
+            new_exp = exp.flip()
+            new_exps.append(new_exp)
 
     def wipe(self):
         self.buffer = []
@@ -120,6 +142,7 @@ class Trainer:
         """
         # env.reset()
         rewards_stat = self.create_dataset(env, exploration_chance)
+        self.memory.flip_dataset()
         self.fit(4)
         self.memory.wipe()
         return rewards_stat
@@ -136,7 +159,6 @@ class Trainer:
             terminated = [False for _ in range(self.num_agents)]
             while True:
                 decision_steps, terminal_steps = env.get_steps(behavior_name)  #
-                print(len(decision_steps), len(terminal_steps))
                 order = (0, 3, 1, 2)
                 decision_steps.obs[0] = np.transpose(decision_steps.obs[0], order)
                 terminal_steps.obs[0] = np.transpose(terminal_steps.obs[0], order)
@@ -146,7 +168,6 @@ class Trainer:
 
                 if len(decision_steps) == 0:
                     for agent_id, i in terminal_steps.agent_id_to_index.items():
-                        print(agent_id)
                         exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
                                                     np.zeros(self.model.output_shape[1]),
                                                     terminal_steps[agent_id].reward)

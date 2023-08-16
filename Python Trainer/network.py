@@ -8,7 +8,7 @@ from torch.nn import Parameter
 # - action shape: [forward, backward, right, left]
 
 action_options = [np.array([[1, 0, 1, 0]]), np.array([[1, 0, 0, 0]]), np.array([[1, 0, 0, 1]])]
-
+mirrored_actions = [2,1,0]
 
 class QNetwork(torch.nn.Module):
 
