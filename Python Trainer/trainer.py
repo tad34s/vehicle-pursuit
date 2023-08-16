@@ -35,7 +35,6 @@ class Experience:
         new_exp.actions = new_actions
         new_exp.rewards = self.rewards.copy()
         new_exp.predicted_values = new_predicted_values
-        print(new_predicted_values[0],self.predicted_values[0])
         return new_exp
 
     def calculate_targets(self):
