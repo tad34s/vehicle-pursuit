@@ -46,7 +46,7 @@ if __name__ == "__main__":
 		trainer = Trainer(model=qnet,buffer_size=num_training_examples, num_agents=NUM_AREAS)
 
 		if SAVE_MODEL:
-			folder_name = f"./models/{datetime.datetime.now().strftime('%d-%m-%y %H%M%S')}"
+			folder_name = f'./models/{datetime.datetime.now().strftime("%y-%m-%d %H%M%S")}'
 			os.makedirs(folder_name)
 			print(f'---- Will save models into {folder_name}')
 		else:
