@@ -55,6 +55,7 @@ if __name__ == "__main__":
 		for epoch in range(num_epochs):
 			print(f"epoch: {epoch}, exploration chance:{expl_chance}")
 			reward = trainer.train(env, expl_chance)
+			reward /= NUM_AREAS
 			results.append(reward)
 			expl_chance *= expl_reduce
 
