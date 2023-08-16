@@ -44,11 +44,11 @@ public class AgentCar : Agent
 
 		currentCheckpoint = 0;
 
-        rBody.velocity = Vector3.zero;
-        rBody.angularVelocity = Vector3.zero;
-
 		transform.position = transform.parent.position;
 		transform.rotation = Quaternion.identity;
+
+        rBody.velocity = Vector3.zero;
+        rBody.angularVelocity = Vector3.zero;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -174,7 +174,7 @@ public class AgentCar : Agent
 			return;
 
 		float distanceToCheckpoint = calcDistanceToNextCheckpoint();
-		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 10f)
+		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 2f)
 		{
             AddReward(5f);
             currentCheckpoint++;
@@ -194,7 +194,7 @@ public class AgentCar : Agent
         if(carController.carSpeed > 2f)
         {
             float reward = getDrivenDistance();
-            // Debug.Log(reward);
+            Debug.Log(reward);
             AddReward(reward);
         } else
         {
