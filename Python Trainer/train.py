@@ -74,14 +74,14 @@ if __name__ == "__main__":
 	try:
 		if NO_DISPLAY:
 			training_data = {
-				'num_epochs': num_epochs,
+				'num_epochs': len(results),
 				'results': results
 			}
 			with open(f'{folder_name}/training-data.json', 'w') as f:
 				json.dump(training_data, f)
 			print(f'Saved training data in {folder_name}/training-data.json')
 		else:
-			plt.plot(range(num_epochs), results)
+			plt.plot(range(len(results)), results)
 			plt.show()
 	except ValueError:
 		print("\nPlot failed on interrupted training.")
