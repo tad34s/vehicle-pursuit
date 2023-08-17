@@ -174,7 +174,7 @@ public class AgentCar : Agent
 			return;
 
 		float distanceToCheckpoint = calcDistanceToNextCheckpoint();
-		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 2f)
+		if(distanceToCheckpoint != -1 && distanceToCheckpoint < 5f)
 		{
             AddReward(5f);
             currentCheckpoint++;
