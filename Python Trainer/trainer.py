@@ -98,6 +98,8 @@ class ReplayBuffer():
             new_exp = exp.flip()
             new_exps.append(new_exp)
 
+        for new_exp in new_exps:
+            self.buffer.append(new_exp)
     def wipe(self):
         self.buffer = []
 
