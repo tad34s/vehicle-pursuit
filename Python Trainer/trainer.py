@@ -100,6 +100,7 @@ class ReplayBuffer():
 
         for new_exp in new_exps:
             self.buffer.append(new_exp)
+
     def wipe(self):
         self.buffer = []
 
@@ -130,7 +131,7 @@ class Trainer:
         self.memory = ReplayBuffer(buffer_size)
         self.model = model
         self.loss_fn = torch.nn.MSELoss()
-        self.optim = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
+        self.optim = torch.optim.Adam(self.model.parameters(), lr=learning_rate, weight_decay=1e-7)
 
         self.num_agents = num_agents
 
@@ -144,7 +145,7 @@ class Trainer:
         # env.reset()
         rewards_stat = self.create_dataset(env, exploration_chance)
         self.memory.flip_dataset()
-        self.fit(4)
+        self.fit(1)
         self.memory.wipe()
         return rewards_stat
 
@@ -235,8 +236,8 @@ class Trainer:
         torch.onnx.export(
             WrapperNet(self.model),
             (
-                torch.randn((1,) + self.model.visual_input_shape), # Vis observation
-                torch.randn((1,) + self.model.nonvis_input_shape), # Non vis observation
+                torch.randn((1,) + self.model.visual_input_shape),  # Vis observation
+                torch.randn((1,) + self.model.nonvis_input_shape),  # Non vis observation
             ),
             path,
             opset_version=9,
