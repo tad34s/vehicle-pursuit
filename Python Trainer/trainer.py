@@ -149,7 +149,7 @@ class Trainer:
         self.memory.wipe()
         return rewards_stat
 
-    def create_dataset(self, env, exploration_chance):
+    def create_dataset(self, env, temperature):
         behavior_name = list(env.behavior_specs)[0]
         all_rewards = 0
         # Read and store the Behavior Specs of the Environment
@@ -183,12 +183,8 @@ class Trainer:
                             cont_action_values.append([])
                             continue
                         # Get the action
-                        if np.random.random() < exploration_chance:
-                            q_values = np.zeros(self.model.output_shape[1])
-                            action_index = random.choices(range(len(action_options)), k=1)[0]
+                        q_values, action_index = self.model.get_actions(decision_steps[i].obs,temperature)
 
-                        else:
-                            q_values, action_index = self.model.get_actions(decision_steps[i].obs)
 
                         # action_values = action_options[action_index]
                         dis_action_values.append(action_options[action_index][0])

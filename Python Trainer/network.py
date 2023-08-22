@@ -3,6 +3,7 @@ import torch
 from typing import Tuple
 from math import floor
 from torch.nn import Parameter
+import random
 
 
 # - action shape: [forward, backward, right, left]
@@ -46,7 +47,7 @@ class QNetwork(torch.nn.Module):
         output = self.dense2(hidden)
         return output
 
-    def get_actions(self, observation, use_tensor=False):
+    def get_actions(self, observation, temperature,  use_tensor=False):
         """
         Get the q values, if positive we do the action
         :param observation:
@@ -58,17 +59,25 @@ class QNetwork(torch.nn.Module):
             self.eval()
             with torch.no_grad():
                 q_values = self.forward(observation)
-            q_values = q_values.numpy().flatten()
-            action_index = np.argmax(q_values)
+            q_values = q_values.flatten(1)
+            if temperature == 0:
+                action_index = torch.argmax(q_values, dim=1, keepdim=True)
+            else:
+                probs = torch.softmax(q_values / temperature,1)
+                action_index = random.choices(range(len(action_options)), weights=probs[0])
 
         else:
             self.eval()
             with torch.no_grad():
                 q_values = self.forward(observation)
             q_values = q_values.view((-1, self.output_shape[1]))
-            action_index = torch.argmax(q_values, dim=1, keepdim=True)
+            if temperature == 0:
+                action_index = torch.argmax(q_values, dim=1, keepdim=True)
+            else:
+                probs = torch.softmax(q_values / temperature,1)
+                action_index = random.choices(range(len(action_options)), weights=probs)
 
-        return q_values, action_index
+        return q_values.numpy().flatten(), action_index[0]
 
     @staticmethod
     def conv_output_shape(
