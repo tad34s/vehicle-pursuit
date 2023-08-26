@@ -65,6 +65,7 @@ class QNetwork(torch.nn.Module):
             else:
                 probs = torch.softmax(q_values / temperature,1)
                 action_index = random.choices(range(len(action_options)), weights=probs[0])
+            q_values = q_values.numpy().flatten()
 
         else:
             self.eval()
@@ -77,7 +78,7 @@ class QNetwork(torch.nn.Module):
                 probs = torch.softmax(q_values / temperature,1)
                 action_index = random.choices(range(len(action_options)), weights=probs)
 
-        return q_values.numpy().flatten(), action_index[0]
+        return q_values, action_index[0]
 
     @staticmethod
     def conv_output_shape(

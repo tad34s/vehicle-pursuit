@@ -25,7 +25,7 @@ class WrapperNet(torch.nn.Module):
         self.qnet = qnet
 
     def forward(self, vis_obs: torch.Tensor, nonvis_obs: torch.Tensor):
-        qnet_result, action_index = self.qnet.get_actions((vis_obs, nonvis_obs), use_tensor=True)
+        qnet_result, action_index = self.qnet.get_actions((vis_obs, nonvis_obs),temperature = 0, use_tensor=True)
         action_options = torch.tensor([
             [1, 0, 1, 0],
             [1, 0, 0, 0],
