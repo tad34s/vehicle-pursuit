@@ -822,7 +822,7 @@ PrefabInstance:
     - target: {fileID: 4633599328643637399, guid: f02a9da96fe553f4193c7e617f9bb513, type: 3}
       propertyPath: modelAsset
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 0fff3ac2d8ed9d84081cd136001569eb, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: 87c4468d538fbf9418a75e0156224728, type: 3}
     - target: {fileID: 6282186034757043643, guid: f02a9da96fe553f4193c7e617f9bb513, type: 3}
       propertyPath: maxSpeed
       value: 20
