@@ -63,7 +63,7 @@ if __name__ == "__main__":
             print(f"epoch: {epoch}, temperature:{temperature}")
             reward = trainer.train(env, temperature)
             reward /= NUM_AREAS
-            reward /= NUM_AREAS / num_training_examples
+            reward /= num_training_examples
             results.append(reward)
             temperature = relu(temperature-temperature_red)
 
