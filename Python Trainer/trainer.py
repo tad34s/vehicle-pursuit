@@ -66,6 +66,8 @@ class Experience:
 
         return states, targets
 
+    def __len__(self):
+        return len(self.observations)
 
 class ReplayBuffer():
 
@@ -122,7 +124,7 @@ class StateTargetValuesDataset(Dataset):
 
 
 class Trainer:
-    def __init__(self, model: QNetwork, buffer_size, device, num_agents=1):
+    def __init__(self, model: QNetwork, buffer_size, device, num_agents=1, writer=None):
         """
         Class that manages creating a dataset and fitting the model
         :param model:
@@ -131,6 +133,9 @@ class Trainer:
         :param num_agents:
         """
         self.device = device
+        self.writer = writer
+
+        self.curr_epoch = 0
 
         self.memory = ReplayBuffer(buffer_size)
         self.model = model
@@ -149,11 +154,25 @@ class Trainer:
         # env.reset()
         rewards_stat = self.create_dataset(env, exploration_chance)
         self.memory.flip_dataset()
+        sample_exp = self.memory.buffer[int(self.memory.size/2)]
+        sample_image = sample_exp.observations[int(len(sample_exp)/2)][0]
+        sample_q_values = sample_exp.predicted_values[int(len(sample_exp)/2)]
+
+        self.writer.add_image("Sample image", sample_image)
+
+        # Add text
+        steer = ""
+
+        for s in sample_q_values:
+            steer += f"{s:.2f} "
+        self.writer.add_text("Sample Q values (steer)", steer, self.curr_epoch)
+
         self.fit(1)
         self.memory.wipe()
         return rewards_stat
 
     def create_dataset(self, env, temperature):
+
         behavior_name = list(env.behavior_specs)[0]
         all_rewards = 0
         # Read and store the Behavior Specs of the Environment
@@ -223,6 +242,10 @@ class Trainer:
 
         dataset = StateTargetValuesDataset(states, targets)
         dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+
+        loss_sum = 0
+        count = 0
+
         for epoch in range(epochs):
             for batch in dataloader:
                 # We run the training step with the recorded inputs and new Q value targets.
@@ -241,6 +264,10 @@ class Trainer:
                 self.optim.zero_grad()
                 loss.backward()
                 self.optim.step()
+                loss_sum += loss.item()
+                count += 1
+        self.writer.add_scalar("Loss/Epoch", loss_sum / count, self.curr_epoch)
+        self.curr_epoch += 1
 
     def save_model(self, path):
         torch.onnx.export(
