@@ -3,7 +3,7 @@ from network import QNetwork
 from trainer import Trainer
 import os
 import datetime
-from variables import max_trained_epochs, start_temperature, reduce_temperature, num_training_examples
+from variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES
 import argparse
 import json
 import torch
@@ -55,14 +55,14 @@ if __name__ == "__main__":
     num_actions = spec.action_spec
     print(num_actions)
 
-    num_epochs = max_trained_epochs
-    temperature = start_temperature
-    temperature_red = reduce_temperature
+    num_epochs = MAX_TRAINED_EPOCHS
+    temperature = START_TEMPERATURE
+    temperature_red = REDUCE_TEMPERATURE
 
     results = []
     try:
         qnet = QNetwork(visual_input_shape=(1, 64, 64), nonvis_input_shape=(1,), encoding_size=126, device=device)
-        trainer = Trainer(model=qnet, buffer_size=num_training_examples, device=device, num_agents=NUM_AREAS, writer=writer)
+        trainer = Trainer(model=qnet, buffer_size=NUM_TRAINING_EXAMPLES, device=device, num_agents=NUM_AREAS, writer=writer)
 
         if SAVE_MODEL:
             folder_name = f'./models/{datetime.datetime.now().strftime("%y-%m-%d %H%M%S")}'
@@ -77,7 +77,7 @@ if __name__ == "__main__":
             reward = trainer.train(env, temperature)
 
             print("------Done------")
-            reward /= num_training_examples
+            reward /= NUM_TRAINING_EXAMPLES
             print(f"Reward earned: {reward}")
 
             temperature = relu(temperature-temperature_red)
