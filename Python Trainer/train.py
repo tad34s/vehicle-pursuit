@@ -16,7 +16,7 @@ writer = SummaryWriter()
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--num-areas', type=int, default=1)
 parser.add_argument('-s', '--save-model', action='store_true')
-parser.add_argument('-e', '--env', default='./env/Self driving.exe')
+parser.add_argument('-e', '--env', default='./Python Trainer/builds/distance_reward_old_env/selfDriving.x86_64')
 parser.add_argument('-D', '--no-display', action='store_true')
 args = parser.parse_args()
 NUM_AREAS = args.num_areas
