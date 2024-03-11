@@ -74,6 +74,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 ml-agents-release_20
 Timers/Main_timers.json
-ML-Agents/*
+ML-Agents/
 Python Trainer/models
 __pycache__/
