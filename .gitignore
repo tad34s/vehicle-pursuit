@@ -25,6 +25,8 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
+.vsconfig
 
 # Gradle cache directory
 .gradle/
@@ -74,4 +76,4 @@ ml-agents-release_20
 Timers/Main_timers.json
 ML-Agents/*
 Python Trainer/models
-__pycache__/*.pyc
+__pycache__/
