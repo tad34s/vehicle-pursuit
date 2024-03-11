@@ -1,7 +1,8 @@
 
 MAX_TRAINED_EPOCHS = 500
+VIS_INPUT_SHAPE = (1, 64, 64)
 
-# Hyperparameters
+# Learning hyperparameters
 START_TEMPERATURE = 20
 REDUCE_TEMPERATURE = 1 / 15 # 0.75
 NUM_TRAINING_EXAMPLES = 100

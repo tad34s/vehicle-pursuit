@@ -3,7 +3,7 @@ from network import QNetwork
 from trainer import Trainer
 import os
 import datetime
-from variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES
+from variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES, VIS_INPUT_SHAPE
 import argparse
 import json
 import torch
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
     results = []
     try:
-        qnet = QNetwork(visual_input_shape=(1, 64, 64), nonvis_input_shape=(1,), encoding_size=126, device=device)
+        qnet = QNetwork(visual_input_shape=VIS_INPUT_SHAPE, nonvis_input_shape=(1,), encoding_size=126, device=device)
         trainer = Trainer(model=qnet, buffer_size=NUM_TRAINING_EXAMPLES, device=device, num_agents=NUM_AREAS, writer=writer)
 
         if SAVE_MODEL:

@@ -1,5 +1,12 @@
 
 
+import copy
+
+import numpy as np
+from torch.utils.data import Dataset
+
+from variables import DISCOUNT, REWARD_SAME_ACTION
+from network import mirrored_actions
 
 class Experience:
 
@@ -40,14 +47,14 @@ class Experience:
 
             if e != 0:
                 if self.actions[e] == self.actions[e - 1]:
-                    reward += reward_same_action
+                    reward += REWARD_SAME_ACTION
 
             # we take the matrix of predicted values and for the actions we had taken adjust the value by the reward
             # and the value of the next state
             target_matrix = self.predicted_values[e].copy()
 
             # adjust
-            target_matrix[action_index] = reward + max(self.predicted_values[e + 1]) * discount
+            target_matrix[action_index] = reward + max(self.predicted_values[e + 1]) * DISCOUNT
             observation = [arr.astype("float32") for arr in observation]
             target_matrix = target_matrix.astype("float32")
             states.append(observation)

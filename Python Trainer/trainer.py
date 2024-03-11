@@ -10,7 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 from WrapperNet import WrapperNet
 from network import QNetwork, action_options, mirrored_actions
 from variables import DISCOUNT, REWARD_SAME_ACTION, LEARNING_RATE
-
+from buffer import ReplayBuffer, StateTargetValuesDataset, Experience
 
 class Trainer:
     def __init__(self, model: QNetwork, buffer_size, device, num_agents=1, writer=None):
