@@ -5,12 +5,14 @@ import numpy as np
 import torch
 import torch.onnx
 from mlagents_envs.environment import ActionTuple
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 
 from WrapperNet import WrapperNet
-from network import QNetwork, action_options, mirrored_actions
-from variables import DISCOUNT, REWARD_SAME_ACTION, LEARNING_RATE
-from buffer import ReplayBuffer, StateTargetValuesDataset, Experience
+from Network import QNetwork, action_options
+from Variables import LEARNING_RATE
+from Buffer import *
+
+
 
 class Trainer:
     def __init__(self, model: QNetwork, buffer_size, device, num_agents=1, writer=None):

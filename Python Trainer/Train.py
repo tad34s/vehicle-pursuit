@@ -1,9 +1,10 @@
 from mlagents_envs.environment import UnityEnvironment
-from network import QNetwork
-from trainer import Trainer
+from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
+from Network import QNetwork
+from Trainer import Trainer
 import os
 import datetime
-from variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES, VIS_INPUT_SHAPE
+from Variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES
 import argparse
 import json
 import torch
@@ -18,11 +19,15 @@ parser.add_argument('-n', '--num-areas', type=int, default=1)
 parser.add_argument('-s', '--save-model', action='store_true')
 parser.add_argument('-e', '--env', default='./Python Trainer/builds/distance_reward_old_env/selfDriving.x86_64')
 parser.add_argument('-D', '--no-display', action='store_true')
+parser.add_argument('-t', '--time-scale', type=float, default=1.0)
 args = parser.parse_args()
 NUM_AREAS = args.num_areas
 SAVE_MODEL = args.save_model
 ENV_PATH = args.env
 NO_DISPLAY = args.no_display
+TIME_SCALE = args.time_scale
+
+engine_channel = EngineConfigurationChannel()
 
 def launch_tensor_board():
     import os
@@ -34,9 +39,9 @@ def relu(x):
 
 if __name__ == "__main__":
     # set up the environment
-    # env_location = './env/Self driving.exe'
     env_location = ENV_PATH
-    env = UnityEnvironment(file_name=env_location, num_areas=NUM_AREAS)
+    env = UnityEnvironment(file_name=env_location, num_areas=NUM_AREAS, side_channels=[engine_channel])
+    engine_channel.set_configuration_parameters(time_scale=TIME_SCALE)
     env.reset()
 
     t = threading.Thread(target=launch_tensor_board, args=([]))
@@ -61,7 +66,7 @@ if __name__ == "__main__":
 
     results = []
     try:
-        qnet = QNetwork(visual_input_shape=VIS_INPUT_SHAPE, nonvis_input_shape=(1,), encoding_size=126, device=device)
+        qnet = QNetwork(visual_input_shape=(1, 64, 64), nonvis_input_shape=(1,), encoding_size=126, device=device)
         trainer = Trainer(model=qnet, buffer_size=NUM_TRAINING_EXAMPLES, device=device, num_agents=NUM_AREAS, writer=writer)
 
         if SAVE_MODEL:

@@ -1,14 +1,13 @@
 
-
-import copy
-
 import numpy as np
 from torch.utils.data import Dataset
 
-from variables import DISCOUNT, REWARD_SAME_ACTION
-from network import mirrored_actions
+from Network import mirrored_actions
+from Variables import DISCOUNT, REWARD_SAME_ACTION
+
 
 class Experience:
+
 
     def __init__(self):
         self.observations = []
@@ -117,5 +116,3 @@ class StateTargetValuesDataset(Dataset):
 
     def __getitem__(self, index: int):
         return self.states[index], self.targets[index]
-
-
