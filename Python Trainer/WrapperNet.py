@@ -1,4 +1,4 @@
-from network import QNetwork
+from Network import QNetwork
 from typing import List
 import torch
 from torch.nn import Parameter
