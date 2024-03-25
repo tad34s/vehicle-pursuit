@@ -2,6 +2,7 @@ from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
 from Network import QNetwork
 from Trainer import Trainer
+
 import os
 import datetime
 from Variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES
