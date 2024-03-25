@@ -28,6 +28,9 @@
 .vscode/
 .vsconfig
 
+# Pycharm configuration
+.idea/
+
 # Gradle cache directory
 .gradle/
 
