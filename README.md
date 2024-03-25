@@ -22,10 +22,10 @@ This project is developed under FIT DataLab at CTU
     cd self-driving
     ```
 
-3. Create anaconda environment:
+3. Create conda environment:
 
     ```bash
-    conda env create --name yourenv --file=environments.yml
+    conda env create --name yourenv --file=environment.yml
     ```
 
 ## Contributors
@@ -34,7 +34,7 @@ This project is developed under FIT DataLab at CTU
     <td align="center">
       <a href="https://github.com/tad34s" style="display: flex; justify-content: center; align-items: center;">
         <img src="https://github.com/tad34s.png?size=128" />
-        <p>Tadeáš Bača</p>
+        <p>Tadeáš Báča</p>
       </a>
     </td>
     <td align="center">
