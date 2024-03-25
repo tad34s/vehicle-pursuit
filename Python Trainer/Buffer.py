@@ -1,4 +1,3 @@
-
 import numpy as np
 from torch.utils.data import Dataset
 
@@ -7,7 +6,6 @@ from Variables import DISCOUNT, REWARD_SAME_ACTION
 
 
 class Experience:
-
 
     def __init__(self):
         self.observations = []
@@ -64,20 +62,27 @@ class Experience:
     def __len__(self):
         return len(self.observations)
 
+
 class ReplayBuffer():
 
-    def __init__(self, size):
-        self.size = size
+    def __init__(self, max_size):
+        self.max_size = max_size
         self.buffer = []
 
     def add_exp(self, exp):
         if not self.is_full():
             self.buffer.append(exp)
 
-    def is_full(self):
-        return len(self.buffer) >= self.size
+    def is_full(self) -> bool:
+        return len(self.buffer) >= self.max_size
 
-    def create_targets(self):
+    def __len__(self) -> int:
+        return sum([len(x) for x in self.buffer])
+
+    def size(self) -> int:
+        return len(self.buffer)
+
+    def create_targets(self) -> tuple[list, list]:
         state_dataset = []
         targets_dataset = []
         for exp in self.buffer:

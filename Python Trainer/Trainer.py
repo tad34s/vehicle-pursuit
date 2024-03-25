@@ -6,12 +6,12 @@ import torch
 import torch.onnx
 from mlagents_envs.environment import ActionTuple
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from WrapperNet import WrapperNet
 from Network import QNetwork, action_options
 from Variables import LEARNING_RATE
 from Buffer import *
-
 
 
 class Trainer:
@@ -45,9 +45,9 @@ class Trainer:
         # env.reset()
         rewards_stat = self.create_dataset(env, exploration_chance)
         self.memory.flip_dataset()
-        sample_exp = self.memory.buffer[int(self.memory.size/2)]
-        sample_image = sample_exp.observations[int(len(sample_exp)/2)][0]
-        sample_q_values = sample_exp.predicted_values[int(len(sample_exp)/2)]
+        sample_exp = self.memory.buffer[int(self.memory.size() / 2)]
+        sample_image = sample_exp.observations[int(len(sample_exp) / 2)][0]
+        sample_q_values = sample_exp.predicted_values[int(len(sample_exp) / 2)]
 
         self.writer.add_image("Sample image", sample_image)
 
@@ -67,56 +67,56 @@ class Trainer:
         behavior_name = list(env.behavior_specs)[0]
         all_rewards = 0
         # Read and store the Behavior Specs of the Environment
-        num_exp = 0
 
-        while not self.memory.is_full():
-            num_exp += 1 * self.num_agents
-            exps = [Experience() for _ in range(self.num_agents)]
-            terminated = [False for _ in range(self.num_agents)]
-            while True:
-                decision_steps, terminal_steps = env.get_steps(behavior_name)  #
+        exps = [Experience() for _ in range(self.num_agents)]
+        # terminated = [False for _ in range(self.num_agents)]
+        env.reset()
+        bar = tqdm(total=self.memory.max_size)
 
-                dis_action_values = []
-                cont_action_values = []
+        while len(self.memory) + sum([len(x) for x in exps]) < self.memory.max_size:
+            decision_steps, terminal_steps = env.get_steps(behavior_name)  #
 
-                if len(decision_steps) == 0:
-                    for agent_id, i in terminal_steps.agent_id_to_index.items():
-                        exps[agent_id].add_instance(terminal_steps[agent_id].obs, None,
-                                                    np.zeros(self.model.output_shape[1]),
-                                                    terminal_steps[agent_id].reward)
-                        terminated[agent_id] = True
+            dis_action_values = []
+            cont_action_values = []
 
-                else:
-                    for agent_id, i in decision_steps.agent_id_to_index.items():
+            if len(decision_steps) == 0:
+                for agent_id, i in terminal_steps.agent_id_to_index.items():
+                    exp = exps[agent_id]
+                    exp.add_instance(terminal_steps[agent_id].obs, None,
+                                     np.zeros(self.model.output_shape[1]),
+                                     terminal_steps[agent_id].reward)
+                    exp.rewards.pop(0)
+                    bar.update()
+                    all_rewards += sum(exp.rewards)
+                    self.memory.add_exp(exp)
+                    exps[agent_id] = Experience()
 
-                        if terminated[agent_id]:
-                            dis_action_values.append(np.array([0, 0, 0, 0]))
-                            cont_action_values.append([])
-                            continue
-                        # Get the action
-                        q_values, action_index = self.model.get_actions(decision_steps[i].obs,temperature)
+            else:
+                for agent_id, i in decision_steps.agent_id_to_index.items():
+                    # Get the action
+                    q_values, action_index = self.model.get_actions(decision_steps[i].obs, temperature)
 
+                    dis_action_values.append(action_options[action_index][0])
+                    cont_action_values.append([])
+                    exps[agent_id].add_instance(decision_steps[i].obs, action_index, q_values.copy(),
+                                                decision_steps[i].reward)
+                    bar.update()
 
-                        # action_values = action_options[action_index]
-                        dis_action_values.append(action_options[action_index][0])
-                        cont_action_values.append([])
-                        exps[agent_id].add_instance(decision_steps[i].obs, action_index, q_values.copy(),
-                                                    decision_steps[i].reward)
-                    action_tuple = ActionTuple()
-                    final_dis_action_values = np.array(dis_action_values)
-                    final_cont_action_values = np.array(cont_action_values)
-                    action_tuple.add_discrete(final_dis_action_values)
-                    action_tuple.add_continuous(final_cont_action_values)
-                    env.set_actions(behavior_name, action_tuple)
+                action_tuple = ActionTuple()
+                final_dis_action_values = np.array(dis_action_values)
+                final_cont_action_values = np.array(cont_action_values)
+                action_tuple.add_discrete(final_dis_action_values)
+                action_tuple.add_continuous(final_cont_action_values)
+                env.set_actions(behavior_name, action_tuple)
 
-                env.step()
+            env.step()
 
-                if all(terminated):
-                    break
-            for exp in exps:
-                exp.rewards.pop(0)
-                all_rewards += sum(exp.rewards)
-                self.memory.add_exp(exp)
+        for exp in exps:
+            if len(exp.actions) == 0:
+                continue
+            exp.actions[-1] = None
+            self.memory.add_exp(exp)
+            all_rewards += sum(exp.rewards)
 
         return all_rewards
 
@@ -125,7 +125,7 @@ class Trainer:
         states = []
         for state in temp_states:
             states.append([torch.tensor(obs).to(self.device) for obs in state])
-        
+
         targets = torch.tensor(targets).to(self.device)
 
         dataset = StateTargetValuesDataset(states, targets)
