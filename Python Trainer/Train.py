@@ -91,6 +91,7 @@ if __name__ == "__main__":
             writer.flush()
 
             if SAVE_MODEL:
+                torch.save(qnet,f'{folder_name}/model-epoch-{epoch}.pkl')
                 trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
 
     except KeyboardInterrupt:
