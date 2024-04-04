@@ -2,10 +2,11 @@ from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
 from Network import QNetwork
 from Trainer import Trainer
+import KeyboardListener
 
 import os
 import datetime
-from Variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES
+from Variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES,MODEL_PATH
 import argparse
 import json
 import torch
@@ -30,13 +31,19 @@ TIME_SCALE = args.time_scale
 
 engine_channel = EngineConfigurationChannel()
 
+listener = KeyboardListener.KeyboardListener()
+listener.start()
+
+
 def launch_tensor_board():
     import os
     os.system('tensorboard --logdir=runs')
     return
 
+
 def relu(x):
-	return max(0.0, x)
+    return max(0.0, x)
+
 
 if __name__ == "__main__":
     # set up the environment
@@ -65,17 +72,18 @@ if __name__ == "__main__":
     temperature = START_TEMPERATURE
     temperature_red = REDUCE_TEMPERATURE
 
+    folder_name = f'{MODEL_PATH}/{datetime.datetime.now().strftime("%y-%m-%d %H%M%S")}'
+
     results = []
     try:
         qnet = QNetwork(visual_input_shape=(1, 64, 64), nonvis_input_shape=(1,), encoding_size=126, device=device)
-        trainer = Trainer(model=qnet, buffer_size=NUM_TRAINING_EXAMPLES, device=device, num_agents=NUM_AREAS, writer=writer)
+        trainer = Trainer(model=qnet, buffer_size=NUM_TRAINING_EXAMPLES, device=device, num_agents=NUM_AREAS,
+                          writer=writer)
 
         if SAVE_MODEL:
-            folder_name = f'./models/{datetime.datetime.now().strftime("%y-%m-%d %H%M%S")}'
-            os.makedirs(folder_name)
-            print(f'---- Will save models into {folder_name}')
+            print(f'---- Will save all models to {folder_name} ----')
         else:
-            print(f'---- Not saving model as the -s flag is default to "False"')
+            print(f'---- Not saving model as the -s flag is default to "False" ----')
 
         for epoch in range(num_epochs):
             print("------Training------")
@@ -86,13 +94,17 @@ if __name__ == "__main__":
             reward /= NUM_TRAINING_EXAMPLES
             print(f"Reward earned: {reward}")
 
-            temperature = relu(temperature-temperature_red)
+            temperature = relu(temperature - temperature_red)
             writer.add_scalar("Reward/Train", reward, epoch)
             writer.flush()
 
-            if SAVE_MODEL:
-                torch.save(qnet,f'{folder_name}/model-epoch-{epoch}.pkl')
+            if SAVE_MODEL or listener.was_pressed():
+                if not os.path.isdir(folder_name):
+                    os.makedirs(folder_name)
+
+                torch.save(qnet, f'{folder_name}/model-epoch-{epoch}.pkl')
                 trainer.save_model(f'{folder_name}/model-epoch-{epoch}.onnx')
+                listener.reset()
 
     except KeyboardInterrupt:
         print("\nTraining interrupted, continue to next cell to save to save the model.")
@@ -112,4 +124,3 @@ if __name__ == "__main__":
             print(f'Saved training data in {folder_name}/training-data.json')
     except ValueError:
         print("\nPlot failed on interrupted training.")
-
