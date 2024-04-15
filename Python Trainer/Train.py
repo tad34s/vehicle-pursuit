@@ -6,7 +6,8 @@ import KeyboardListener
 
 import os
 import datetime
-from Variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES,MODEL_PATH
+from Variables import MAX_TRAINED_EPOCHS, START_TEMPERATURE, REDUCE_TEMPERATURE, NUM_TRAINING_EXAMPLES, MODEL_PATH, \
+    VISUAL_INPUT_SHAPE, NONVISUAL_INPUT_SHAPE, ENCODING_SIZE
 import argparse
 import json
 import torch
@@ -76,7 +77,8 @@ if __name__ == "__main__":
 
     results = []
     try:
-        qnet = QNetwork(visual_input_shape=(1, 64, 64), nonvis_input_shape=(1,), encoding_size=126, device=device)
+        qnet = QNetwork(visual_input_shape=VISUAL_INPUT_SHAPE, nonvis_input_shape=NONVISUAL_INPUT_SHAPE,
+                        encoding_size=ENCODING_SIZE, device=device)
         trainer = Trainer(model=qnet, buffer_size=NUM_TRAINING_EXAMPLES, device=device, num_agents=NUM_AREAS,
                           writer=writer)
 

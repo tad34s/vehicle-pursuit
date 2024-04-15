@@ -5,11 +5,11 @@ from math import floor
 from torch.nn import Parameter
 import random
 
-
 # - action shape: [left, forward, right]
 
 action_options = [np.array([[1, 0, 1, 0]]), np.array([[1, 0, 0, 0]]), np.array([[1, 0, 0, 1]])]
-mirrored_actions = [2,1,0]
+mirrored_actions = [2, 1, 0]
+
 
 class QNetwork(torch.nn.Module):
 
@@ -22,7 +22,7 @@ class QNetwork(torch.nn.Module):
         self.device = device
 
         with torch.device(self.device):
-            self.output_shape = (1,len(action_options))
+            self.output_shape = (1, len(action_options))
             self.visual_input_shape = visual_input_shape
             self.nonvis_input_shape = nonvis_input_shape
             # calculating required size of the dense layer based on the conv layers
@@ -50,15 +50,16 @@ class QNetwork(torch.nn.Module):
         output = self.dense2(hidden)
         return output
 
-    def get_actions(self, observation, temperature,  use_tensor=False):
+    def get_actions(self, observation, temperature, use_tensor=False):
         """
         Get the q values, if positive we do the action
         :param observation:
         :return q_values:
         """
-        
+
         if not use_tensor:
-            observation = (torch.from_numpy(observation[0]).to(self.device), torch.from_numpy(observation[1]).to(self.device))
+            observation = (
+                torch.from_numpy(observation[0]).to(self.device), torch.from_numpy(observation[1]).to(self.device))
             self.eval()
             with torch.no_grad():
                 q_values = self.forward(observation)
@@ -66,7 +67,7 @@ class QNetwork(torch.nn.Module):
             if temperature == 0:
                 action_index = torch.argmax(q_values, dim=1, keepdim=True)
             else:
-                probs = torch.softmax(q_values / temperature,1)
+                probs = torch.softmax(q_values / temperature, 1)
                 action_index = random.choices(range(len(action_options)), weights=probs[0])
             q_values = q_values.cpu().detach().numpy().flatten()
 
@@ -78,7 +79,7 @@ class QNetwork(torch.nn.Module):
             if temperature == 0:
                 action_index = torch.argmax(q_values, dim=1, keepdim=True)
             else:
-                probs = torch.softmax(q_values / temperature,1)
+                probs = torch.softmax(q_values / temperature, 1)
                 action_index = random.choices(range(len(action_options)), weights=probs)
 
         return q_values, action_index[0]
