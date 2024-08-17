@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.172775, g: 0.2159008, b: 0.29783508, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -477,6 +477,17 @@ MonoBehaviour:
   checkpointParent: {fileID: 1904918790}
   checkpointMarker: {fileID: 4096870464940643553, guid: 34cf1552bf198ac4c9b60a9e17836c05, type: 3}
   checkpoints: []
+  trainingReplicator: {fileID: 2018380142}
+  floorMaterialsInspector:
+  - roadColor: 0
+    material: {fileID: 2100000, guid: 39a14f8831164d0b6b9637adb0cdbddf, type: 2}
+  - roadColor: 1
+    material: {fileID: 2100000, guid: bb0b9a3e59c741b4eba89387b8008d2e, type: 2}
+  roadMaterialsInspector:
+  - roadColor: 1
+    material: {fileID: 2100000, guid: f333ec736e57f297dabd3119e0184581, type: 2}
+  - roadColor: 0
+    material: {fileID: 2100000, guid: d63a402699f7f904c8bad171fdc44dca, type: 2}
 --- !u!1 &1119503276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1033,11 @@ MonoBehaviour:
   baseArea: {fileID: 624273734}
   numAreas: 1
   margin: 20
+  roadSize: 0
+  roadColor: 0
+  cameraGrayscale: 0
+  cameraWidth: 64
+  cameraHeight: 64
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

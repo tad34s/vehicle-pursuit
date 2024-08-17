@@ -10,10 +10,29 @@ namespace Unity.MLAgents.Areas
 		public int numAreas = 1;
 		public float margin = 20;
 
+		public enum RoadColor{
+			Amazon,
+			BlackWhite
+		};
+		public enum RoadSize{
+			Wide,
+			Slim
+		};
+
+		public RoadSize roadSize;
+		public RoadColor roadColor;
+		public bool cameraGrayscale = false;
+		public int cameraWidth = 64;
+		public int cameraHeight = 64;
+
 		public void Awake()
 		{
-			if (Academy.Instance.IsCommunicatorOn)
+			if (Academy.Instance.IsCommunicatorOn){
 				numAreas = Academy.Instance.NumAreas;
+
+				// TODO: Set env variables
+				// TODO: Set camera and texture size
+			}
 		}
 
 		void OnEnable()

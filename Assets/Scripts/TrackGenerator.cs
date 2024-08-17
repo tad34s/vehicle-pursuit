@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.MLAgents.Areas;
 using UnityEngine;
 
 public class TrackGenerator : MonoBehaviour
@@ -29,6 +30,39 @@ public class TrackGenerator : MonoBehaviour
 	public GameObject checkpointParent;
 	public GameObject checkpointMarker;
 	public List<GameObject> checkpoints = new List<GameObject>();
+
+	public TrainingReplicator trainingReplicator;
+
+	[System.Serializable]
+	public struct MaterialsInspector{
+		public TrainingReplicator.RoadColor roadColor;
+		public Material material;
+	};
+	public MaterialsInspector[] floorMaterialsInspector;
+	public MaterialsInspector[] roadMaterialsInspector;
+	public Dictionary<TrainingReplicator.RoadColor, Material> floorMaterials = new Dictionary<TrainingReplicator.RoadColor, Material>();
+	public Dictionary<TrainingReplicator.RoadColor, Material> roadMaterials = new Dictionary<TrainingReplicator.RoadColor, Material>();
+
+
+	public void Start(){
+		foreach(MaterialsInspector fmi in floorMaterialsInspector){
+			floorMaterials[fmi.roadColor] = fmi.material;
+		}
+		foreach(MaterialsInspector rmi in roadMaterialsInspector){
+			roadMaterials[rmi.roadColor] = rmi.material;
+		}
+
+		foreach(TrackPiece tp in trackPieces){
+			GameObject floor = tp.prefab.transform.Find("Floor").gameObject;
+			GameObject road = tp.prefab.transform.Find("Track").gameObject;
+
+	 		MeshRenderer floorMesh = floor.GetComponent<MeshRenderer>();
+			floorMesh.material = floorMaterials[trainingReplicator.roadColor];
+
+			MeshRenderer roadMesh = road.GetComponent<MeshRenderer>();
+			roadMesh.material = roadMaterials[trainingReplicator.roadColor];
+		}
+	}
 
 	public void ResetTrack()
 	{
