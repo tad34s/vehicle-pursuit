@@ -30,21 +30,21 @@ public class TrackGenerator : MonoBehaviour
 	public GameObject checkpointMarker;
 	public List<GameObject> checkpoints = new List<GameObject>();
 
-    public void ResetTrack()
+	public void ResetTrack()
 	{
-		if(track.Count != 0 && currentTry < triesPerTrack)
+		if (track.Count != 0 && currentTry < triesPerTrack)
 		{
-			foreach(TrackPiece trackPiece in track)
+			foreach (TrackPiece trackPiece in track)
 			{
 				trackPiece.go.SetActive(false);
 			}
 
-			for(int i = 0; i < activeTracksAtOnce; i++)
+			for (int i = 0; i < activeTracksAtOnce; i++)
 			{
 				PlacePiece(i);
 			}
 
-            Debug.Log("Resetting track");
+			Debug.Log("Resetting track");
 
 			currentTry++;
 			return;
@@ -53,15 +53,15 @@ public class TrackGenerator : MonoBehaviour
 		Debug.Log("Generating new track");
 
 		RemoveCheckpoints();
-		foreach(TrackPiece trackPiece in track)
+		foreach (TrackPiece trackPiece in track)
 		{
 			Destroy(trackPiece.go);
 		}
 
 		track.Clear();
-		foreach(TrackPiece piece in trackPieces)
+		foreach (TrackPiece piece in trackPieces)
 		{
-			if(piece.angle == 0)
+			if (piece.angle == 0)
 			{
 				track.Add(piece);
 				break;
@@ -86,10 +86,10 @@ public class TrackGenerator : MonoBehaviour
 	void GenerateTrackPiece()
 	{
 		int lastIndex = track.Count - 1;
-		if(track.Count >= 2 && track[lastIndex].angle == 0 && track[lastIndex - 1].angle == 0)
-            track.Add(trackPieces[Random.Range(0, trackPieces.Length - 1) + 1]);
+		if (track.Count >= 2 && track[lastIndex].angle == 0 && track[lastIndex - 1].angle == 0)
+			track.Add(trackPieces[Random.Range(0, trackPieces.Length - 1) + 1]);
 		else
-            track.Add(trackPieces[Random.Range(0, trackPieces.Length)]);
+			track.Add(trackPieces[Random.Range(0, trackPieces.Length)]);
 
 		PlacePiece(track.Count - 1);
 	}
@@ -106,16 +106,16 @@ public class TrackGenerator : MonoBehaviour
 
 		float angle = 0;
 		Vector3 pos = transform.parent.transform.localPosition;
-		if(index != 0)
+		if (index != 0)
 		{
-            TrackPiece previousTrackPiece = track[index - 1];
-            Track previousTrack = previousTrackPiece.go.GetComponent<Track>();
-            angle = previousTrack.continueAngle;
+			TrackPiece previousTrackPiece = track[index - 1];
+			Track previousTrack = previousTrackPiece.go.GetComponent<Track>();
+			angle = previousTrack.continueAngle;
 
-            float rad = angle * Mathf.Deg2Rad;
-            Vector3 dir = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * trackPieceSize;
+			float rad = angle * Mathf.Deg2Rad;
+			Vector3 dir = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * trackPieceSize;
 
-            pos = previousTrackPiece.go.transform.position + dir;
+			pos = previousTrackPiece.go.transform.position + dir;
 		}
 
 		Quaternion rotation = Quaternion.Euler(0, angle, 0);
@@ -131,7 +131,7 @@ public class TrackGenerator : MonoBehaviour
 
 	public void UpdateTrack(int index)
 	{
-		for(int i = 0; i < index - 1; i++)
+		for (int i = 0; i < index - 1; i++)
 		{
 			track[i].go.SetActive(false);
 		}
@@ -140,10 +140,11 @@ public class TrackGenerator : MonoBehaviour
 		if (newPieceIndex < track.Count)
 			PlacePiece(newPieceIndex);
 		else
-            GenerateTrackPiece();
+			GenerateTrackPiece();
 	}
 
-	void AddCheckpoint(TrackPiece track){
+	void AddCheckpoint(TrackPiece track)
+	{
 		GameObject checkpoint = track.go.transform.Find("Marker").gameObject;
 		checkpoints.Add(checkpoint);
 	}
