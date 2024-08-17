@@ -14,12 +14,10 @@ namespace Unity.MLAgents.Areas
 			Amazon,
 			BlackWhite
 		};
-		public enum RoadSize{
-			Wide,
-			Slim
-		};
 
-		public RoadSize roadSize;
+		// Wide: 15
+		// Slim: 10
+		public int roadSize = 15;
 		public RoadColor roadColor;
 		public bool cameraGrayscale = false;
 		public int cameraWidth = 64;

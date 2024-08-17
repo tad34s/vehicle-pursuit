@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Dreamteck.Splines;
 using Unity.MLAgents.Areas;
 using UnityEngine;
 
@@ -61,6 +62,9 @@ public class TrackGenerator : MonoBehaviour
 
 			MeshRenderer roadMesh = road.GetComponent<MeshRenderer>();
 			roadMesh.material = roadMaterials[trainingReplicator.roadColor];
+
+			PathGenerator roadPath = road.GetComponent<PathGenerator>();
+			roadPath.size = trainingReplicator.roadSize;
 		}
 	}
 

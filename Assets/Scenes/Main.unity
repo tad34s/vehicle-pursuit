@@ -1033,7 +1033,7 @@ MonoBehaviour:
   baseArea: {fileID: 624273734}
   numAreas: 1
   margin: 20
-  roadSize: 0
+  roadSize: 15
   roadColor: 0
   cameraGrayscale: 0
   cameraWidth: 64
