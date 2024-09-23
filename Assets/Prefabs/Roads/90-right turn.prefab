@@ -303,14 +303,14 @@ MonoBehaviour:
     useClippedPercent: 0
     keys: []
   _clipFromSample:
-    position: {x: 0, y: 0.01, z: -10}
+    position: {x: 0, y: 0, z: -10}
     up: {x: 0, y: 1, z: 0}
     forward: {x: 0, y: 0, z: 1}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 0
   _clipToSample:
-    position: {x: 10, y: 0.01, z: 0}
+    position: {x: 10, y: 0, z: 0}
     up: {x: 0, y: 1, z: 0}
     forward: {x: 1, y: 0, z: 0}
     color: {r: 1, g: 1, b: 1, a: 1}
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 8793277499563752417}
   - component: {fileID: 4113536288783488886}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

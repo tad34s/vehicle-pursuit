@@ -1,5 +1,6 @@
 from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
+from DataChannel import DataChannel
 from Network import QNetwork
 from Trainer import Trainer
 import KeyboardListener
@@ -31,6 +32,7 @@ NO_DISPLAY = args.no_display
 TIME_SCALE = args.time_scale
 
 engine_channel = EngineConfigurationChannel()
+data_channel = DataChannel()
 
 listener = KeyboardListener.KeyboardListener()
 listener.start()
@@ -49,7 +51,17 @@ def relu(x):
 if __name__ == "__main__":
     # set up the environment
     env_location = ENV_PATH
-    env = UnityEnvironment(file_name=env_location, num_areas=NUM_AREAS, side_channels=[engine_channel])
+    env = UnityEnvironment(file_name=env_location, num_areas=NUM_AREAS, side_channels=[engine_channel, data_channel])
+
+	# Wide - 15
+    # Slim - 10
+    data_channel.set_int_parameter('roadSize', 15)
+    # 0 -> Amazon road
+    # 1 -> Black & white road
+    data_channel.set_int_parameter('roadColor', 1)
+    data_channel.set_int_parameter('cameraWidth', 64)
+    data_channel.set_int_parameter('cameraHeight', 64)
+
     engine_channel.set_configuration_parameters(time_scale=TIME_SCALE)
     env.reset()
 
