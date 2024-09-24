@@ -8,20 +8,20 @@ on:
 jobs:
  Build-unity-project:
   runs-on: ubuntu-latest
-   steps:
+  steps:
 
     - uses: actions/checkout@v4
-     with:
-      fetch-depth: 0
+      with:
+       fetch-depth: 0
 
     - name: Building unity project
-     uses: game-ci/unity-builder@v4.2.3
+      uses: game-ci/unity-builder@v4.2.3
       env:
        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-     with:
-      unityVersion: auto
-      targetPlatform: StandaloneLinux64
-      projectPath: unity_env
-      buildsPath: build
-      buildName: selfDriving
+      with:
+       unityVersion: auto
+       targetPlatform: StandaloneLinux64
+       projectPath: unity_env
+       buildsPath: build
+       buildName: selfDriving
