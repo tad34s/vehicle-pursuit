@@ -97,6 +97,7 @@ dependencies:
   - zlib=1.2.13=h5eee18b_0
   - zstd=1.5.5=hc292b87_0
   - pip:
+      - pre-commit
       - absl-py==2.0.0
       - attrs==23.1.0
       - cachetools==5.3.2

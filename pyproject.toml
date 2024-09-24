@@ -1,0 +1,8 @@
+[tool.ruff]
+line-length = 100 
+target-version = "py312"
+fix = true  # Enables auto-fix for formatting issues
+
+[tool.isort]
+profile = "black"  # Ensures compatibility with Black's formatting
+line_length = 100
