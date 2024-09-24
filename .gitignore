@@ -26,6 +26,7 @@
 # Visual Studio cache directory
 .vs/
 
+
 # Gradle cache directory
 .gradle/
 
@@ -71,9 +72,23 @@ crashlytics-build.properties
 [Aa]ssets/[Ss]treamingAssets/aa.meta
 [Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Unity files
 ml-agents-release_20
 Timers/Main_timers.json
 ML-Agents/
-Python Trainer/models
+
+# Automatically saved models
+python_trainer/models
+# Saved runs
+python_trainer/runs
+
+
+
+# Python cache
 __pycache__/
+
+# VS Code config
 .vscode/
+
+# Pycharm config
+.idea/
