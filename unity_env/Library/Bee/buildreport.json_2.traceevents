@@ -1,0 +1,891 @@
+{ "pid": 8080, "tid": 60129542144, "ph": "M", "name": "thread_name", "args": { "name": "ReadEntireBinlogFromIpcAsync" } },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736398085, "dur": 63064, "ph": "X", "name": "WaitForConnectionAsync", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736461150, "dur": 23930, "ph": "X", "name": "UpdateFromStreamAsync", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736461167, "dur": 139, "ph": "X", "name": "ReadAsync 0", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736461319, "dur": 2962, "ph": "X", "name": "ReadAsync 4", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736464303, "dur": 15, "ph": "X", "name": "ProcessMessages 59", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736464320, "dur": 2359, "ph": "X", "name": "ReadAsync 59", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736466704, "dur": 7, "ph": "X", "name": "ProcessMessages 5190", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736466713, "dur": 408, "ph": "X", "name": "ReadAsync 5190", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467145, "dur": 5, "ph": "X", "name": "ProcessMessages 4812", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467151, "dur": 202, "ph": "X", "name": "ReadAsync 4812", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467364, "dur": 3, "ph": "X", "name": "ProcessMessages 3127", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467369, "dur": 171, "ph": "X", "name": "ReadAsync 3127", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467544, "dur": 2, "ph": "X", "name": "ProcessMessages 2527", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467547, "dur": 175, "ph": "X", "name": "ReadAsync 2527", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467731, "dur": 1, "ph": "X", "name": "ProcessMessages 2440", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467734, "dur": 160, "ph": "X", "name": "ReadAsync 2440", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467905, "dur": 1, "ph": "X", "name": "ProcessMessages 2331", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736467907, "dur": 113, "ph": "X", "name": "ReadAsync 2331", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468025, "dur": 2, "ph": "X", "name": "ProcessMessages 1601", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468028, "dur": 127, "ph": "X", "name": "ReadAsync 1601", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468165, "dur": 1, "ph": "X", "name": "ProcessMessages 1837", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468178, "dur": 233, "ph": "X", "name": "ReadAsync 1837", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468421, "dur": 3, "ph": "X", "name": "ProcessMessages 2915", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468425, "dur": 200, "ph": "X", "name": "ReadAsync 2915", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468630, "dur": 2, "ph": "X", "name": "ProcessMessages 2936", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468633, "dur": 208, "ph": "X", "name": "ReadAsync 2936", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468855, "dur": 2, "ph": "X", "name": "ProcessMessages 2728", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736468860, "dur": 159, "ph": "X", "name": "ReadAsync 2728", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469022, "dur": 2, "ph": "X", "name": "ProcessMessages 2226", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469026, "dur": 180, "ph": "X", "name": "ReadAsync 2226", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469210, "dur": 2, "ph": "X", "name": "ProcessMessages 1919", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469213, "dur": 134, "ph": "X", "name": "ReadAsync 1919", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469351, "dur": 1, "ph": "X", "name": "ProcessMessages 1945", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469353, "dur": 114, "ph": "X", "name": "ReadAsync 1945", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469475, "dur": 1, "ph": "X", "name": "ProcessMessages 1407", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469477, "dur": 116, "ph": "X", "name": "ReadAsync 1407", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469596, "dur": 1, "ph": "X", "name": "ProcessMessages 1449", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469598, "dur": 112, "ph": "X", "name": "ReadAsync 1449", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469715, "dur": 1, "ph": "X", "name": "ProcessMessages 1413", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469718, "dur": 100, "ph": "X", "name": "ReadAsync 1413", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469830, "dur": 1, "ph": "X", "name": "ProcessMessages 1374", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469832, "dur": 99, "ph": "X", "name": "ReadAsync 1374", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469934, "dur": 1, "ph": "X", "name": "ProcessMessages 1361", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736469937, "dur": 94, "ph": "X", "name": "ReadAsync 1361", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470038, "dur": 1, "ph": "X", "name": "ProcessMessages 1156", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470040, "dur": 271, "ph": "X", "name": "ReadAsync 1156", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470316, "dur": 3, "ph": "X", "name": "ProcessMessages 2821", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470320, "dur": 364, "ph": "X", "name": "ReadAsync 2821", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470689, "dur": 5, "ph": "X", "name": "ProcessMessages 4142", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470696, "dur": 166, "ph": "X", "name": "ReadAsync 4142", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470869, "dur": 3, "ph": "X", "name": "ProcessMessages 2407", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736470872, "dur": 335, "ph": "X", "name": "ReadAsync 2407", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736471211, "dur": 2, "ph": "X", "name": "ProcessMessages 4393", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736471214, "dur": 125, "ph": "X", "name": "ReadAsync 4393", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736471346, "dur": 2, "ph": "X", "name": "ProcessMessages 1270", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736471350, "dur": 1030, "ph": "X", "name": "ReadAsync 1270", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472386, "dur": 3, "ph": "X", "name": "ProcessMessages 176", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472391, "dur": 98, "ph": "X", "name": "ReadAsync 176", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472492, "dur": 2, "ph": "X", "name": "ProcessMessages 304", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472496, "dur": 91, "ph": "X", "name": "ReadAsync 304", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472591, "dur": 2, "ph": "X", "name": "ProcessMessages 272", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472595, "dur": 58, "ph": "X", "name": "ReadAsync 272", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472655, "dur": 1, "ph": "X", "name": "ProcessMessages 160", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472658, "dur": 62, "ph": "X", "name": "ReadAsync 160", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472722, "dur": 1, "ph": "X", "name": "ProcessMessages 160", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472724, "dur": 50, "ph": "X", "name": "ReadAsync 160", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472777, "dur": 1, "ph": "X", "name": "ProcessMessages 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472779, "dur": 44, "ph": "X", "name": "ReadAsync 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472825, "dur": 1, "ph": "X", "name": "ProcessMessages 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472827, "dur": 70, "ph": "X", "name": "ReadAsync 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472903, "dur": 2, "ph": "X", "name": "ProcessMessages 176", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472907, "dur": 66, "ph": "X", "name": "ReadAsync 176", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472976, "dur": 1, "ph": "X", "name": "ProcessMessages 224", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736472979, "dur": 48, "ph": "X", "name": "ReadAsync 224", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473029, "dur": 1, "ph": "X", "name": "ProcessMessages 128", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473031, "dur": 45, "ph": "X", "name": "ReadAsync 128", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473079, "dur": 1, "ph": "X", "name": "ProcessMessages 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473081, "dur": 61, "ph": "X", "name": "ReadAsync 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473154, "dur": 1, "ph": "X", "name": "ProcessMessages 128", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473158, "dur": 90, "ph": "X", "name": "ReadAsync 128", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473250, "dur": 1, "ph": "X", "name": "ProcessMessages 172", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473253, "dur": 66, "ph": "X", "name": "ReadAsync 172", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473322, "dur": 1, "ph": "X", "name": "ProcessMessages 132", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473324, "dur": 48, "ph": "X", "name": "ReadAsync 132", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473375, "dur": 2, "ph": "X", "name": "ProcessMessages 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473379, "dur": 44, "ph": "X", "name": "ReadAsync 112", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736473435, "dur": 8334, "ph": "X", "name": "ReadAsync 68", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736481780, "dur": 30, "ph": "X", "name": "ProcessMessages 62", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736481812, "dur": 138, "ph": "X", "name": "ReadAsync 62", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736481955, "dur": 1, "ph": "X", "name": "ProcessMessages 25", "args": {} },
+{ "pid": 8080, "tid": 60129542144, "ts": 1715599736481957, "dur": 3118, "ph": "X", "name": "ReadAsync 25", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736485657, "dur": 198, "ph": "X", "name": "ReadEntireBinlogFromIpcAsync", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ph": "M", "name": "thread_name", "args": { "name": "ReadEntireBinlogFromIpcAsync" } },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732921242, "dur": 51278, "ph": "X", "name": "WaitForConnectionAsync", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732972523, "dur": 2983247, "ph": "X", "name": "UpdateFromStreamAsync", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732972540, "dur": 188, "ph": "X", "name": "ReadAsync 0", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732972746, "dur": 1, "ph": "X", "name": "ProcessMessages 4", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732972750, "dur": 2807, "ph": "X", "name": "ReadAsync 4", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732975579, "dur": 20, "ph": "X", "name": "ProcessMessages 59", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732975601, "dur": 2241, "ph": "X", "name": "ReadAsync 59", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732977858, "dur": 5, "ph": "X", "name": "ProcessMessages 4648", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732977865, "dur": 157, "ph": "X", "name": "ReadAsync 4648", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978036, "dur": 1, "ph": "X", "name": "ProcessMessages 1106", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978039, "dur": 339, "ph": "X", "name": "ReadAsync 1106", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978392, "dur": 5, "ph": "X", "name": "ProcessMessages 4710", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978399, "dur": 125, "ph": "X", "name": "ReadAsync 4710", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978530, "dur": 1, "ph": "X", "name": "ProcessMessages 1588", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978532, "dur": 188, "ph": "X", "name": "ReadAsync 1588", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978727, "dur": 3, "ph": "X", "name": "ProcessMessages 2696", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732978731, "dur": 422, "ph": "X", "name": "ReadAsync 2696", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979186, "dur": 7, "ph": "X", "name": "ProcessMessages 5837", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979195, "dur": 305, "ph": "X", "name": "ReadAsync 5837", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979503, "dur": 3, "ph": "X", "name": "ProcessMessages 4470", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979507, "dur": 126, "ph": "X", "name": "ReadAsync 4470", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979636, "dur": 1, "ph": "X", "name": "ProcessMessages 1725", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979639, "dur": 150, "ph": "X", "name": "ReadAsync 1725", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979792, "dur": 1, "ph": "X", "name": "ProcessMessages 2180", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979795, "dur": 141, "ph": "X", "name": "ReadAsync 2180", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979942, "dur": 2, "ph": "X", "name": "ProcessMessages 1779", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732979945, "dur": 116, "ph": "X", "name": "ReadAsync 1779", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980064, "dur": 1, "ph": "X", "name": "ProcessMessages 1704", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980067, "dur": 141, "ph": "X", "name": "ReadAsync 1704", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980212, "dur": 1, "ph": "X", "name": "ProcessMessages 1540", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980214, "dur": 109, "ph": "X", "name": "ReadAsync 1540", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980327, "dur": 1, "ph": "X", "name": "ProcessMessages 1309", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980329, "dur": 121, "ph": "X", "name": "ReadAsync 1309", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980453, "dur": 1, "ph": "X", "name": "ProcessMessages 1654", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980455, "dur": 83, "ph": "X", "name": "ReadAsync 1654", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980541, "dur": 1, "ph": "X", "name": "ProcessMessages 1211", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980553, "dur": 64, "ph": "X", "name": "ReadAsync 1211", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980623, "dur": 1, "ph": "X", "name": "ProcessMessages 850", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980625, "dur": 160, "ph": "X", "name": "ReadAsync 850", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980790, "dur": 2, "ph": "X", "name": "ProcessMessages 1885", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980794, "dur": 131, "ph": "X", "name": "ReadAsync 1885", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980928, "dur": 1, "ph": "X", "name": "ProcessMessages 1902", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980930, "dur": 59, "ph": "X", "name": "ReadAsync 1902", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732980992, "dur": 52, "ph": "X", "name": "ReadAsync 814", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981053, "dur": 1, "ph": "X", "name": "ProcessMessages 700", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981055, "dur": 88, "ph": "X", "name": "ReadAsync 700", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981146, "dur": 1, "ph": "X", "name": "ProcessMessages 1165", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981147, "dur": 122, "ph": "X", "name": "ReadAsync 1165", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981274, "dur": 2, "ph": "X", "name": "ProcessMessages 876", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981277, "dur": 107, "ph": "X", "name": "ReadAsync 876", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981386, "dur": 1, "ph": "X", "name": "ProcessMessages 1649", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981388, "dur": 72, "ph": "X", "name": "ReadAsync 1649", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981466, "dur": 1, "ph": "X", "name": "ProcessMessages 934", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981467, "dur": 87, "ph": "X", "name": "ReadAsync 934", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981558, "dur": 1, "ph": "X", "name": "ProcessMessages 1068", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981560, "dur": 70, "ph": "X", "name": "ReadAsync 1068", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981633, "dur": 1, "ph": "X", "name": "ProcessMessages 770", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981635, "dur": 51, "ph": "X", "name": "ReadAsync 770", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981689, "dur": 1, "ph": "X", "name": "ProcessMessages 533", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981692, "dur": 85, "ph": "X", "name": "ReadAsync 533", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981780, "dur": 1, "ph": "X", "name": "ProcessMessages 789", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981782, "dur": 78, "ph": "X", "name": "ReadAsync 789", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981862, "dur": 1, "ph": "X", "name": "ProcessMessages 1161", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981864, "dur": 58, "ph": "X", "name": "ReadAsync 1161", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981925, "dur": 71, "ph": "X", "name": "ReadAsync 834", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732981999, "dur": 1, "ph": "X", "name": "ProcessMessages 1126", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982000, "dur": 50, "ph": "X", "name": "ReadAsync 1126", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982053, "dur": 52, "ph": "X", "name": "ReadAsync 804", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982113, "dur": 67, "ph": "X", "name": "ReadAsync 634", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982182, "dur": 1, "ph": "X", "name": "ProcessMessages 998", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982184, "dur": 61, "ph": "X", "name": "ReadAsync 998", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982248, "dur": 1, "ph": "X", "name": "ProcessMessages 427", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982250, "dur": 90, "ph": "X", "name": "ReadAsync 427", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982343, "dur": 1, "ph": "X", "name": "ProcessMessages 1151", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982346, "dur": 69, "ph": "X", "name": "ReadAsync 1151", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982417, "dur": 51, "ph": "X", "name": "ReadAsync 1139", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982471, "dur": 61, "ph": "X", "name": "ReadAsync 721", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982535, "dur": 5, "ph": "X", "name": "ProcessMessages 586", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982541, "dur": 44, "ph": "X", "name": "ReadAsync 586", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732982590, "dur": 1052, "ph": "X", "name": "ReadAsync 54", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732983647, "dur": 4, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732983653, "dur": 118, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732983774, "dur": 478, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984258, "dur": 161, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984423, "dur": 40, "ph": "X", "name": "ProcessMessages 436", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984465, "dur": 101, "ph": "X", "name": "ReadAsync 436", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984570, "dur": 21, "ph": "X", "name": "ProcessMessages 258", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984593, "dur": 82, "ph": "X", "name": "ReadAsync 258", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984688, "dur": 22, "ph": "X", "name": "ProcessMessages 92", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984712, "dur": 101, "ph": "X", "name": "ReadAsync 92", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984817, "dur": 12, "ph": "X", "name": "ProcessMessages 86", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984830, "dur": 59, "ph": "X", "name": "ReadAsync 86", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984893, "dur": 4, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732984898, "dur": 134, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985037, "dur": 5, "ph": "X", "name": "ProcessMessages 111", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985043, "dur": 95, "ph": "X", "name": "ReadAsync 111", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985143, "dur": 88, "ph": "X", "name": "ProcessMessages 179", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985233, "dur": 97, "ph": "X", "name": "ReadAsync 179", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985339, "dur": 16, "ph": "X", "name": "ProcessMessages 258", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985356, "dur": 61, "ph": "X", "name": "ReadAsync 258", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985419, "dur": 8, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985429, "dur": 83, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985514, "dur": 6, "ph": "X", "name": "ProcessMessages 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985522, "dur": 112, "ph": "X", "name": "ReadAsync 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985643, "dur": 19, "ph": "X", "name": "ProcessMessages 177", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985663, "dur": 79, "ph": "X", "name": "ReadAsync 177", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985752, "dur": 8, "ph": "X", "name": "ProcessMessages 187", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985761, "dur": 118, "ph": "X", "name": "ReadAsync 187", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985882, "dur": 15, "ph": "X", "name": "ProcessMessages 198", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985902, "dur": 92, "ph": "X", "name": "ReadAsync 198", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732985999, "dur": 13, "ph": "X", "name": "ProcessMessages 138", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986013, "dur": 55, "ph": "X", "name": "ReadAsync 138", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986070, "dur": 3, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986075, "dur": 70, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986148, "dur": 18, "ph": "X", "name": "ProcessMessages 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986178, "dur": 70, "ph": "X", "name": "ReadAsync 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986250, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986252, "dur": 74, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986330, "dur": 146, "ph": "X", "name": "ReadAsync 60", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986480, "dur": 18, "ph": "X", "name": "ProcessMessages 224", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732986499, "dur": 3427, "ph": "X", "name": "ReadAsync 224", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732989940, "dur": 138, "ph": "X", "name": "ProcessMessages 1900", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732990080, "dur": 3507, "ph": "X", "name": "ReadAsync 1900", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732993603, "dur": 71, "ph": "X", "name": "ProcessMessages 846", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732993676, "dur": 167, "ph": "X", "name": "ReadAsync 846", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599732993849, "dur": 8762, "ph": "X", "name": "ProcessMessages 16010", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733002623, "dur": 295, "ph": "X", "name": "ReadAsync 16010", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733002923, "dur": 70, "ph": "X", "name": "ProcessMessages 614", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733002995, "dur": 106, "ph": "X", "name": "ReadAsync 614", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003105, "dur": 12, "ph": "X", "name": "ProcessMessages 112", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003118, "dur": 87, "ph": "X", "name": "ReadAsync 112", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003209, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003212, "dur": 147, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003363, "dur": 23, "ph": "X", "name": "ProcessMessages 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003387, "dur": 251, "ph": "X", "name": "ReadAsync 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003642, "dur": 8, "ph": "X", "name": "ProcessMessages 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003657, "dur": 205, "ph": "X", "name": "ReadAsync 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003868, "dur": 55, "ph": "X", "name": "ReadAsync 41", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003926, "dur": 6, "ph": "X", "name": "ProcessMessages 25", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733003933, "dur": 147, "ph": "X", "name": "ReadAsync 25", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733004088, "dur": 9, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733004099, "dur": 611, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733004717, "dur": 14, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733004732, "dur": 432, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005186, "dur": 45, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005232, "dur": 55, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005289, "dur": 3, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005294, "dur": 95, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005393, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005395, "dur": 141, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005539, "dur": 10, "ph": "X", "name": "ProcessMessages 86", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005551, "dur": 146, "ph": "X", "name": "ReadAsync 86", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005702, "dur": 6, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005710, "dur": 209, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005923, "dur": 5, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733005930, "dur": 148, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006081, "dur": 11, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006093, "dur": 304, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006400, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006403, "dur": 125, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006532, "dur": 8, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006551, "dur": 89, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006645, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006648, "dur": 171, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006824, "dur": 86, "ph": "X", "name": "ReadAsync 12", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006915, "dur": 6, "ph": "X", "name": "ProcessMessages 34", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733006923, "dur": 168, "ph": "X", "name": "ReadAsync 34", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733007093, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733007095, "dur": 712, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733007817, "dur": 19, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733007837, "dur": 545, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008388, "dur": 18, "ph": "X", "name": "ProcessMessages 112", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008407, "dur": 84, "ph": "X", "name": "ReadAsync 112", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008583, "dur": 4, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008588, "dur": 102, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008693, "dur": 7, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008701, "dur": 77, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008783, "dur": 5, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733008790, "dur": 227, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733009023, "dur": 173, "ph": "X", "name": "ReadAsync 12", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733009204, "dur": 5, "ph": "X", "name": "ProcessMessages 34", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733009211, "dur": 2828, "ph": "X", "name": "ReadAsync 34", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733012050, "dur": 74, "ph": "X", "name": "ProcessMessages 680", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733012126, "dur": 99, "ph": "X", "name": "ReadAsync 680", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733012229, "dur": 4, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733012234, "dur": 3211, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733015459, "dur": 110, "ph": "X", "name": "ProcessMessages 950", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733015572, "dur": 318, "ph": "X", "name": "ReadAsync 950", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733015894, "dur": 15, "ph": "X", "name": "ProcessMessages 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733015952, "dur": 78, "ph": "X", "name": "ReadAsync 132", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733016036, "dur": 144, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733016184, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733016187, "dur": 596, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733016791, "dur": 15, "ph": "X", "name": "ProcessMessages 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733016808, "dur": 1579, "ph": "X", "name": "ReadAsync 66", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733018400, "dur": 37, "ph": "X", "name": "ProcessMessages 184", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733018439, "dur": 159, "ph": "X", "name": "ReadAsync 184", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733018602, "dur": 15, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733018618, "dur": 721, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733019348, "dur": 14, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733019364, "dur": 3800, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733023183, "dur": 34, "ph": "X", "name": "ProcessMessages 138", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733023219, "dur": 46947, "ph": "X", "name": "ReadAsync 138", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733070233, "dur": 112, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733070348, "dur": 47249, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733117643, "dur": 18, "ph": "X", "name": "ProcessMessages 510", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733117663, "dur": 938, "ph": "X", "name": "ReadAsync 510", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733118605, "dur": 1, "ph": "X", "name": "ProcessMessages 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733118609, "dur": 257, "ph": "X", "name": "ReadAsync 20", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733118894, "dur": 16, "ph": "X", "name": "ProcessMessages 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599733118912, "dur": 2822219, "ph": "X", "name": "ReadAsync 46", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599735941143, "dur": 11, "ph": "X", "name": "ProcessMessages 80", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599735941156, "dur": 883, "ph": "X", "name": "ReadAsync 80", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599735942058, "dur": 3, "ph": "X", "name": "ProcessMessages 25", "args": {} },
+{ "pid": 8080, "tid": 55834574848, "ts": 1715599735942063, "dur": 13498, "ph": "X", "name": "ReadAsync 25", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736485857, "dur": 398, "ph": "X", "name": "ReadEntireBinlogFromIpcAsync", "args": {} },
+{ "pid": 8080, "tid": 51539607552, "ph": "M", "name": "thread_name", "args": { "name": "ReadEntireBinlogFromIpcAsync" } },
+{ "pid": 8080, "tid": 51539607552, "ts": 1715599732446725, "dur": 50816, "ph": "X", "name": "WaitForConnectionAsync", "args": {} },
+{ "pid": 8080, "tid": 51539607552, "ts": 1715599732497543, "dur": 468, "ph": "X", "name": "UpdateFromStreamAsync", "args": {} },
+{ "pid": 8080, "tid": 51539607552, "ts": 1715599732497562, "dur": 195, "ph": "X", "name": "ReadAsync 0", "args": {} },
+{ "pid": 8080, "tid": 51539607552, "ts": 1715599732497772, "dur": 2, "ph": "X", "name": "ProcessMessages 29", "args": {} },
+{ "pid": 8080, "tid": 51539607552, "ts": 1715599732497776, "dur": 229, "ph": "X", "name": "ReadAsync 29", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736486257, "dur": 10, "ph": "X", "name": "ReadEntireBinlogFromIpcAsync", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ph": "M", "name": "thread_name", "args": { "name": "BuildAsync" } },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599732411923, "dur": 86654, "ph": "X", "name": "RunBackend", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599732412113, "dur": 34125, "ph": "X", "name": "BackendProgram.Start", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599732498584, "dur": 387921, "ph": "X", "name": "await ExecuteBuildProgram", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599732886529, "dur": 3069520, "ph": "X", "name": "RunBackend", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599732886786, "dur": 34078, "ph": "X", "name": "BackendProgram.Start", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599735956063, "dur": 405687, "ph": "X", "name": "await ExecuteBuildProgram", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599736361775, "dur": 123540, "ph": "X", "name": "RunBackend", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599736362068, "dur": 35552, "ph": "X", "name": "BackendProgram.Start", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599736485320, "dur": 15, "ph": "X", "name": "await WaitForAndApplyScriptUpdaters", "args": {} },
+{ "pid": 8080, "tid": 47244640256, "ts": 1715599736485337, "dur": 1, "ph": "X", "name": "await taskToReadBuildProgramOutput", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736486270, "dur": 28, "ph": "X", "name": "BuildAsync", "args": {} },
+{ "pid": 8080, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 8080, "tid": 1, "ts": 1715599732358052, "dur": 2278, "ph": "X", "name": "<Add>b__0", "args": {} },
+{ "pid": 8080, "tid": 1, "ts": 1715599732360344, "dur": 50314, "ph": "X", "name": "<SetupBuildRequest>b__0", "args": {} },
+{ "pid": 8080, "tid": 1, "ts": 1715599732410660, "dur": 1233, "ph": "X", "name": "WriteJson", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736486300, "dur": 8, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "netcorerun.dll" } },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-1" } },
+{ "pid": 35942, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 35942, "tid": 1, "ts": 1715599736117426, "dur": 128042, "ph": "X", "name": "BuildProgram", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736118489, "dur": 43490, "ph": "X", "name": "BuildProgramContextConstructor", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736168791, "dur": 47367, "ph": "X", "name": "RunBuildProgram", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736169107, "dur": 41443, "ph": "X", "name": "PlayerBuildProgramBase.SetupPlayerBuild", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736169753, "dur": 29359, "ph": "X", "name": "SetupDataFiles", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736199598, "dur": 1214, "ph": "X", "name": "SetupCopyPlugins", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736203000, "dur": 5896, "ph": "X", "name": "SetupUnityLinker", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736224606, "dur": 1036, "ph": "X", "name": "OutputData.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736225645, "dur": 19814, "ph": "X", "name": "Backend.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736226929, "dur": 17530, "ph": "X", "name": "JsonToString", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736252261, "dur": 1559, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599736251616, "dur": 2522, "ph": "X", "name": "Write chrome-trace events", "args": {} },
+{ "cat":"", "pid":12345, "tid":0, "ts":0, "ph":"M", "name":"process_name", "args": { "name":"bee_backend" } }
+,{ "pid":12345, "tid":0, "ts":1715599732973091, "dur":70, "ph":"X", "name": "IPC_Client_InitializeAndConnectToParent",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599732973194, "dur":4503, "ph":"X", "name": "DriverInitData",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599732977709, "dur":64, "ph":"X", "name": "RemoveStaleOutputs",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599732977798, "dur":418, "ph":"X", "name": "BuildQueueInit",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599732981977, "dur":59, "ph":"X", "name": "EmitFirstTimeEnqueue",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":0, "ts":1715599732978240, "dur":5134, "ph":"X", "name": "EnqueueRequestedNodes",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599732983379, "dur":2959049, "ph":"X", "name": "WaitForBuildFinished", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599735942436, "dur":50, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599735942490, "dur":70, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599735942671, "dur":1306, "ph":"X", "name": "Tundra",  "args": { "detail":"Write AllBuiltNodes" }}
+,{ "pid":12345, "tid":1, "ts":1715599732977898, "dur":5490, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1715599732983390, "dur":828, "ph":"X", "name": "CheckDagSignatures",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1715599732984559, "dur":82, "ph":"X", "name": "WriteText",  "args": { "detail":"Library/Bee/artifacts/csharpactions/boot.config_16d3.info" }}
+,{ "pid":12345, "tid":1, "ts":1715599732984706, "dur":271, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Sentis.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732984978, "dur":265, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732985243, "dur":128, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732985399, "dur":189, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732985589, "dur":59, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732985648, "dur":89, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.ML-Agents.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732985793, "dur":320, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732986114, "dur":105, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Dreamteck.Splines.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732986219, "dur":173, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732986449, "dur":115, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/ML Agents packages/com.unity.ml-agents/Plugins/ProtoBuffer/System.Interactive.Async.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732986565, "dur":361, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/PackageCache/com.unity.sentis@1.2.0-exp.2/Runtime/Plugins/Google.Protobuf_Packed.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732986999, "dur":199, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/ML Agents packages/com.unity.ml-agents/Plugins/ProtoBuffer/Grpc.Core.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732987297, "dur":109, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/Mono.Security.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732987406, "dur":89, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732987541, "dur":340, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Core.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732987901, "dur":865, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Data.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732988767, "dur":198, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Drawing.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989033, "dur":55, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989089, "dur":121, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989211, "dur":66, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Numerics.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989277, "dur":383, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989661, "dur":147, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Security.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989809, "dur":104, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732989940, "dur":75, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732990015, "dur":1284, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Xml.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732991300, "dur":1089, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732992389, "dur":1802, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/mscorlib.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732994249, "dur":71, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Bee.CSharpSupport.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732994320, "dur":76, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Bee.Core.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732994447, "dur":92, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Bee.NativeProgramSupport.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732994539, "dur":57, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Bee.Stevedore.Program.exe" }}
+,{ "pid":12345, "tid":1, "ts":1715599732994670, "dur":64, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Bee.Toolchain.VisualStudio.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732994923, "dur":301, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Newtonsoft.Json.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732995425, "dur":99, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/SharpYaml.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732995642, "dur":139, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/Tools/BuildPipeline/Unity.Cecil.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599732984643, "dur":11256, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"AddBootConfigGUID Library/Bee/artifacts/LinuxPlayerBuildProgram/boot.config" }}
+,{ "pid":12345, "tid":1, "ts":1715599732996233, "dur":122003, "ph":"X", "name": "AddBootConfigGUID",  "args": { "detail":"Library/Bee/artifacts/LinuxPlayerBuildProgram/boot.config" }}
+,{ "pid":12345, "tid":1, "ts":1715599733119283, "dur":256, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/boot.config" }}
+,{ "pid":12345, "tid":1, "ts":1715599733119542, "dur":2822888, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599732977916, "dur":5481, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599732983400, "dur":415, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599732983815, "dur":415, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599732986294, "dur":181, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TerrainPhysicsModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599732986505, "dur":160, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599732986693, "dur":584, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AnimationModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599732987300, "dur":21890, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/resources.assets" }}
+,{ "pid":12345, "tid":2, "ts":1715599733009234, "dur":998, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599733010269, "dur":1630, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Drawing.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599733011923, "dur":222, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599733012165, "dur":293, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599733012511, "dur":1752, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Burst.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599733015977, "dur":55, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599733014314, "dur":1730, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599733023713, "dur":82, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599733016085, "dur":7723, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Interactive.Async.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599733023817, "dur":2918601, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732977951, "dur":5466, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732983420, "dur":392, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732983813, "dur":416, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732985119, "dur":53, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732984815, "dur":386, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732985267, "dur":152, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732985427, "dur":168, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732985848, "dur":52, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732985607, "dur":303, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.StreamingModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732985982, "dur":224, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732986248, "dur":98, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599732986348, "dur":234, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732986609, "dur":242, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732986921, "dur":4108, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599732991197, "dur":102, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":3, "ts":1715599732991387, "dur":23023, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Plugins/libgrpc_csharp_ext.x64.so" }}
+,{ "pid":12345, "tid":3, "ts":1715599733014448, "dur":1204, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Mono.Security.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599733015680, "dur":54, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599733015742, "dur":1673, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.ML-Agents.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599733017453, "dur":1383, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Grpc.Core.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599733018847, "dur":2923566, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732977975, "dur":5463, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732983441, "dur":462, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732983904, "dur":330, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732985247, "dur":132, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732985382, "dur":316, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732985708, "dur":146, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732985872, "dur":150, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.VRModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732986029, "dur":106, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732986150, "dur":186, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732986358, "dur":62, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732986764, "dur":152, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732986423, "dur":512, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UmbraModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732987090, "dur":147, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732987279, "dur":1037, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/resources.assets.resS" }}
+,{ "pid":12345, "tid":4, "ts":1715599732988340, "dur":576, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732988919, "dur":112, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/RuntimeInitializeOnLoads.json" }}
+,{ "pid":12345, "tid":4, "ts":1715599732989061, "dur":128, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732989218, "dur":135, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732989927, "dur":64, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732989394, "dur":620, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732990167, "dur":92, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732990041, "dur":226, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732990438, "dur":75, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599732990310, "dur":674, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599732990993, "dur":59, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_player_nondevelopment_mono/Data/MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":4, "ts":1715599732990991, "dur":61, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":4, "ts":1715599732991149, "dur":169, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":4, "ts":1715599732991344, "dur":41508, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/UnityPlayer.so" }}
+,{ "pid":12345, "tid":4, "ts":1715599733032867, "dur":2909573, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732978015, "dur":5441, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732983458, "dur":397, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732983855, "dur":378, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732984876, "dur":388, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599732985294, "dur":153, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ProfilerModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599732985454, "dur":273, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732985742, "dur":193, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.VideoModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599732986379, "dur":364, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732985976, "dur":775, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.Physics2DModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599732986759, "dur":136, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599732987059, "dur":163, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599732987269, "dur":135, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599732987421, "dur":432, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/level0.resS" }}
+,{ "pid":12345, "tid":5, "ts":1715599732987879, "dur":8001, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/globalgamemanagers.assets.resS" }}
+,{ "pid":12345, "tid":5, "ts":1715599732995917, "dur":7966, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599733003958, "dur":175, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/settings.map" }}
+,{ "pid":12345, "tid":5, "ts":1715599733004186, "dur":212, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1715599733004543, "dur":129, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599733004431, "dur":251, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Runtime.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599733004713, "dur":10897, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving.x86_64" }}
+,{ "pid":12345, "tid":5, "ts":1715599733015661, "dur":463, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.ML-Agents.CommunicatorObjects.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599733016154, "dur":7591, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.IO.Abstractions.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599733023759, "dur":2918674, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732978048, "dur":5418, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732983468, "dur":421, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732983889, "dur":350, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732985040, "dur":179, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732985270, "dur":504, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.PropertiesModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732985783, "dur":75, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732985875, "dur":251, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.VFXModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732986284, "dur":82, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732986175, "dur":213, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732986398, "dur":74, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732986486, "dur":163, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732986656, "dur":119, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732986791, "dur":1600, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732988904, "dur":1048, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732988423, "dur":1538, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599732989971, "dur":428, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732990408, "dur":127, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732990537, "dur":847, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733005301, "dur":95, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599732991418, "dur":14001, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733005794, "dur":51, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599733005590, "dur":265, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":6, "ts":1715599733005946, "dur":127, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":6, "ts":1715599733006139, "dur":149, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":6, "ts":1715599733006328, "dur":98, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/settings.map" }}
+,{ "pid":12345, "tid":6, "ts":1715599733008813, "dur":117, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599733006459, "dur":2494, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Mathematics.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733009026, "dur":316, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Dreamteck.Utilities.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733009375, "dur":174, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.IO.Compression.FileSystem.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733009579, "dur":2489, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Sentis.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733012096, "dur":3212, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":6, "ts":1715599733015510, "dur":725, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Dreamteck.Splines.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733016268, "dur":304, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733016607, "dur":7146, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.IO.Abstractions.TestingHelpers.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599733023762, "dur":2918662, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732978079, "dur":5399, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732983482, "dur":534, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732984016, "dur":225, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732984815, "dur":162, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732985026, "dur":120, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/app.info" }}
+,{ "pid":12345, "tid":7, "ts":1715599732985184, "dur":129, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ScreenCaptureModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732985321, "dur":63, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732985422, "dur":124, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732985615, "dur":351, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.VehiclesModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732986031, "dur":143, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732986182, "dur":56, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732986265, "dur":141, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityConnectModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732989378, "dur":57, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732986535, "dur":2922, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":7, "ts":1715599732989493, "dur":408, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ClothModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732989939, "dur":142, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732990089, "dur":358, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732990455, "dur":230, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599732990686, "dur":8903, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.CoreModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599732999706, "dur":20296, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/x86_64/libmono-native.so" }}
+,{ "pid":12345, "tid":7, "ts":1715599733020031, "dur":2922428, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599732978106, "dur":5383, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599732983492, "dur":426, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599732983918, "dur":357, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599732986553, "dur":411, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599732988093, "dur":142, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityTestProtocolModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599732988266, "dur":106, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":8, "ts":1715599732990327, "dur":141, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599732988391, "dur":2583, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":8, "ts":1715599732991038, "dur":182, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599732991269, "dur":100, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/config" }}
+,{ "pid":12345, "tid":8, "ts":1715599732991376, "dur":1968, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/mscorlib.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599732991375, "dur":1971, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599733009710, "dur":247, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599732993380, "dur":16597, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599733010068, "dur":2139, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.ML-Agents.Extensions.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599733012217, "dur":448, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599733012687, "dur":3314, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599733016027, "dur":835, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599733016879, "dur":2390, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Google.Protobuf_Packed.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599733019277, "dur":2923230, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732978136, "dur":5366, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732983504, "dur":517, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732984022, "dur":200, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732984500, "dur":100, "ph":"X", "name": "WriteText",  "args": { "detail":"Library/Bee/artifacts/LinuxPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":9, "ts":1715599732984893, "dur":176, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":9, "ts":1715599732985131, "dur":161, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SharedInternalsModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599732985301, "dur":137, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732985452, "dur":415, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599732985891, "dur":170, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732986063, "dur":393, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599732986707, "dur":61, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732986498, "dur":276, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599732986802, "dur":364, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AIModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599732999657, "dur":180, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599732987199, "dur":12653, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":9, "ts":1715599732999901, "dur":1094, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733001071, "dur":10024, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733011133, "dur":497, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Sentis.ONNX.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733011661, "dur":165, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733011907, "dur":511, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733012468, "dur":398, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733012898, "dur":213, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.AI.Navigation.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733013140, "dur":175, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733018002, "dur":1079, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599733013343, "dur":5748, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599733019104, "dur":2923341, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732978164, "dur":5345, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732983511, "dur":324, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732983836, "dur":431, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732985995, "dur":57, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732986055, "dur":266, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TextRenderingModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732986354, "dur":235, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732986592, "dur":138, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732986738, "dur":239, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732986993, "dur":2757, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732989759, "dur":63, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732989835, "dur":186, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.GameCenterModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732990050, "dur":136, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732990213, "dur":133, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ContentLoadModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732990409, "dur":82, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732990493, "dur":504, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732991359, "dur":142, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599732991149, "dur":375, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":10, "ts":1715599732991556, "dur":443, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599732992096, "dur":10641, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/x86_64/libMonoPosixHelper.so" }}
+,{ "pid":12345, "tid":10, "ts":1715599733002827, "dur":162, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733003035, "dur":733, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/browscap.ini" }}
+,{ "pid":12345, "tid":10, "ts":1715599733003930, "dur":147, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/web.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733004306, "dur":70, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733004175, "dur":211, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733004550, "dur":275, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733004477, "dur":371, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":10, "ts":1715599733004857, "dur":1352, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_player_nondevelopment_mono/Data/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733004857, "dur":1355, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733006302, "dur":390, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733006730, "dur":143, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.ML-Agents.Extensions.Input.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599733006968, "dur":50, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007054, "dur":60, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007118, "dur":228, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007560, "dur":131, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007386, "dur":316, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/settings.map" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007714, "dur":98, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007821, "dur":90, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733007914, "dur":557, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599733008538, "dur":1919, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599733017974, "dur":63, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599733010493, "dur":7571, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599733018088, "dur":2924361, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599732978195, "dur":5321, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599732983517, "dur":706, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599732984333, "dur":59, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732984392, "dur":57, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Sentis.ONNX.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732984469, "dur":157, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732984651, "dur":270, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Sentis.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732984922, "dur":309, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732985232, "dur":138, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732985398, "dur":190, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732985588, "dur":61, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732985650, "dur":88, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.ML-Agents.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732985797, "dur":317, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732986115, "dur":104, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Dreamteck.Splines.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732986219, "dur":175, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732986449, "dur":115, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/ML Agents packages/com.unity.ml-agents/Plugins/ProtoBuffer/System.Interactive.Async.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732986564, "dur":349, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/PackageCache/com.unity.sentis@1.2.0-exp.2/Runtime/Plugins/Google.Protobuf_Packed.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732986962, "dur":55, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/PackageCache/com.unity.burst@1.8.9/Unity.Burst.Unsafe.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732987018, "dur":181, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/ML Agents packages/com.unity.ml-agents/Plugins/ProtoBuffer/Grpc.Core.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732987298, "dur":108, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/Mono.Security.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732987406, "dur":91, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732987544, "dur":343, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Core.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732987908, "dur":856, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Data.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732988765, "dur":200, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Drawing.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989029, "dur":60, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989089, "dur":147, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989236, "dur":55, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Numerics.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989291, "dur":369, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989661, "dur":148, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Security.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989809, "dur":103, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732989940, "dur":76, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732990016, "dur":1283, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.Xml.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732991299, "dur":1089, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/System.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732992397, "dur":1772, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-linux/mscorlib.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599732994189, "dur":67, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Projects/cvut/self-driving/Library/PackageCache/com.unity.burst@1.8.9/.Runtime/bcl.exe" }}
+,{ "pid":12345, "tid":11, "ts":1715599732984226, "dur":10031, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"GenerateNativePluginsForAssemblies Library/Bee/artifacts/LinuxPlayerBuildProgram/AsyncPluginsFromLinker" }}
+,{ "pid":12345, "tid":11, "ts":1715599732994526, "dur":2947322, "ph":"X", "name": "GenerateNativePluginsForAssemblies",  "args": { "detail":"Library/Bee/artifacts/LinuxPlayerBuildProgram/AsyncPluginsFromLinker" }}
+,{ "pid":12345, "tid":12, "ts":1715599732978222, "dur":5302, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599732983524, "dur":702, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599732984260, "dur":58, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599732986704, "dur":186, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599732986893, "dur":885, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732987798, "dur":168, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/level0" }}
+,{ "pid":12345, "tid":12, "ts":1715599732987982, "dur":692, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":12, "ts":1715599732988702, "dur":176, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732988916, "dur":138, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.JSONSerializeModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732989072, "dur":345, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":12, "ts":1715599732989423, "dur":350, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599732990467, "dur":150, "ph":"X", "name": "EmitNodeFinish",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599732989786, "dur":1591, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732991411, "dur":132, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.WindModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732991570, "dur":185, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732991783, "dur":660, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732992492, "dur":177, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.InputLegacyModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732992697, "dur":1871, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732994620, "dur":879, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732995559, "dur":397, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599732995994, "dur":1512, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Resources/UnityPlayer.png" }}
+,{ "pid":12345, "tid":12, "ts":1715599732997630, "dur":16740, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/x86_64/libmonobdwgc-2.0.so" }}
+,{ "pid":12345, "tid":12, "ts":1715599733014437, "dur":842, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599733015339, "dur":361, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599733015709, "dur":84, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599733015805, "dur":123, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Burst.Unsafe.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599733015972, "dur":358, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599733016339, "dur":436, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599733016794, "dur":2131, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599733018933, "dur":2923557, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599735953497, "dur":1724, "ph":"X", "name": "ProfilerWriteOutput" }
+,{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "netcorerun.dll" } },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-1" } },
+{ "pid": 35942, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 35942, "tid": 1, "ts": 1715599732652215, "dur": 119671, "ph": "X", "name": "BuildProgram", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732653299, "dur": 42891, "ph": "X", "name": "BuildProgramContextConstructor", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732703219, "dur": 42092, "ph": "X", "name": "RunBuildProgram", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732703514, "dur": 35972, "ph": "X", "name": "PlayerBuildProgramBase.SetupPlayerBuild", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732704171, "dur": 25281, "ph": "X", "name": "SetupDataFiles", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732729895, "dur": 1083, "ph": "X", "name": "SetupCopyPlugins", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732732766, "dur": 5129, "ph": "X", "name": "SetupUnityLinker", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732752836, "dur": 1515, "ph": "X", "name": "OutputData.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732754355, "dur": 17522, "ph": "X", "name": "Backend.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732755279, "dur": 15857, "ph": "X", "name": "JsonToString", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732778542, "dur": 1295, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1715599732778020, "dur": 2071, "ph": "X", "name": "Write chrome-trace events", "args": {} },
+{ "cat":"", "pid":12345, "tid":0, "ts":0, "ph":"M", "name":"process_name", "args": { "name":"bee_backend" } }
+,{ "pid":12345, "tid":0, "ts":1715599736461683, "dur":102, "ph":"X", "name": "IPC_Client_InitializeAndConnectToParent",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736461843, "dur":4513, "ph":"X", "name": "DriverInitData",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736466372, "dur":81, "ph":"X", "name": "RemoveStaleOutputs",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736466478, "dur":428, "ph":"X", "name": "BuildQueueInit",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736470979, "dur":75, "ph":"X", "name": "EmitFirstTimeEnqueue",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":0, "ts":1715599736466930, "dur":5212, "ph":"X", "name": "EnqueueRequestedNodes",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736472147, "dur":10291, "ph":"X", "name": "WaitForBuildFinished", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736482442, "dur":60, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736482676, "dur":1301, "ph":"X", "name": "Tundra",  "args": { "detail":"Write AllBuiltNodes" }}
+,{ "pid":12345, "tid":1, "ts":1715599736466580, "dur":5578, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1715599736472160, "dur":839, "ph":"X", "name": "CheckDagSignatures",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473035, "dur":136, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"AddBootConfigGUID Library/Bee/artifacts/LinuxPlayerBuildProgram/boot.config" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473172, "dur":84, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473310, "dur":84, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Sentis.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473408, "dur":129, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473541, "dur":163, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473708, "dur":151, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473864, "dur":88, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.IO.Abstractions.TestingHelpers.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599736473981, "dur":100, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/globalgamemanagers.assets.resS" }}
+,{ "pid":12345, "tid":1, "ts":1715599736474090, "dur":86, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1715599736474176, "dur":8280, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599736466626, "dur":5552, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599736472182, "dur":440, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599736472622, "dur":380, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473022, "dur":69, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"WriteText Library/Bee/artifacts/LinuxPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473099, "dur":94, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473294, "dur":178, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473477, "dur":92, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473573, "dur":84, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473675, "dur":80, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473774, "dur":93, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736473870, "dur":185, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.ML-Agents.CommunicatorObjects.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736474062, "dur":92, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Sentis.ONNX.dll" }}
+,{ "pid":12345, "tid":2, "ts":1715599736474154, "dur":8344, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599736466653, "dur":5547, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599736472204, "dur":410, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599736472614, "dur":429, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473123, "dur":98, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473222, "dur":189, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473423, "dur":57, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473485, "dur":92, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473581, "dur":85, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473685, "dur":150, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599736473838, "dur":272, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.IO.Abstractions.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599736474115, "dur":94, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":3, "ts":1715599736474210, "dur":8322, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599736466692, "dur":5522, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599736472216, "dur":410, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599736472626, "dur":426, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473133, "dur":82, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473271, "dur":128, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473410, "dur":52, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473467, "dur":78, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473548, "dur":172, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473724, "dur":69, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473815, "dur":91, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Burst.Unsafe.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736473910, "dur":192, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736474107, "dur":95, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":4, "ts":1715599736474202, "dur":8303, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599736466715, "dur":5509, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599736472226, "dur":489, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599736472716, "dur":296, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473041, "dur":96, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473261, "dur":109, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473381, "dur":72, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/x86_64/libMonoPosixHelper.so" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473467, "dur":86, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473557, "dur":86, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473647, "dur":89, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473746, "dur":64, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473813, "dur":85, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Grpc.Core.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736473902, "dur":191, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":5, "ts":1715599736474098, "dur":86, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":5, "ts":1715599736474184, "dur":8264, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599736466752, "dur":5488, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599736472243, "dur":349, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599736472592, "dur":423, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473082, "dur":159, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473291, "dur":63, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473375, "dur":56, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473436, "dur":149, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/app.info" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473589, "dur":161, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473755, "dur":72, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599736473831, "dur":83, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Google.Protobuf_Packed.dll" }}
+,{ "pid":12345, "tid":6, "ts":1715599736474099, "dur":94, "ph":"X", "name": "EmitNodeStart",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1715599736474207, "dur":8172, "ph":"X", "name": "CopyFiles",  "args": { "detail":"Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Plugins/lib_burst_generated.so" }}
+,{ "pid":12345, "tid":7, "ts":1715599736466779, "dur":5481, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599736472267, "dur":453, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599736472721, "dur":289, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473101, "dur":98, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"ProjectSettings/BurstAotSettings_StandaloneLinux64.json" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473015, "dur":190, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"GenerateNativePluginsForAssemblies Library/Bee/artifacts/LinuxPlayerBuildProgram/AsyncPluginsFromLinker" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473212, "dur":191, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"GenerateNativePluginsForAssemblies Library/Bee/artifacts/LinuxPlayerBuildProgram/AsyncPluginsFromLinker" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473470, "dur":91, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473565, "dur":85, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473654, "dur":91, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473750, "dur":68, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599736473845, "dur":275, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":7, "ts":1715599736474141, "dur":91, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":7, "ts":1715599736474232, "dur":8208, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599736466806, "dur":5479, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599736472288, "dur":258, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599736472547, "dur":479, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473149, "dur":100, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473249, "dur":164, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.PropertiesModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473449, "dur":151, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473604, "dur":83, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473691, "dur":77, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473789, "dur":93, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736473885, "dur":188, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736474077, "dur":92, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":8, "ts":1715599736474169, "dur":8359, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599736466841, "dur":5454, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599736472298, "dur":285, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599736472583, "dur":471, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473079, "dur":55, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_player_nondevelopment_mono/Data/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473075, "dur":60, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473135, "dur":97, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473232, "dur":149, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473407, "dur":108, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473535, "dur":88, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473627, "dur":84, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473716, "dur":158, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599736473878, "dur":186, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.ML-Agents.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599736474068, "dur":93, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":9, "ts":1715599736474161, "dur":8406, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599736466860, "dur":5445, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599736472310, "dur":116, "ph":"X", "name": "EarlyStatNonGeneratedFile",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599736472427, "dur":683, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473117, "dur":94, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473211, "dur":280, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473503, "dur":90, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473597, "dur":81, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473682, "dur":77, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473763, "dur":158, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736473939, "dur":94, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736474039, "dur":186, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":10, "ts":1715599736474225, "dur":8285, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599736466900, "dur":5441, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599736472341, "dur":732, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473113, "dur":91, "ph":"X", "name": "OutputFilesMissingFor",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473281, "dur":56, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473390, "dur":117, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Interactive.Async.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473524, "dur":84, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/boot.config" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473612, "dur":84, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473699, "dur":152, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ContentLoadModule.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473857, "dur":87, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Runtime.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599736473948, "dur":95, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/resources.assets.resS" }}
+,{ "pid":12345, "tid":11, "ts":1715599736474048, "dur":98, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Dreamteck.Splines.dll" }}
+,{ "pid":12345, "tid":11, "ts":1715599736474146, "dur":8402, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599736466909, "dur":5443, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599736472352, "dur":696, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473065, "dur":123, "ph":"X", "name": "ComputeFileSignatureSha1",  "args": { "detail":"/home/oldrich/Unity/Hub/Editor/2022.3.13f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_player_nondevelopment_mono/Data/MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473056, "dur":134, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473223, "dur":78, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473364, "dur":58, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving.x86_64" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473458, "dur":70, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473533, "dur":83, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473639, "dur":89, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473746, "dur":144, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736473895, "dur":89, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736474027, "dur":191, "ph":"X", "name": "EmitNodeUpToDate",  "args": { "detail":"CopyFiles Python Trainer/builds/distance_reward_fixed_checkpoints (amazon, wide road)/selfDriving_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":12, "ts":1715599736474218, "dur":8214, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1715599736485365, "dur":159, "ph":"X", "name": "ProfilerWriteOutput" }
+,{ "pid": 8080, "tid": 44, "ts": 1715599736486399, "dur": 34, "ph": "X", "name": "Wait for external events", "args": {"First to finish": "buildprogram1.traceevents"} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736486568, "dur": 141, "ph": "X", "name": "Wait for external events", "args": {"First to finish": "backend2.traceevents"} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736487078, "dur": 14, "ph": "X", "name": "Wait for external events", "args": {"First to finish": "buildprogram0.traceevents"} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736487202, "dur": 12, "ph": "X", "name": "Wait for external events", "args": {"First to finish": "backend1.traceevents"} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736487202, "dur": 117850, "ph": "X", "name": "Wait for external events", "args": {"First to finish": "backend3.traceevents"} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736486460, "dur": 107, "ph": "X", "name": "buildprogram1.traceevents", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736486723, "dur": 355, "ph": "X", "name": "backend2.traceevents", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736487105, "dur": 96, "ph": "X", "name": "buildprogram0.traceevents", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736605221, "dur": 569, "ph": "X", "name": "backend3.traceevents", "args": {} },
+{ "pid": 8080, "tid": 44, "ts": 1715599736485648, "dur": 120221, "ph": "X", "name": "Write chrome-trace events", "args": {} },
