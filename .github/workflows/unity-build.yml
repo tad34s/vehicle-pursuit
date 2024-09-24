@@ -1,9 +1,9 @@
 name: Building unity project
 on:
  push:
-  branches: [""]
+  branches: ["*"]
  pull_request:
-  branches: [""]
+  branches: ["*"]
 
 jobs:
  Build-unity-project:
