@@ -19,6 +19,7 @@ jobs:
       env:
        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+       UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       with:
        unityVersion: auto
        targetPlatform: StandaloneLinux64
