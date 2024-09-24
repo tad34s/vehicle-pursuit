@@ -76,3 +76,4 @@ Timers/Main_timers.json
 ML-Agents/
 Python Trainer/models
 __pycache__/
+.vscode/
