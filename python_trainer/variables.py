@@ -1,9 +1,9 @@
 MODEL_PATH = "./models"
 
 # QNet parameters
-VISUAL_INPUT_SHAPE = (1, 64, 64)
+VISUAL_INPUT_SHAPE = (1, 120, 160)
 NONVISUAL_INPUT_SHAPE = (1,)
-ENCODING_SIZE = 126
+ENCODING_SIZE = 126  # size of the last dense NN layer (before output neurons)
 
 # Hyperparameters
 START_TEMPERATURE = 20
@@ -14,4 +14,5 @@ NUM_TRAINING_EXAMPLES = 2000
 MAX_TRAINED_EPOCHS = 500
 
 # Reward
-REWARD_SAME_ACTION = 2.0  # will be added to the reward for sticking with the same action
+# will be added to the reward for sticking with the same action
+REWARD_SAME_ACTION = 2.0
