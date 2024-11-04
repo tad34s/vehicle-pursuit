@@ -5,6 +5,7 @@ from pathlib import Path
 
 import torch
 from data_channel import DataChannel
+from environment_parameters import set_parameters
 from keyboard_listener import KeyboardListener
 from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
@@ -12,10 +13,9 @@ from network import QNetwork
 from tensorboard import program
 
 # for TensorBoard
-from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard.writer import SummaryWriter
 from trainer import Trainer
 from variables import (
-    ENCODING_SIZE,
     MAX_TRAINED_EPOCHS,
     MODEL_PATH,
     NONVISUAL_INPUT_SHAPE,
@@ -86,12 +86,9 @@ if __name__ == "__main__":
         num_areas=NUM_AREAS,
         side_channels=[engine_channel, data_channel],
     )
-    # Wide - 15
-    # Slim - 10
-    data_channel.set_int_parameter("roadSize", 15)
-    # 0 -> Amazon road
-    # 1 -> Black & white road
-    data_channel.set_int_parameter("roadColor", 0)
+
+    set_parameters(data_channel)
+
     engine_channel.set_configuration_parameters(time_scale=TIME_SCALE)
     env.reset()
 
@@ -110,7 +107,6 @@ if __name__ == "__main__":
         qnet = QNetwork(
             visual_input_shape=VISUAL_INPUT_SHAPE,
             nonvis_input_shape=NONVISUAL_INPUT_SHAPE,
-            encoding_size=ENCODING_SIZE,
             device=device,
         )
         trainer = Trainer(
@@ -143,11 +139,13 @@ if __name__ == "__main__":
                 folder = Path(model_folder)
                 folder.mkdir(parents=True, exist_ok=True)
 
-                trainer.save_model(model_folder / f"model-epoch-{epoch}.onnx")
+                trainer.save_model(str(model_folder / f"model-epoch-{epoch}.onnx"))
                 listener.reset()
 
     except KeyboardInterrupt:
-        print("\nTraining interrupted, continue to next cell to save to save the model.")  # noqa: T201
+        print(  # noqa: T201
+            "\nTraining interrupted, continue to next cell to save to save the model.",
+        )
 
     finally:
         env.close()
