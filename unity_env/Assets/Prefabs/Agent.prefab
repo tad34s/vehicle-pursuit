@@ -10977,6 +10977,7 @@ MonoBehaviour:
   carCamera: {fileID: 0}
   rBody: {fileID: -1987677041437309144}
   trackGenerator: {fileID: 0}
+  carFollower: {fileID: 0}
 --- !u!114 &6282186034757043643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11056,7 +11057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 2
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0

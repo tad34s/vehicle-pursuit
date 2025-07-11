@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.172775, g: 0.2159008, b: 0.29783508, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276794, g: 0.21589158, b: 0.2978253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -359,11 +359,11 @@ Transform:
   m_GameObject: {fileID: 670888379}
   serializedVersion: 2
   m_LocalRotation: {x: 0.20791169, y: -0, z: -0, w: 0.9781476}
-  m_LocalPosition: {x: 0, y: 50, z: -100}
+  m_LocalPosition: {x: 0, y: 49.7, z: -90}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1667872112}
+  m_Father: {fileID: 1373223380}
   m_LocalEulerAnglesHint: {x: 24, y: 0, z: 0}
 --- !u!20 &670888382
 Camera:
@@ -518,6 +518,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &1373223380 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2532062851225465847, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+  m_PrefabInstance: {fileID: 7475695033151031654}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1429103642
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,11 +672,6 @@ Transform:
   - {fileID: 553984341}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1667872112 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6802323755503212544, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
-  m_PrefabInstance: {fileID: 7475695033151031654}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2018380139
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,6 +740,30 @@ PrefabInstance:
       propertyPath: blendDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2532062851225465840, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: steeringSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532062851225465840, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: maxSteeringAngle
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532062851225465840, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: accelerationMultiplier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532062851225465840, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: decelerationMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532062851225465840, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: handbrakeDriftMultiplier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2532062851225465843, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2791274512745203607, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       propertyPath: antialiasingMode
       value: 2
@@ -752,9 +776,9 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6802323755503212544, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.2
+    - target: {fileID: 6802323755503212551, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+      propertyPath: maxSpeed
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6827213714430285243, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -807,7 +831,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6802323755503212544, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 2532062851225465847, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 670888380}
     m_AddedComponents: []

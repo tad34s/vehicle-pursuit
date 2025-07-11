@@ -31,6 +31,7 @@ public class AgentCar : Agent
     // public CarController carController;
     public Rigidbody rBody;
     public TrackGenerator trackGenerator;
+    public AgentCarFollower carFollower;
 
     float deathPenalty = -10f;
 
@@ -49,7 +50,7 @@ public class AgentCar : Agent
 
         currentCheckpoint = 0;
 
-        transform.position = transform.parent.position;
+        transform.position = transform.parent.position + new Vector3(0, 0, 5);
         transform.rotation = Quaternion.identity;
 
         rBody.velocity = Vector3.zero;
@@ -58,22 +59,10 @@ public class AgentCar : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        sensor.AddObservation(false);
         sensor.AddObservation(carController.steeringAxis);
     }
 
-    private float calcDistanceToCenter()
-    {
-        SplineSample splineSample = new SplineSample();
-        checkpoints[currentCheckpoint].Project(transform.position, ref splineSample);
-
-        float dist = Vector2.Distance(
-            new Vector2(transform.position.x, transform.position.z),
-            new Vector2(splineSample.position.x, splineSample.position.z)
-        );
-        float val = 1f - (dist / 6.34f);
-
-        return val;
-    }
 
     private bool isOverLastPoint()
     {
@@ -110,8 +99,6 @@ public class AgentCar : Agent
         if (pauseLearning)
             return;
 
-        SetReward(calcDistanceToCenter());
-
         if (isOverLastPoint())
         {
             currentCheckpoint++;
@@ -120,11 +107,9 @@ public class AgentCar : Agent
 
         if (carController.getAmountOfWheelsOnRoad() <= 2)
         {
-            SetReward(deathPenalty);
             EndEpisode();
+            carFollower.EndEpisode();
         }
-
-        AddReward((4 - carController.getAmountOfWheelsOnRoad()) * -1f);
 
         TriggerAction(actions);
     }
