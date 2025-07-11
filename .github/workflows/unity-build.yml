@@ -47,7 +47,7 @@ jobs:
        targetPlatform: StandaloneLinux64
        projectPath: unity_env
        buildsPath: python_trainer/build
-       buildName: selfDriving
+       buildName: vehiclePursuit
 
     - name: Upload build
       uses: actions/upload-artifact@v4
