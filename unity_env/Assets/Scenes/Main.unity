@@ -760,10 +760,6 @@ PrefabInstance:
       propertyPath: handbrakeDriftMultiplier
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2532062851225465843, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
-      propertyPath: m_BrainParameters.VectorObservationSize
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 2791274512745203607, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       propertyPath: antialiasingMode
       value: 2
@@ -774,7 +770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6802323754793745035, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6802323755503212551, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       propertyPath: maxSpeed
@@ -826,7 +822,7 @@ PrefabInstance:
       objectReference: {fileID: 2018380142}
     - target: {fileID: 7481355990752157586, guid: 7e429c80983a4d44193afa002bd363cd, type: 3}
       propertyPath: m_RuntimeCameraEnable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

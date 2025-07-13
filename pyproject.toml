@@ -1,3 +1,25 @@
+[project]
+name = "vehicle-pursuit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "~=3.10.1"
+dependencies = [
+    "pre-commit",
+    "pynput",
+    "matplotlib",
+    "numpy",
+    "onnx",
+    "tqdm",
+    "mlagents==1.0.0",
+    "mlagents-envs==1.0.0",
+    "tensorboard==2.15.1",
+    "tensorboard-data-server==0.7.2",
+    "torch==2.1.0",
+    "scipy==1.10.1",
+    "torchvision>=0.16.0",
+]
+
 [tool.ruff]
 line-length = 100 
 target-version = "py312"

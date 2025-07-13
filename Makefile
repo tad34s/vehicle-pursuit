@@ -10,3 +10,6 @@ check: ## Run all checks via pre-commit
 # Install pre-commit hooks into git
 install-hooks: ## Install pre-commit hooks
 	pre-commit install
+
+train:
+	uv run src/train.py

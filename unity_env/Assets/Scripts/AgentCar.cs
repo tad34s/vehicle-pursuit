@@ -42,6 +42,20 @@ public class AgentCar : Agent
         deathPenalty = DataChannel.getParameter("deathPenalty", -10f);
     }
 
+    private float calcDistanceToCenter()
+    {
+        SplineSample splineSample = new SplineSample();
+        checkpoints[currentCheckpoint].Project(transform.position, ref splineSample);
+
+        float dist = Vector2.Distance(
+            new Vector2(transform.position.x, transform.position.z),
+            new Vector2(splineSample.position.x, splineSample.position.z)
+        );
+        float val = 1f - (dist / 6.34f);
+
+        return val;
+    }
+
     public override void OnEpisodeBegin()
     {
         pauseLearning = true;
@@ -59,7 +73,6 @@ public class AgentCar : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(false);
         sensor.AddObservation(carController.steeringAxis);
     }
 
@@ -99,6 +112,8 @@ public class AgentCar : Agent
         if (pauseLearning)
             return;
 
+        SetReward(calcDistanceToCenter());
+
         if (isOverLastPoint())
         {
             currentCheckpoint++;
@@ -107,9 +122,12 @@ public class AgentCar : Agent
 
         if (carController.getAmountOfWheelsOnRoad() <= 2)
         {
+            SetReward(deathPenalty);
             EndEpisode();
             carFollower.EndEpisode();
         }
+
+        AddReward((4 - carController.getAmountOfWheelsOnRoad()) * -1f);
 
         TriggerAction(actions);
     }
