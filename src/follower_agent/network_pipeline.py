@@ -91,7 +91,7 @@ class DepthNetwork(torch.nn.Module):
 
     def fit(self, dataset, device, epochs=1) -> float:
         # train qnet
-        dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+        dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
         loss_sum = 0
         count = 0
 
@@ -137,7 +137,7 @@ class QNetwork(torch.nn.Module):
 
     def fit(self, dataset, device, epochs=1) -> float:
         # train qnet
-        dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+        dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
         loss_sum = 0
         count = 0
 

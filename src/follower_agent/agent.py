@@ -132,7 +132,7 @@ class FollowerAgent(Agent):
 
             self.writer.add_scalar("Loss/Epoch Q-Net", avg_loss_qnet, self.curr_episode)
             self.writer.add_scalar("Loss/Epoch Depth-Net", avg_loss_depth_net, self.curr_episode)
-            self.writer.add_text("Follower temperature", self.temperature, self.curr_epoch)
+            self.writer.add_scalar("Follower temperature", self.temperature, self.curr_epoch)
 
         self.memory.wipe()
 

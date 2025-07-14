@@ -102,7 +102,7 @@ class LeaderAgent(Agent):
                 steer += f"{s:.2f} "
 
             self.writer.add_text("Sample Q leader values (steer)", steer, self.curr_epoch)
-            self.writer.add_text("Leader temperature", self.temperature, self.curr_epoch)
+            self.writer.add_scalar("Leader temperature", self.temperature, self.curr_epoch)
 
         self.fit(1)
         self.memory.wipe()
@@ -171,7 +171,7 @@ class LeaderAgent(Agent):
         targets = torch.tensor(targets).to(self.device)
 
         dataset = StateTargetValuesDataset(states, targets)
-        dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+        dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
 
         loss_sum = 0
         count = 0
