@@ -64,7 +64,7 @@ class LeaderAgent(Agent):
         )
         self.num_agents = num_agents
 
-        self.exps = [Experience() for _ in range(self.num_agents)]
+        self.exps: dict[int, Experience] = {}
         self.temperature = START_TEMPERATURE
         self.episode_rewards = 0
 
@@ -77,7 +77,7 @@ class LeaderAgent(Agent):
         """
 
         # clean not finished experiences
-        for exp in self.exps:
+        for id, exp in self.exps.items():
             if len(exp.actions) == 0:
                 continue
             exp.actions[-1] = None
@@ -141,6 +141,10 @@ class LeaderAgent(Agent):
 
                 dis_action_values.append(ACTION_OPTIONS[action_index][0])
                 cont_action_values.append([])
+
+                if agent_id not in self.exps.keys():
+                    self.exps[agent_id] = Experience()
+
                 self.exps[agent_id].add_instance(
                     state,
                     action_index,
