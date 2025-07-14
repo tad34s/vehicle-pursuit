@@ -70,7 +70,7 @@ def run_episode(
     n_steps = 0
 
     agents = [leader_agent, follower_agent]
-    for n_steps in tqdm(range(episode_len)):
+    for n_steps in tqdm(range(0, episode_len, NUM_AREAS)):
         for agent in agents:
             action_tuple = agent.submit_actions(env.get_steps(agent.behavior_name))
             if action_tuple is not None:
