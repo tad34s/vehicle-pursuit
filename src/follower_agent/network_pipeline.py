@@ -6,7 +6,11 @@ import torchvision
 from torch.utils.data import DataLoader
 
 from follower_agent.buffer import ReplayBuffer, State
-from follower_agent.hyperparameters import LEARNING_RATE_DEPTH_NET, LEARNING_RATE_QNET
+from follower_agent.hyperparameters import (
+    LEARNING_RATE_DEPTH_NET,
+    LEARNING_RATE_QNET,
+    VISUAL_INPUT_SHAPE,
+)
 from variables import ACTION_OPTIONS
 
 
@@ -49,7 +53,7 @@ class NetworkPipeline:
         dataset_qnet = memory.get_qnet_dataset(self.inject_correct_values)
         avg_loss_qnet = self.qnet.fit(dataset_qnet, epochs_qnet)
         dataset_depth_net = memory.get_depth_net_dataset()
-        avg_loss_depth_net = self.depth_net.fit(dataset_qnet, epochs_depth_net)
+        avg_loss_depth_net = self.depth_net.fit(dataset_depth_net, epochs_depth_net)
         return avg_loss_qnet, avg_loss_depth_net
 
 
@@ -75,13 +79,14 @@ class DepthNetwork(torch.nn.Module):
 
     def forward(self, x):
         img, ref_v, ego_v = x
-        img = img.view(-1, 3, 128, 128).to(torch.float32)
+        img = img.view(-1, *VISUAL_INPUT_SHAPE)
         features = self.features(img)
         features = self.extra(features)
         features = features.view(-1, 256)
-        features = torch.cat((features, ref_v.view(-1, 1), ego_v.view(-1, 1)), axis=1).to(
-            torch.float32
-        )
+        ref_v = ref_v.view(-1, 1)
+        ego_v = ego_v.view(-1, 1)
+        print(features.shape, ref_v.shape, ego_v.shape)
+        features = torch.cat((features, ref_v, ego_v), axis=1).to(torch.float32)
         preds = self.predict(features)
         return preds
 
@@ -93,10 +98,9 @@ class DepthNetwork(torch.nn.Module):
 
         for _ in range(epochs):
             for batch in dataloader:
-                # We run the training step with the recorded inputs and new Q value targets.
                 x, y = batch
 
-                y_hat = self.qnet(x)
+                y_hat = self.forward(x)
                 loss = self.loss_fn(y_hat, y)
                 print(f"loss {loss}")  # noqa: T201
                 # Backprop
@@ -142,7 +146,7 @@ class QNetwork(torch.nn.Module):
                 # We run the training step with the recorded inputs and new Q value targets.
                 x, y = batch
 
-                y_hat = self.qnet(x)
+                y_hat = self.net(x)
                 loss = self.loss_fn(y_hat, y)
                 print(f"loss {loss}")  # noqa: T201
                 # Backprop

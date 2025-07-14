@@ -64,7 +64,7 @@ class FollowerAgent(Agent):
                 exp.add_instance(
                     state,
                     None,
-                    np.zeros(3),
+                    None,
                     np.zeros(self.model.output_shape[1]),
                     reward,
                 )
@@ -106,7 +106,7 @@ class FollowerAgent(Agent):
 
     def train(self) -> float:
         # clean not finished experiences
-        for exp in self.exps:
+        for id, exp in self.exps.items():
             if len(exp.actions) == 0:
                 continue
             exp.actions[-1] = None
@@ -115,7 +115,7 @@ class FollowerAgent(Agent):
 
         self.memory.flip_dataset()
         sample_exp = self.memory.buffer[int(self.memory.size() / 2)]
-        sample_image = sample_exp.states[int(len(sample_exp) / 2)][0]
+        sample_image = sample_exp.states[int(len(sample_exp) / 2)].img
         sample_q_values = sample_exp.q_values_pred[int(len(sample_exp) / 2)]
 
         avg_loss_qnet, avg_loss_depth_net = self.model.fit(self.memory)

@@ -10,5 +10,5 @@ STEERING_DISCOUNT = 0.8  # multiplier for steering
 
 
 # Input sizes
-VISUAL_INPUT_SHAPE = (1, 100, 160)
+VISUAL_INPUT_SHAPE = (3, 128, 128)
 NONVISUAL_INPUT_SHAPE = (6,)

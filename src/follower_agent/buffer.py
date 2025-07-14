@@ -1,6 +1,7 @@
 from copy import copy
 
 import numpy as np
+import torch
 from torch.utils.data import Dataset
 
 from leader_agent.hyperparameters import DISCOUNT, STEERING_DISCOUNT
@@ -10,11 +11,11 @@ from variables import MIRRORED_ACTIONS
 class State:
     def __init__(self, obs: list[np.ndarray]) -> None:
         vis_obs, nonvis_obs = obs
-        self.img = vis_obs
-        self.steer = nonvis_obs[0]
-        self.speed = nonvis_obs[1]
-        self.leader_speed = nonvis_obs[2]
-        self.t_ref = (nonvis_obs[3], nonvis_obs[4], nonvis_obs[5])
+        self.img: np.ndarray = vis_obs
+        self.steer: float = nonvis_obs[0]
+        self.speed: float = nonvis_obs[1]
+        self.leader_speed: float = nonvis_obs[2]
+        self.t_ref: tuple[float, float, float] = (nonvis_obs[3], nonvis_obs[4], nonvis_obs[5])
 
     def flip(self):
         new_state = copy(self)
@@ -43,6 +44,23 @@ class StateTargetValuesDataset(Dataset):
         return self.states[index], self.targets[index]
 
 
+class ImageDepthDataset(Dataset):
+    def __init__(self, imgs, leader_speeds, car_speeds, y) -> None:
+        super().__init__()
+        self.imgs = [torch.tensor(img.copy()) for img in imgs]
+        self.leader_speeds = [torch.tensor(leader_speed) for leader_speed in leader_speeds]
+        self.car_speeds = [torch.tensor(car_speed) for car_speed in car_speeds]
+        self.y = [torch.tensor(val) for val in y]
+        if len(self.imgs) != len(self.car_speeds):
+            raise ValueError
+
+    def __len__(self) -> int:
+        return len(self.imgs)
+
+    def __getitem__(self, index: int) -> tuple[tuple[np.ndarray, float, float], np.ndarray]:
+        return (self.imgs[index], self.leader_speeds[index], self.car_speeds[index]), self.y[index]
+
+
 class Experience:
     def __init__(self) -> None:
         self.states: list[State] = []
@@ -55,14 +73,15 @@ class Experience:
         self,
         state: State,
         action: int | None,
-        t_ref_pred: np.ndarray,
+        t_ref_pred: np.ndarray | None,
         predicted_values: np.ndarray,
         reward: float,
     ) -> None:
         self.states.append(state)
         self.actions.append(action)
         self.rewards.append(reward)
-        self.q_values_pred.append(t_ref_pred)
+        if t_ref_pred is not None:
+            self.t_ref_pred.append(t_ref_pred)
         self.q_values_pred.append(predicted_values)
 
     def flip(self) -> "Experience":
@@ -70,8 +89,11 @@ class Experience:
 
         new_actions = [MIRRORED_ACTIONS[x] if x is not None else None for x in self.actions]
 
-        new_predicted_values = [np.flip(x, 0) for x in self.q_values_pred]
-        new_t_ref_pred = [np.ndarray([x[0] * -1, x[1], x[2] * -1]) for x in self.t_ref_pred]
+        new_predicted_values = [np.flip(x) for x in self.q_values_pred]
+
+        new_t_ref_pred = [
+            np.array([x[0] * -1.0, x[1], x[2] * -1.0], dtype=np.float32) for x in self.t_ref_pred
+        ]
 
         new_exp = Experience()
         new_exp.states = new_states
@@ -107,19 +129,25 @@ class Experience:
 
             # add state
 
-            if not inject_correct_values and self.t_ref_pred[e] is not None:
+            if not inject_correct_values and len(self.t_ref_pred) > e:
                 t_ref = self.t_ref_pred[e]
             else:
                 t_ref = state.t_ref
             states.append(
-                np.ndarray([state.steer, state.speed, state.leader_speed, *t_ref], dtype=np.float32)
+                np.array([state.steer, state.speed, state.leader_speed, *t_ref], dtype=np.float32)
             )
 
         return states, targets
 
-    def get_depth_data(self) -> tuple[list[np.ndarray], list[np.ndarray]]:
-        x = [state.img for state in self.states]
-        y = [np.ndarray([*state.t_ref], dtype=np.float32) for state in self.states]
+    def get_depth_data(
+        self,
+    ) -> tuple[tuple[list[np.ndarray], list[float], list[float]], list[np.ndarray]]:
+        x = (
+            [state.img for state in self.states],
+            [state.leader_speed for state in self.states],
+            [state.speed for state in self.states],
+        )
+        y = [np.array([*state.t_ref], dtype=np.float32) for state in self.states]
         return x, y
 
     def __len__(self) -> int:
@@ -150,14 +178,20 @@ class ReplayBuffer:
             state_dataset += states
         return state_dataset, targets_dataset
 
-    def create_depth_net_targets(self) -> tuple[list[list[np.ndarray]], list[list[np.ndarray]]]:
-        X = []
+    def create_depth_net_targets(
+        self,
+    ) -> tuple[tuple[list[np.ndarray], list[float], list[float]], list[list[np.ndarray]]]:
+        imgs = []
+        leader_speeds = []
+        car_speeds = []
         Y = []
         for exp in self.buffer:
-            x, y = exp.get_depth_data()
-            X += x
+            (imgs_exp, leader_speeds_exp, car_speeds_exp), y = exp.get_depth_data()
+            imgs += imgs_exp
+            leader_speeds += leader_speeds_exp
+            car_speeds += car_speeds_exp
             Y += y
-        return X, Y
+        return (imgs, leader_speeds, car_speeds), Y
 
     def flip_dataset(self) -> None:
         """
@@ -175,9 +209,9 @@ class ReplayBuffer:
         states, targets = self.create_qnet_targets(inject_correct_values)
         return StateTargetValuesDataset(states, targets)
 
-    def get_depth_net_dataset(self) -> StateTargetValuesDataset:
-        states, targets = self.create_depth_net_targets()
-        return StateTargetValuesDataset(states, targets)
+    def get_depth_net_dataset(self) -> ImageDepthDataset:
+        (imgs, leaders_speeds, car_speeds), y = self.create_depth_net_targets()
+        return ImageDepthDataset(imgs, leaders_speeds, car_speeds, y)
 
     def wipe(self) -> None:
         self.buffer = []

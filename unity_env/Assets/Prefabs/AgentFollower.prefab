@@ -11051,9 +11051,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 6282186036672718647}
   m_SensorName: CameraSensor
-  m_Width: 160
-  m_Height: 120
-  m_Grayscale: 1
+  m_Width: 128
+  m_Height: 128
+  m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
   m_ObservationStacks: 1
@@ -11147,7 +11147,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6282186036672718645}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0.81960785, b: 0.5294118, a: 0}

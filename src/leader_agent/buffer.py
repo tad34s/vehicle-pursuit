@@ -14,7 +14,7 @@ class Experience:
 
     def add_instance(
         self,
-        observations: list[np.ndarray],
+        observations: list[tuple[np.ndarray, np.ndarray]],
         action: int,
         predicted_values: np.ndarray,
         reward: np.float32,
