@@ -11,7 +11,7 @@ from follower_agent.hyperparameters import (
     LEARNING_RATE_QNET,
     VISUAL_INPUT_SHAPE,
 )
-from variables import ACTION_OPTIONS, NUM_DATALOADER_WORKERS
+from variables import ACTION_OPTIONS
 
 
 class NetworkPipeline:
@@ -91,9 +91,7 @@ class DepthNetwork(torch.nn.Module):
 
     def fit(self, dataset, device, epochs=1) -> float:
         # train qnet
-        dataloader = DataLoader(
-            dataset, batch_size=64, shuffle=True, num_workers=NUM_DATALOADER_WORKERS
-        )
+        dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
         loss_sum = 0
         count = 0
 
@@ -139,9 +137,7 @@ class QNetwork(torch.nn.Module):
 
     def fit(self, dataset, device, epochs=1) -> float:
         # train qnet
-        dataloader = DataLoader(
-            dataset, batch_size=64, shuffle=True, num_workers=NUM_DATALOADER_WORKERS
-        )
+        dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
         loss_sum = 0
         count = 0
 
