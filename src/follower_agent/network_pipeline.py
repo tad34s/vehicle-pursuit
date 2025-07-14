@@ -28,11 +28,11 @@ class NetworkPipeline:
     def get_actions(self, state: State, temperature: float) -> tuple[np.ndarray, np.ndarray, int]:
         t_ref_pred = None
         if not self.inject_correct_values:
-            t_ref_pred = self.depth_net(torch.Tensor(state.img, device=self.device))
+            t_ref_pred = self.depth_net(torch.tensor(state.img, device=self.device))
             t_ref = t_ref_pred
         else:
             t_ref = state.t_ref
-        qnet_input = torch.Tensor(
+        qnet_input = torch.tensor(
             [[state.steer, state.speed, state.leader_speed, *t_ref]], device=self.device
         )
         q_values = self.qnet(qnet_input)
