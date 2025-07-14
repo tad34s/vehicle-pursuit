@@ -22,7 +22,7 @@ from leader_agent.hyperparameters import (
 )
 from leader_agent.network import QNetwork
 from leader_agent.wrapper_net import WrapperNet
-from variables import ACTION_OPTIONS
+from variables import ACTION_OPTIONS, NUM_DATALOADER_WORKERS
 
 
 class LeaderAgent(Agent):
@@ -171,7 +171,9 @@ class LeaderAgent(Agent):
         targets = torch.tensor(targets).to(self.device)
 
         dataset = StateTargetValuesDataset(states, targets)
-        dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
+        dataloader = DataLoader(
+            dataset, batch_size=64, shuffle=True, num_workers=NUM_DATALOADER_WORKERS
+        )
 
         loss_sum = 0
         count = 0
