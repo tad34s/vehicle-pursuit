@@ -77,6 +77,7 @@ class LeaderAgent(Agent):
         """
 
         # clean not finished experiences
+
         for id, exp in self.exps.items():
             if len(exp.actions) == 0:
                 continue
@@ -89,6 +90,8 @@ class LeaderAgent(Agent):
         sample_image = sample_exp.observations[int(len(sample_exp) / 2)][0]
         sample_q_values = sample_exp.predicted_values[int(len(sample_exp) / 2)]
 
+        self.temperature = max(0.0, self.temperature - REDUCE_TEMPERATURE)
+
         if self.writer is not None:
             self.writer.add_image("Sample image leader", sample_image)
 
@@ -99,11 +102,11 @@ class LeaderAgent(Agent):
                 steer += f"{s:.2f} "
 
             self.writer.add_text("Sample Q leader values (steer)", steer, self.curr_epoch)
+            self.writer.add_text("Leader temperature", self.temperature, self.curr_epoch)
 
         self.fit(1)
         self.memory.wipe()
 
-        self.temperature = max(0.0, self.temperature - REDUCE_TEMPERATURE)
         final_episode_rewards = self.episode_rewards
         self.episode_rewards = 0
         return final_episode_rewards

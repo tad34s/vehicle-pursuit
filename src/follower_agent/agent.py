@@ -118,6 +118,7 @@ class FollowerAgent(Agent):
         sample_q_values = sample_exp.q_values_pred[int(len(sample_exp) / 2)]
 
         avg_loss_qnet, avg_loss_depth_net = self.model.fit(self.memory)
+        self.temperature = max(0.0, self.temperature - REDUCE_TEMPERATURE)
         if self.writer is not None:
             self.writer.add_image("Sample image follower", sample_image)
 
@@ -131,9 +132,9 @@ class FollowerAgent(Agent):
 
             self.writer.add_scalar("Loss/Epoch Q-Net", avg_loss_qnet, self.curr_episode)
             self.writer.add_scalar("Loss/Epoch Depth-Net", avg_loss_depth_net, self.curr_episode)
+            self.writer.add_text("Follower temperature", self.temperature, self.curr_epoch)
 
         self.memory.wipe()
-        self.temperature = max(0.0, self.temperature - REDUCE_TEMPERATURE)
 
         final_episode_rewards: float = self.episode_rewards
         self.episode_rewards = 0
