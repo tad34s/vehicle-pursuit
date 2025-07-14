@@ -189,7 +189,7 @@ class LeaderAgent(Agent):
                 count += 1
 
         if self.writer is not None:
-            self.writer.add_scalar("Loss/Epoch", loss_sum / count, self.curr_epoch)
+            self.writer.add_scalar("Loss/Episode Leader", loss_sum / count, self.curr_epoch)
         self.curr_epoch += 1
 
     def save_model(self, path: Path) -> None:

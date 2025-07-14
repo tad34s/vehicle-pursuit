@@ -85,7 +85,6 @@ class DepthNetwork(torch.nn.Module):
         features = features.view(-1, 256)
         ref_v = ref_v.view(-1, 1)
         ego_v = ego_v.view(-1, 1)
-        print(features.shape, ref_v.shape, ego_v.shape)
         features = torch.cat((features, ref_v, ego_v), axis=1).to(torch.float32)
         preds = self.predict(features)
         return preds
