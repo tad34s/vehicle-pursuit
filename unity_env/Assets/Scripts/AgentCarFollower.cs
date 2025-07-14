@@ -53,6 +53,24 @@ public class AgentCarFollower : Agent
         rBody.angularVelocity = Vector3.zero;
     }
 
+
+    private Vector2 GetRotatedRelativePosition()
+    {
+        float rotLeader = carLeader.transform.eulerAngles.y;
+        float rotFollower = carLeader.transform.eulerAngles.y; ;
+
+        Vector2 relativePosition = new Vector2(
+                carLeader.transform.position.x - transform.position.x,
+                carLeader.transform.position.z - transform.position.z
+                );
+        double neededRotation = rotFollower * Math.PI / 180;
+        Vector2 rotatedRelativePosition = new Vector2(
+                (float)(relativePosition.x * Math.Cos(neededRotation) - relativePosition.y * Math.Sin(neededRotation)),
+                (float)(relativePosition.x * Math.Sin(neededRotation) + relativePosition.y * Math.Cos(neededRotation))
+                );
+        return rotatedRelativePosition;
+    }
+
     public override void CollectObservations(VectorSensor sensor)
     {
         // vehicle scalars
@@ -61,21 +79,7 @@ public class AgentCarFollower : Agent
         sensor.AddObservation(carLeader.carController.carSpeed);
 
 
-        float rot_leader = carLeader.transform.eulerAngles.y;
-        float rot_follower = carLeader.transform.eulerAngles.y; ;
-
-        Vector2 relative_position = new Vector2(
-                carLeader.transform.position.x - transform.position.x,
-                carLeader.transform.position.z - transform.position.z
-                );
-        double needed_rotation = rot_follower * Math.PI / 180;
-        Vector2 rotated_relative_position = new Vector2(
-                (float)(relative_position.x * Math.Cos(needed_rotation) - relative_position.y * Math.Sin(needed_rotation)),
-                (float)(relative_position.x * Math.Sin(needed_rotation) + relative_position.y * Math.Cos(needed_rotation))
-                );
-
-        sensor.AddObservation(rotated_relative_position);
-        Debug.Log(carController.steeringAxis);
+        sensor.AddObservation(GetRotatedRelativePosition());
 
         // Calculate the signed angle (in degrees) around the Y-axis
         float signedAngle = Vector3.SignedAngle(
@@ -89,10 +93,22 @@ public class AgentCarFollower : Agent
 
     float calcDistanceToLeader()
     {
-        float difference = bestDistance - Vector3.Distance(transform.position, carLeader.transform.position);
-        Debug.Log(difference);
+        Vector2 relativePosition = GetRotatedRelativePosition();
+        float reward;
+        if (relativePosition.y < 0)
+        {
+            reward = -relativePosition.magnitude;
+        }
+        else
+        {
+            float difference = relativePosition.magnitude - bestDistance;
+            reward = (float)(5 / (1 + (0.5 * (difference * difference))));
+            reward *= relativePosition.y / relativePosition.magnitude;
+        }
 
-        return difference;
+        Debug.Log(relativePosition);
+        Debug.Log(reward);
+        return reward;
     }
 
     void TriggerAction(ActionBuffers actions)

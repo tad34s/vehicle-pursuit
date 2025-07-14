@@ -11,7 +11,6 @@ from agent_interface import Agent
 from follower_agent.buffer import Experience, ReplayBuffer, State
 from follower_agent.hyperparameters import (
     REDUCE_TEMPERATURE,
-    REWARD_MAX,
     START_TEMPERATURE,
 )
 from follower_agent.network_pipeline import NetworkPipeline
@@ -147,5 +146,5 @@ class FollowerAgent(Agent):
     def get_state_and_reward(self, step: DecisionStep | TerminalStep) -> tuple[State, float]:
         state = State(step.obs)
 
-        reward = REWARD_MAX / (1 + 0.5 * ((step.reward) ** 2))
+        reward = step.reward
         return state, reward
