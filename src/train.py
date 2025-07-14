@@ -16,7 +16,6 @@ import leader_agent.hyperparameters as leader_hyperparams
 from data_channel import DataChannel
 from environment_parameters import set_parameters
 from follower_agent.agent import FollowerAgent
-from keyboard_listener import KeyboardListener
 from leader_agent.agent import LeaderAgent
 from variables import (
     EPISODE_LENGTH,
@@ -87,8 +86,6 @@ if __name__ == "__main__":
     launch_tensor_board(log_location)
 
     # Start keyboard listener for saving
-    listener = KeyboardListener()
-    listener.start()
 
     # Set up the environment
     engine_channel = EngineConfigurationChannel()
@@ -151,14 +148,6 @@ if __name__ == "__main__":
             writer.add_scalar("Reward/Episode Leader", rewards_leader, episode)
             writer.add_scalar("Reward/Episode Follower", rewards_follower, episode)
             writer.flush()
-
-            if SAVE_MODEL or listener.was_pressed():
-                folder = Path(model_folder)
-                folder.mkdir(parents=True, exist_ok=True)
-
-                leader_agent.save_model(model_folder / f"model-episode-{episode}.onnx")
-                follower_agent.save_model(model_folder / f"model-episode-{episode}.onnx")
-                listener.reset()
 
     except KeyboardInterrupt:
         print("\nTraining interrupted")

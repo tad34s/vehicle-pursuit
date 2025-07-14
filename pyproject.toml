@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = "~=3.10.1"
 dependencies = [
     "pre-commit",
-    "pynput",
     "matplotlib",
     "numpy",
     "onnx",

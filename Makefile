@@ -12,4 +12,4 @@ install-hooks: ## Install pre-commit hooks
 	pre-commit install
 
 train:
-	uv run src/train.py
+	uv run src/train.py -n 2
