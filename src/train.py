@@ -83,9 +83,6 @@ if __name__ == "__main__":
     # Start TensorBoard
     log_location = Path(__file__).parent / "runs"
     writer = SummaryWriter(log_location / datetime.datetime.now().strftime("%y-%m-%d %H%M%S"))
-    launch_tensor_board(log_location)
-
-    # Start keyboard listener for saving
 
     # Set up the environment
     engine_channel = EngineConfigurationChannel()
