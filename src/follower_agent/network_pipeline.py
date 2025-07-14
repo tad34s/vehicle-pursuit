@@ -51,9 +51,9 @@ class NetworkPipeline:
         self, memory: ReplayBuffer, epochs_qnet: int = 1, epochs_depth_net: int = 10
     ) -> tuple[float, float]:
         dataset_qnet = memory.get_qnet_dataset(self.inject_correct_values)
-        avg_loss_qnet = self.qnet.fit(dataset_qnet, epochs_qnet)
+        avg_loss_qnet = self.qnet.fit(dataset_qnet, self.device, epochs_qnet)
         dataset_depth_net = memory.get_depth_net_dataset()
-        avg_loss_depth_net = self.depth_net.fit(dataset_depth_net, epochs_depth_net)
+        avg_loss_depth_net = self.depth_net.fit(dataset_depth_net, self.device, epochs_depth_net)
         return avg_loss_qnet, avg_loss_depth_net
 
 
@@ -90,7 +90,7 @@ class DepthNetwork(torch.nn.Module):
         preds = self.predict(features)
         return preds
 
-    def fit(self, dataset, epochs=1) -> float:
+    def fit(self, dataset, device, epochs=1) -> float:
         # train qnet
         dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
         loss_sum = 0
@@ -99,6 +99,7 @@ class DepthNetwork(torch.nn.Module):
         for _ in range(epochs):
             for batch in dataloader:
                 x, y = batch
+                x, y = [i.to(device) for i in x], y.to(device)
 
                 y_hat = self.forward(x)
                 loss = self.loss_fn(y_hat, y)
@@ -135,7 +136,7 @@ class QNetwork(torch.nn.Module):
     def forward(self, x):
         return self.net(x)
 
-    def fit(self, dataset, epochs=1) -> float:
+    def fit(self, dataset, device, epochs=1) -> float:
         # train qnet
         dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
         loss_sum = 0
@@ -145,6 +146,7 @@ class QNetwork(torch.nn.Module):
             for batch in dataloader:
                 # We run the training step with the recorded inputs and new Q value targets.
                 x, y = batch
+                x, y = x.to(device), y.to(device)
 
                 y_hat = self.net(x)
                 loss = self.loss_fn(y_hat, y)

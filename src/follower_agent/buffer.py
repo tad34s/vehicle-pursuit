@@ -32,8 +32,8 @@ class State:
 class StateTargetValuesDataset(Dataset):
     def __init__(self, states: list, targets: list) -> None:
         super().__init__()
-        self.states = states
-        self.targets = targets
+        self.states = [torch.tensor(x) for x in states]
+        self.targets = [torch.tensor(x) for x in targets]
         if len(states) != len(targets):
             raise ValueError
 
@@ -169,7 +169,7 @@ class ReplayBuffer:
 
     def create_qnet_targets(
         self, inject_correct_values=False
-    ) -> tuple[list[list[np.ndarray]], list[list[np.ndarray]]]:
+    ) -> tuple[list[np.ndarray], list[np.ndarray]]:
         state_dataset = []
         targets_dataset = []
         for exp in self.buffer:
