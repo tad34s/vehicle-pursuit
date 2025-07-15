@@ -109,6 +109,16 @@ class Experience:
     ) -> tuple[list[np.ndarray], list[np.ndarray]]:
         targets = []
         states = []
+        # print("states")
+        # print(self.states)
+        # print("actions")
+        # print(self.actions)
+        # print("rewards")
+        # print(self.rewards)
+        # print("t_ref_pred")
+        # print(self.t_ref_pred)
+        # print("q_values_pred")
+        # print(self.q_values_pred)
         for e, state in enumerate(self.states):
             if self.actions[e] is None:
                 break

@@ -91,7 +91,7 @@ public class AgentCarFollower : Agent
         sensor.AddObservation(signedAngle);
     }
 
-    float calcDistanceToLeader()
+    public float calcDistanceToLeader()
     {
         Vector2 relativePosition = GetRotatedRelativePosition();
         float reward;
@@ -133,6 +133,7 @@ public class AgentCarFollower : Agent
         if (carController.getAmountOfWheelsOnRoad() <= 2)
         {
             SetReward(deathPenalty);
+            carLeader.SetReward(carLeader.calcDistanceToCenter());
             EndEpisode();
             carLeader.EndEpisode();
         }
