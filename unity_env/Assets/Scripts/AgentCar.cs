@@ -42,7 +42,7 @@ public class AgentCar : Agent
         deathPenalty = DataChannel.getParameter("deathPenalty", -10f);
     }
 
-    private float calcDistanceToCenter()
+    public float calcDistanceToCenter()
     {
         SplineSample splineSample = new SplineSample();
         checkpoints[currentCheckpoint].Project(transform.position, ref splineSample);
@@ -123,6 +123,7 @@ public class AgentCar : Agent
         if (carController.getAmountOfWheelsOnRoad() <= 2)
         {
             SetReward(deathPenalty);
+            carFollower.SetReward(carFollower.calcDistanceToLeader());
             EndEpisode();
             carFollower.EndEpisode();
         }
