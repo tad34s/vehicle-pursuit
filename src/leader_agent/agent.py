@@ -46,7 +46,7 @@ class LeaderAgent(Agent):
         self.device = device
         self.writer = writer
 
-        self.curr_epoch = 0
+        self.curr_episode = 0
 
         self.memory = ReplayBuffer(buffer_size)
 
@@ -101,8 +101,8 @@ class LeaderAgent(Agent):
             for s in sample_q_values:
                 steer += f"{s:.2f} "
 
-            self.writer.add_text("Sample Q leader values (steer)", steer, self.curr_epoch)
-            self.writer.add_scalar("Leader temperature", self.temperature, self.curr_epoch)
+            self.writer.add_text("Sample Q leader values (steer)", steer, self.curr_episode)
+            self.writer.add_scalar("Temperature follower", self.temperature, self.curr_episode)
 
         self.fit(1)
         self.memory.wipe()
@@ -192,8 +192,8 @@ class LeaderAgent(Agent):
                 count += 1
 
         if self.writer is not None:
-            self.writer.add_scalar("Loss/Episode Leader", loss_sum / count, self.curr_epoch)
-        self.curr_epoch += 1
+            self.writer.add_scalar("Loss/Episode Leader", loss_sum / count, self.curr_episode)
+        self.curr_episode += 1
 
     def save_model(self, path: Path) -> None:
         torch.onnx.export(

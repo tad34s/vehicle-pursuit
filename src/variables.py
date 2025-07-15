@@ -3,7 +3,7 @@ import numpy as np
 MODEL_PATH = "./models"
 
 # Hyperparameters
-EPISODE_LENGTH = 100
+NUM_TRAINING_EXAMPLES = 7500
 MAX_TRAINED_EPISODES = 500
 NUM_DATALOADER_WORKERS = 4
 
