@@ -31,8 +31,6 @@ class FollowerAgent(Agent):
         self.device = device
         self.writer = writer
 
-        self.curr_epoch = 0
-
         self.num_agents = num_agents
 
         self.temperature = 0
@@ -128,11 +126,11 @@ class FollowerAgent(Agent):
             for s in sample_q_values:
                 steer += f"{s:.2f} "
 
-            self.writer.add_text("Sample Q follower values (steer)", steer, self.curr_epoch)
+            self.writer.add_text("Sample Q follower values (steer)", steer, self.curr_episode)
 
             self.writer.add_scalar("Loss/Epoch Q-Net", avg_loss_qnet, self.curr_episode)
             self.writer.add_scalar("Loss/Epoch Depth-Net", avg_loss_depth_net, self.curr_episode)
-            self.writer.add_scalar("Follower temperature", self.temperature, self.curr_epoch)
+            self.writer.add_scalar("Temperature Follower ", self.temperature, self.curr_episode)
 
         self.memory.wipe()
 

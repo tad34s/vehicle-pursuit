@@ -18,9 +18,9 @@ from environment_parameters import set_parameters
 from follower_agent.agent import FollowerAgent
 from leader_agent.agent import LeaderAgent
 from variables import (
-    EPISODE_LENGTH,
     MAX_TRAINED_EPISODES,
     MODEL_PATH,
+    NUM_TRAINING_EXAMPLES,
 )
 
 parser = argparse.ArgumentParser()
@@ -63,14 +63,15 @@ def print_env_info(env: UnityEnvironment) -> None:
 
 def run_episode(
     env: UnityEnvironment,
-    episode_len: int,
+    memory_size: int,
     leader_agent: LeaderAgent,
     follower_agent: FollowerAgent,
 ) -> None:
-    n_steps = 0
-
+    n_steps_gathered = 0
+    bar = tqdm(total=memory_size)
     agents = [leader_agent, follower_agent]
-    for n_steps in tqdm(range(0, episode_len, NUM_AREAS)):
+    for n_steps in range(0, memory_size, NUM_AREAS):
+        bar.update(NUM_AREAS)
         for agent in agents:
             action_tuple = agent.submit_actions(env.get_steps(agent.behavior_name))
             if action_tuple is not None:
@@ -112,7 +113,7 @@ if __name__ == "__main__":
         leader_agent = LeaderAgent(
             visual_input_shape=leader_hyperparams.VISUAL_INPUT_SHAPE,
             nonvis_input_shape=leader_hyperparams.NONVISUAL_INPUT_SHAPE,
-            buffer_size=EPISODE_LENGTH,
+            buffer_size=NUM_TRAINING_EXAMPLES,
             device=device,
             num_agents=NUM_AREAS,
             writer=writer,
@@ -121,7 +122,7 @@ if __name__ == "__main__":
         follower_agent = FollowerAgent(
             visual_input_shape=follower_hyperparams.VISUAL_INPUT_SHAPE,
             nonvis_input_shape=follower_hyperparams.NONVISUAL_INPUT_SHAPE,
-            buffer_size=EPISODE_LENGTH,
+            buffer_size=NUM_TRAINING_EXAMPLES,
             device=device,
             num_agents=NUM_AREAS,
             writer=writer,
@@ -135,13 +136,13 @@ if __name__ == "__main__":
         for episode in range(MAX_TRAINED_EPISODES):
             print("------Training------")  # noqa: T201
             print(f"Episode {episode}")
-            run_episode(env, EPISODE_LENGTH, leader_agent, follower_agent)
+            run_episode(env, NUM_TRAINING_EXAMPLES, leader_agent, follower_agent)
             rewards_leader = leader_agent.train()
             rewards_follower = follower_agent.train()
             print("------Done------")  # noqa: T201
 
-            rewards_leader /= EPISODE_LENGTH
-            rewards_follower /= EPISODE_LENGTH
+            rewards_leader /= NUM_TRAINING_EXAMPLES
+            rewards_follower /= NUM_TRAINING_EXAMPLES
             writer.add_scalar("Reward/Episode Leader", rewards_leader, episode)
             writer.add_scalar("Reward/Episode Follower", rewards_follower, episode)
             writer.flush()
