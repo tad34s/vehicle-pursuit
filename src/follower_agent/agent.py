@@ -1,3 +1,4 @@
+import copy
 from pathlib import Path
 
 import numpy as np
@@ -14,10 +15,14 @@ from follower_agent.hyperparameters import (
     START_TEMPERATURE,
 )
 from follower_agent.network_pipeline import NetworkPipeline
+from follower_agent.wrapper_net import WrapperNet
 from variables import ACTION_OPTIONS
 
 
 class FollowerAgent(Agent):
+    behavior_name = "CarBehavior?team=0"
+    name = "Follower"
+
     def __init__(
         self,
         visual_input_shape: tuple,
@@ -27,7 +32,7 @@ class FollowerAgent(Agent):
         num_agents: int = 1,
         writer: SummaryWriter | None = None,
     ) -> None:
-        super().__init__(behavior_name="CarBehavior?team=0")
+        super().__init__()
         self.device = device
         self.writer = writer
 
@@ -43,6 +48,7 @@ class FollowerAgent(Agent):
         self.curr_episode = 1
 
         self.model = NetworkPipeline(
+            visual_input_shape,
             nonvis_input_shape,
             device,
             inject_correct_values=True,
@@ -140,7 +146,25 @@ class FollowerAgent(Agent):
         return final_episode_rewards
 
     def save_model(self, path: Path) -> None:
-        pass
+        torch.onnx.export(
+            WrapperNet(copy.deepcopy(self.model)),
+            (
+                # Vis observation
+                torch.randn((1, *self.model.visual_input_shape)),
+                # Non vis observation
+                torch.randn((1, *self.model.nonvis_input_shape)),
+            ),
+            str(path),
+            input_names=["visual_obs", "nonvis_obs"],
+            output_names=["q_values", "actions"],
+            opset_version=11,  # Use at least opset 11
+            dynamic_axes={
+                "visual_obs": {0: "batch_size"},
+                "nonvis_obs": {0: "batch_size"},
+                "q_values": {0: "batch_size"},
+                "actions": {0: "batch_size"},
+            },
+        )
 
     def get_state_and_reward(self, step: DecisionStep | TerminalStep) -> tuple[State, float]:
         state = State(step.obs)

@@ -79,6 +79,7 @@ unity_env/Assets/ML-Agents/
 
 **/selfDriving_Data/ML-Agents/
 # Automatically saved models
+src/models/
 # Saved runs
 src/runs/
 

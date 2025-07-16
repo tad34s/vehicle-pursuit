@@ -9,34 +9,40 @@ from follower_agent.buffer import ReplayBuffer, State
 from follower_agent.hyperparameters import (
     LEARNING_RATE_DEPTH_NET,
     LEARNING_RATE_QNET,
-    VISUAL_INPUT_SHAPE,
 )
 from variables import ACTION_OPTIONS
 
 
 class NetworkPipeline:
-    def __init__(self, nonvis_input_shape, device, inject_correct_values=False):
+    def __init__(self, visual_input_shape, nonvis_input_shape, device, inject_correct_values=False):
         self.output_shape = (1, len(ACTION_OPTIONS))
         self.nonvis_input_shape = nonvis_input_shape
+        self.visual_input_shape = visual_input_shape
         self.device = device
         self.inject_correct_values = inject_correct_values
 
         with torch.device(self.device):
-            self.depth_net = DepthNetwork()
+            self.depth_net = DepthNetwork(self.visual_input_shape)
             self.qnet = QNetwork(nonvis_input_shape)
 
     def get_actions(self, state: State, temperature: float) -> tuple[np.ndarray, np.ndarray, int]:
         t_ref_pred = None
-        if not self.inject_correct_values:
-            t_ref_pred = self.depth_net(torch.tensor(state.img, device=self.device))
-            t_ref = t_ref_pred
+        if not self.inject_correct_values or state.t_ref is None:
+            self.depth_net.eval()
+            with torch.no_grad():
+                t_ref_pred = self.depth_net(torch.tensor(state.img, device=self.device))
+                t_ref = t_ref_pred
         else:
             t_ref = state.t_ref
+
         qnet_input = torch.tensor(
             [[state.steer, state.speed, state.leader_speed, *t_ref]], device=self.device
         )
-        q_values = self.qnet(qnet_input)
-        q_values = q_values.flatten(1)
+        qnet_input.requires_grad = False
+        self.qnet.eval()
+        with torch.no_grad():
+            q_values = self.qnet(qnet_input)
+            q_values = q_values.flatten(1)
 
         if temperature == 0:
             action_index = torch.argmax(q_values, dim=1, keepdim=True)
@@ -58,8 +64,10 @@ class NetworkPipeline:
 
 
 class DepthNetwork(torch.nn.Module):
-    def __init__(self):
+    def __init__(self, input_shape):
         super().__init__()
+
+        self.input_shape = input_shape
 
         self.features = torchvision.models.alexnet(weights=True).features
         self.extra = torch.nn.MaxPool2d((2, 2))
@@ -79,7 +87,7 @@ class DepthNetwork(torch.nn.Module):
 
     def forward(self, x):
         img, ref_v, ego_v = x
-        img = img.view(-1, *VISUAL_INPUT_SHAPE)
+        img = img.view(-1, *self.input_shape)
         features = self.features(img)
         features = self.extra(features)
         features = features.view(-1, 256)
@@ -125,6 +133,7 @@ class QNetwork(torch.nn.Module):
             torch.nn.ReLU(),
             torch.nn.Linear(10, self.output_shape[1]),
         )
+
         self.optim = torch.optim.Adam(
             self.parameters(),
             lr=LEARNING_RATE_QNET,

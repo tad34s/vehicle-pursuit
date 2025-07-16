@@ -4,6 +4,7 @@ from pathlib import Path
 
 import torch
 from mlagents_envs.environment import UnityEnvironment
+from mlagents_envs.exception import UnityActionException
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
 from tensorboard import program
 
@@ -13,6 +14,7 @@ from tqdm import tqdm
 
 import follower_agent.hyperparameters as follower_hyperparams
 import leader_agent.hyperparameters as leader_hyperparams
+from agent_interface import Agent
 from data_channel import DataChannel
 from environment_parameters import set_parameters
 from follower_agent.agent import FollowerAgent
@@ -65,8 +67,7 @@ def print_env_info(env: UnityEnvironment) -> None:
 def run_episode(
     env: UnityEnvironment,
     memory_size: int,
-    leader_agent: LeaderAgent,
-    follower_agent: FollowerAgent,
+    agents: list[Agent],
 ) -> None:
     n_steps_gathered = 0
     bar = tqdm(total=memory_size)
@@ -74,7 +75,8 @@ def run_episode(
     for n_steps in range(0, memory_size, NUM_AREAS):
         bar.update(NUM_AREAS)
         for agent in agents:
-            action_tuple = agent.submit_actions(env.get_steps(agent.behavior_name))
+            steps = env.get_steps(agent.behavior_name)
+            action_tuple = agent.submit_actions(steps)
             if action_tuple is not None:
                 env.set_actions(agent.behavior_name, action_tuple)
 
@@ -115,25 +117,35 @@ if __name__ == "__main__":
 
     model_folder = Path(MODEL_PATH) / datetime.datetime.now().strftime("%y-%m-%d %H%M%S")
 
+    leader_agent = LeaderAgent(
+        visual_input_shape=leader_hyperparams.VISUAL_INPUT_SHAPE,
+        nonvis_input_shape=leader_hyperparams.NONVISUAL_INPUT_SHAPE,
+        buffer_size=NUM_TRAINING_EXAMPLES,
+        device=device,
+        num_agents=NUM_AREAS,
+        writer=writer,
+    )
+
+    follower_agent = FollowerAgent(
+        visual_input_shape=follower_hyperparams.VISUAL_INPUT_SHAPE,
+        nonvis_input_shape=follower_hyperparams.NONVISUAL_INPUT_SHAPE,
+        buffer_size=NUM_TRAINING_EXAMPLES,
+        device=device,
+        num_agents=NUM_AREAS,
+        writer=writer,
+    )
+
+    agents = [leader_agent, follower_agent]
+
+    # remove agent if not in env -- so we could use the same script to train only leader
+    for agent in agents:
+        try:
+            steps = env.get_steps(agent.behavior_name)
+        except UnityActionException:
+            agents.remove(agent)
+            continue
+
     try:
-        leader_agent = LeaderAgent(
-            visual_input_shape=leader_hyperparams.VISUAL_INPUT_SHAPE,
-            nonvis_input_shape=leader_hyperparams.NONVISUAL_INPUT_SHAPE,
-            buffer_size=NUM_TRAINING_EXAMPLES,
-            device=device,
-            num_agents=NUM_AREAS,
-            writer=writer,
-        )
-
-        follower_agent = FollowerAgent(
-            visual_input_shape=follower_hyperparams.VISUAL_INPUT_SHAPE,
-            nonvis_input_shape=follower_hyperparams.NONVISUAL_INPUT_SHAPE,
-            buffer_size=NUM_TRAINING_EXAMPLES,
-            device=device,
-            num_agents=NUM_AREAS,
-            writer=writer,
-        )
-
         if SAVE_MODEL:
             print(f"---- Will save all models to {model_folder} ----")  # noqa: T201
         else:
@@ -142,23 +154,24 @@ if __name__ == "__main__":
         for episode in range(MAX_TRAINED_EPISODES):
             print("------Training------")  # noqa: T201
             print(f"Episode {episode}")
-            run_episode(env, NUM_TRAINING_EXAMPLES, leader_agent, follower_agent)
-            rewards_leader = leader_agent.train()
-            rewards_follower = follower_agent.train()
+            run_episode(env, NUM_TRAINING_EXAMPLES, agents)
             print("------Done------")  # noqa: T201
 
-            rewards_leader /= NUM_TRAINING_EXAMPLES
-            rewards_follower /= NUM_TRAINING_EXAMPLES
-            writer.add_scalar("Reward/Episode Leader", rewards_leader, episode)
-            writer.add_scalar("Reward/Episode Follower", rewards_follower, episode)
+            for agent in agents:
+                reward = agent.train()
+                reward /= NUM_TRAINING_EXAMPLES
+                writer.add_scalar(f"Reward/Episode {agent.name}", reward, episode)
+
             writer.flush()
 
             if SAVE_MODEL or listener.was_pressed():
                 folder = Path(model_folder)
                 folder.mkdir(parents=True, exist_ok=True)
 
-                leader_agent.save_model(model_folder / f"model-episode-{episode}.onnx")
-                follower_agent.save_model(model_folder / f"model-episode-{episode}.onnx")
+                for agent in agents:
+                    folder_for_agent = folder / agent.name
+                    folder_for_agent.mkdir(parents=True, exist_ok=True)
+                    agent.save_model(folder_for_agent / f"model-episode-{episode}.onnx")
                 listener.reset()
 
     except KeyboardInterrupt:

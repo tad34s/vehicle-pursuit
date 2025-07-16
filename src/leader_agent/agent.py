@@ -26,6 +26,9 @@ from variables import ACTION_OPTIONS
 
 
 class LeaderAgent(Agent):
+    behavior_name = "CarBehavior?team=1"
+    name = "Leader"
+
     def __init__(
         self,
         visual_input_shape: tuple,
@@ -42,7 +45,7 @@ class LeaderAgent(Agent):
         :param device:
         :param num_agents:
         """
-        super().__init__(behavior_name="CarBehavior?team=1")
+        super().__init__()
         self.device = device
         self.writer = writer
 
@@ -206,13 +209,13 @@ class LeaderAgent(Agent):
             ),
             str(path),
             opset_version=9,
-            input_names=["vis_obs", "nonvis_obs"],
+            input_names=["visual_obs", "nonvis_obs"],
             output_names=["prediction", "action"],
         )
 
     def get_state_and_reward(self, step) -> tuple[tuple[np.ndarray, np.ndarray], np.float32]:  # noqa: ANN001
         state_obs = (
-            self.image_preprocessing(step.obs[0]),
+            self.image_preprocessing(self.model.visual_input_shape, step.obs[0]),
             step.obs[1],
         )
 
@@ -226,7 +229,8 @@ class LeaderAgent(Agent):
 
         return state_obs, reward
 
-    def image_preprocessing(self, img: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def image_preprocessing(visual_input_shape, img: np.ndarray) -> np.ndarray:
         blurred = (
             gaussian_filter(img, sigma=BLUR_INTENSITY)
             + np.random.normal(0.2, NOISE_INTESITY, img.shape).astype("float32") * NOISE_OPACITY
@@ -237,7 +241,7 @@ class LeaderAgent(Agent):
         blurred[blurred < 0] = 0
 
         slice_starts = (
-            blurred.shape[1] - self.model.visual_input_shape[1],
-            blurred.shape[2] - self.model.visual_input_shape[2],
+            blurred.shape[1] - visual_input_shape[1],
+            blurred.shape[2] - visual_input_shape[2],
         )
         return blurred[0:, slice_starts[0] :, slice_starts[1] :]

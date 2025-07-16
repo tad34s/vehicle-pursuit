@@ -9,8 +9,11 @@ from variables import MIRRORED_ACTIONS
 
 
 class State:
-    def __init__(self, obs: list[np.ndarray]) -> None:
-        vis_obs, nonvis_obs = obs
+    def __init__(self, obs: list[np.ndarray] | list[torch.Tensor]) -> None:
+        obs_new: list[np.ndarray] = [
+            x.cpu().flatten(0, 1).numpy() if type(x) is torch.Tensor else x for x in obs
+        ]
+        vis_obs, nonvis_obs = obs_new
         self.img: np.ndarray = vis_obs
         self.steer: float = nonvis_obs[0]
         self.speed: float = nonvis_obs[1]
