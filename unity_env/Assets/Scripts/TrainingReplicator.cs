@@ -6,6 +6,10 @@ namespace Unity.MLAgents.Areas
     public class TrainingReplicator : MonoBehaviour
     {
         public GameObject baseArea;
+        public GameObject leaderArea;
+
+        private bool leaderOnly = DataChannel.getParameter("leaderOnly", 0) >= 1;
+
         public int numAreas = 1;
         public float margin = 20;
 
@@ -38,6 +42,7 @@ namespace Unity.MLAgents.Areas
         };
 
         private HSV hsvColor;
+
 
         public void Awake()
         {
@@ -131,7 +136,11 @@ namespace Unity.MLAgents.Areas
                     continue;
 
                 Vector3 pos = Vector3.up * margin * i;
-                Instantiate(baseArea, pos, Quaternion.identity);
+                Instantiate(
+                        leaderOnly ? leaderArea : baseArea,
+                        pos,
+                        Quaternion.identity
+                    );
             }
         }
     }

@@ -37,6 +37,7 @@ parser.add_argument(
 parser.add_argument("-D", "--no-display", action="store_true")
 parser.add_argument("-t", "--time-scale", type=float, default=1.0)
 parser.add_argument("-i", "--interactive", action="store_true")
+parser.add_argument("-L", "--train-leader", action="store_true")
 args = parser.parse_args()
 NUM_AREAS = args.num_areas
 SAVE_MODEL = args.save_model
@@ -44,6 +45,7 @@ ENV_PATH = args.env
 NO_DISPLAY = args.no_display
 TIME_SCALE = args.time_scale
 INTERACTIVE = args.interactive
+LEADER_ONLY = args.train_leader
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -96,6 +98,8 @@ if __name__ == "__main__":
     # Set up the environment
     engine_channel = EngineConfigurationChannel()
     data_channel = DataChannel()
+    set_parameters(data_channel)
+    data_channel.set_bool_parameter("leaderOnly", LEADER_ONLY)
     env_location = ENV_PATH
     if INTERACTIVE:
         env_location = None
@@ -105,8 +109,6 @@ if __name__ == "__main__":
         num_areas=NUM_AREAS,
         side_channels=[engine_channel, data_channel],
     )
-
-    set_parameters(data_channel)
 
     engine_channel.set_configuration_parameters(time_scale=TIME_SCALE)
     env.reset()
@@ -164,7 +166,7 @@ if __name__ == "__main__":
 
             writer.flush()
 
-            if SAVE_MODEL or listener.was_pressed():
+            if (SAVE_MODEL and episode % 10 == 0 and episode > 50) or listener.was_pressed():
                 folder = Path(model_folder)
                 folder.mkdir(parents=True, exist_ok=True)
 
