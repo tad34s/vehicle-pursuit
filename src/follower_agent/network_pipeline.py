@@ -6,10 +6,7 @@ import torchvision
 from torch.utils.data import DataLoader
 
 from follower_agent.buffer import ReplayBuffer, State
-from follower_agent.hyperparameters import (
-    LEARNING_RATE_DEPTH_NET,
-    LEARNING_RATE_QNET,
-)
+from follower_agent.hyperparameters import LEARNING_RATE_DEPTH_NET, LEARNING_RATE_QNET
 from variables import ACTION_OPTIONS
 
 

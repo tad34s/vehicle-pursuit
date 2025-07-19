@@ -20,11 +20,7 @@ from environment_parameters import set_parameters
 from follower_agent.agent import FollowerAgent
 from keyboard_listener import KeyboardListener
 from leader_agent.agent import LeaderAgent
-from variables import (
-    MAX_TRAINED_EPISODES,
-    MODEL_PATH,
-    NUM_TRAINING_EXAMPLES,
-)
+from variables import MAX_TRAINED_EPISODES, MODEL_PATH, NUM_TRAINING_EXAMPLES
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--num-areas", type=int, default=1)
@@ -71,7 +67,6 @@ def run_episode(
     memory_size: int,
     agents: list[Agent],
 ) -> None:
-    n_steps_gathered = 0
     bar = tqdm(total=memory_size)
     agents = [leader_agent, follower_agent]
     for n_steps in range(0, memory_size, NUM_AREAS):

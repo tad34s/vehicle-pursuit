@@ -10,10 +10,7 @@ from torch.utils.tensorboard.writer import SummaryWriter
 
 from agent_interface import Agent
 from follower_agent.buffer import Experience, ReplayBuffer, State
-from follower_agent.hyperparameters import (
-    REDUCE_TEMPERATURE,
-    START_TEMPERATURE,
-)
+from follower_agent.hyperparameters import REDUCE_TEMPERATURE, START_TEMPERATURE
 from follower_agent.network_pipeline import NetworkPipeline
 from follower_agent.wrapper_net import WrapperNet
 from variables import ACTION_OPTIONS
