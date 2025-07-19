@@ -59,7 +59,7 @@ def print_env_info(env: UnityEnvironment) -> None:
     # get the action space and observation space
     behavior_names = list(env.behavior_specs.keys())
     print(f"Name of behaviors : {behavior_names}")  # noqa: T201
-    spec = env.behavior_specs[behavior_names[1]]
+    spec = env.behavior_specs[behavior_names[-1]]
     observation_shape = spec.observation_specs
     print(observation_shape)  # noqa: T201
     num_actions = spec.action_spec

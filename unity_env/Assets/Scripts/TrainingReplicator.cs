@@ -8,7 +8,7 @@ namespace Unity.MLAgents.Areas
         public GameObject baseArea;
         public GameObject leaderArea;
 
-        private bool leaderOnly = DataChannel.getParameter("leaderOnly", 0) >= 1;
+        private bool leaderOnly;
 
         public int numAreas = 1;
         public float margin = 20;
@@ -59,6 +59,7 @@ namespace Unity.MLAgents.Areas
             randomBackgroundColor = System.Convert.ToBoolean(
                 DataChannel.getParameter("randomBackgroundColor", 0)
             );
+            leaderOnly = DataChannel.getParameter("leaderOnly", 0) >= 1;
 
             if (!randomBackgroundColor)
                 backgroundColor = DataChannel.getParemeter(
@@ -80,7 +81,7 @@ namespace Unity.MLAgents.Areas
 
             SetMaterial();
 
-            AddAreas();
+            SetAreas();
 
             carCameras = GameObject.FindGameObjectsWithTag("CarCamera");
 
@@ -128,8 +129,20 @@ namespace Unity.MLAgents.Areas
             }
         }
 
-        private void AddAreas()
+        private void SetAreas()
         {
+            Debug.Log($"Leader only: {leaderOnly}");
+            
+            if(leaderOnly){
+                EnableAreaComponents(leaderArea, true);
+                EnableAreaComponents(baseArea, false);
+            } else {
+                EnableAreaComponents(leaderArea, false);
+                EnableAreaComponents(baseArea, true);
+            }
+
+            // Only instantiate additional areas from the selected area
+            GameObject selectedArea = leaderOnly ? leaderArea : baseArea;
             for (int i = 0; i < numAreas; i++)
             {
                 if (i == 0)
@@ -137,11 +150,30 @@ namespace Unity.MLAgents.Areas
 
                 Vector3 pos = Vector3.up * margin * i;
                 Instantiate(
-                        leaderOnly ? leaderArea : baseArea,
+                        selectedArea,
                         pos,
                         Quaternion.identity
                     );
             }
+        }
+
+        private void EnableAreaComponents(GameObject area, bool enable)
+        {
+            // Disable/Enable all Agent components in the area
+            Agent[] agents = area.GetComponentsInChildren<Agent>();
+            foreach (Agent agent in agents)
+            {
+                agent.enabled = enable;
+            }
+
+            // Disable/Enable all cameras in the area to prevent rendering
+            Camera[] cameras = area.GetComponentsInChildren<Camera>();
+            foreach (Camera camera in cameras)
+            {
+                camera.enabled = enable;
+            }
+
+            area.SetActive(enable);
         }
     }
 }

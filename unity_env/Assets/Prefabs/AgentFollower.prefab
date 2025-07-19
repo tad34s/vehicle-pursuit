@@ -10895,11 +10895,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6282186034757043644}
   - component: {fileID: -1987677041437309144}
+  - component: {fileID: 6476220630122798795}
   - component: {fileID: 6282186034757043643}
   - component: {fileID: 6282186034757043640}
   - component: {fileID: 7970076265675784750}
   - component: {fileID: 4633599328643637399}
-  - component: {fileID: 6476220630122798795}
   - component: {fileID: 4133665731673211277}
   m_Layer: 0
   m_Name: AgentFollower
@@ -10955,6 +10955,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6476220630122798795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282186036658918038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03579d8b544d30d3f82ffdeb77517912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  parentCheckpoint: {fileID: 0}
+  currentCheckpoint: 0
+  carController: {fileID: 6282186034757043643}
+  carCamera: {fileID: 6282186036672718647}
+  rBody: {fileID: -1987677041437309144}
+  carLeader: {fileID: 0}
 --- !u!114 &6282186034757043643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11070,28 +11092,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f07460b9e2c9547aff4d2f4c12bf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6476220630122798795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6282186036658918038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03579d8b544d30d3f82ffdeb77517912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  parentCheckpoint: {fileID: 0}
-  currentCheckpoint: 0
-  carController: {fileID: 6282186034757043643}
-  carCamera: {fileID: 6282186036672718647}
-  rBody: {fileID: -1987677041437309144}
-  carLeader: {fileID: 0}
 --- !u!114 &4133665731673211277
 MonoBehaviour:
   m_ObjectHideFlags: 0

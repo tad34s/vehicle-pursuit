@@ -154,6 +154,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8500057812140568215}
     - target: {fileID: 4569258451671451769, guid: a0f045433fded6977a29ce0af1898722, type: 3}
+      propertyPath: parentArea
+      value: 
+      objectReference: {fileID: 4939910334415092902}
+    - target: {fileID: 4569258451671451769, guid: a0f045433fded6977a29ce0af1898722, type: 3}
       propertyPath: carController
       value: 
       objectReference: {fileID: 8500057810023402523}

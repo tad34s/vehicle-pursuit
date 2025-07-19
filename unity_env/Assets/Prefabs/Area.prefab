@@ -219,6 +219,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6282186034757043645, guid: f02a9da96fe553f4193c7e617f9bb513, type: 3}
+      propertyPath: parentArea
+      value: 
+      objectReference: {fileID: 4939910334415092902}
+    - target: {fileID: 6282186034757043645, guid: f02a9da96fe553f4193c7e617f9bb513, type: 3}
       propertyPath: carFollower
       value: 
       objectReference: {fileID: 3309397013113219200}
@@ -311,6 +315,10 @@ PrefabInstance:
       propertyPath: carLeader
       value: 
       objectReference: {fileID: 6802323755503212545}
+    - target: {fileID: 6476220630122798795, guid: e9c7c3637b31d5515a4a368dab6e2dc3, type: 3}
+      propertyPath: parentArea
+      value: 
+      objectReference: {fileID: 4939910334415092902}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

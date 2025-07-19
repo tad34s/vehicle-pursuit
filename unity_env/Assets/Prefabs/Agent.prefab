@@ -10974,7 +10974,7 @@ MonoBehaviour:
   parentCheckpoint: {fileID: 0}
   currentCheckpoint: 0
   carController: {fileID: 6282186034757043643}
-  carCamera: {fileID: 0}
+  carCamera: {fileID: 6282186036672718647}
   rBody: {fileID: -1987677041437309144}
   trackGenerator: {fileID: 0}
   carFollower: {fileID: 0}
