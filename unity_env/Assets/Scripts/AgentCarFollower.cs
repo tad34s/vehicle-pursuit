@@ -106,7 +106,6 @@ public class AgentCarFollower : Agent
             reward *= relativePosition.y / relativePosition.magnitude;
         }
 
-        Debug.Log(relativePosition);
         Debug.Log(reward);
         return reward;
     }
