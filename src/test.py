@@ -15,12 +15,12 @@ from follower_agent.agent import FollowerAgent
 from leader_agent.agent import LeaderAgent
 
 parser = argparse.ArgumentParser()
-parser.add_argument("follower")
 parser.add_argument("leader")
+parser.add_argument("-f", "--follower")
 parser.add_argument(
     "-e",
     "--env",
-    default=str(Path(__file__).parent / "build" / "vehiclePursuit.x86_64"),
+    default=str(Path(__file__).parent / "build" / "StandaloneLinux64" / "vehiclePursuit.x86_64"),
 )
 
 
@@ -44,8 +44,11 @@ if __name__ == "__main__":
     leader_path = args.leader
     env_path = args.env
 
+    leader_only = not follower_path
+
     engine_channel = EngineConfigurationChannel()
     data_channel = DataChannel()
+    data_channel.set_bool_parameter("leaderOnly", leader_only)
     env_location = env_path
     env = UnityEnvironment(
         file_name=env_location,
@@ -68,15 +71,18 @@ if __name__ == "__main__":
         leader_hyperparams.NONVISUAL_INPUT_SHAPE,
         inject_correct=True,
     )
-    follower_agent = Agent.from_onnyx(
-        FollowerAgent,
-        follower_path,
-        follower_hyperparams.VISUAL_INPUT_SHAPE,
-        follower_hyperparams.NONVISUAL_INPUT_SHAPE,
-        inject_correct=True,
-    )
+    if follower_path:
+        follower_agent = Agent.from_onnyx(
+            FollowerAgent,
+            follower_path,
+            follower_hyperparams.VISUAL_INPUT_SHAPE,
+            follower_hyperparams.NONVISUAL_INPUT_SHAPE,
+            inject_correct=True,
+        )
 
-    agents = [leader_agent, follower_agent]
+        agents = [leader_agent, follower_agent]
+    else:
+        agents = [leader_agent]
 
     # remove agent if not in env -- so we could use the same script to train only leader
     for agent in agents:

@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import torchvision
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from follower_agent.buffer import ReplayBuffer, State
 from follower_agent.hyperparameters import LEARNING_RATE_DEPTH_NET, LEARNING_RATE_QNET
@@ -100,6 +101,7 @@ class DepthNetwork(torch.nn.Module):
         loss_sum = 0
         count = 0
 
+        bar = tqdm(total=epochs * len(dataloader), desc="Fitting follower Dept-Net")
         for _ in range(epochs):
             for batch in dataloader:
                 x, y = batch
@@ -107,13 +109,13 @@ class DepthNetwork(torch.nn.Module):
 
                 y_hat = self.forward(x)
                 loss = self.loss_fn(y_hat, y)
-                print(f"loss {loss}")  # noqa: T201
                 # Backprop
                 self.optim.zero_grad()
                 loss.backward()
                 self.optim.step()
                 loss_sum += loss.item()
                 count += 1
+                bar.update()
 
         return loss_sum / count
 
@@ -147,6 +149,7 @@ class QNetwork(torch.nn.Module):
         loss_sum = 0
         count = 0
 
+        bar = tqdm(total=epochs * len(dataloader), desc="Fitting follower Q-Net")
         for _ in range(epochs):
             for batch in dataloader:
                 # We run the training step with the recorded inputs and new Q value targets.
@@ -155,12 +158,12 @@ class QNetwork(torch.nn.Module):
 
                 y_hat = self.net(x)
                 loss = self.loss_fn(y_hat, y)
-                print(f"loss {loss}")  # noqa: T201
                 # Backprop
                 self.optim.zero_grad()
                 loss.backward()
                 self.optim.step()
                 loss_sum += loss.item()
                 count += 1
+                bar.update()
 
         return loss_sum / count

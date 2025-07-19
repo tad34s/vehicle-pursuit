@@ -4,7 +4,6 @@ from pathlib import Path
 
 import torch
 from mlagents_envs.environment import UnityEnvironment
-from mlagents_envs.exception import UnityActionException
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
 from tensorboard import program
 
@@ -28,7 +27,7 @@ parser.add_argument("-s", "--save-model", action="store_true")
 parser.add_argument(
     "-e",
     "--env",
-    default=str(Path(__file__).parent / "build" / "vehiclePursuit.x86_64"),
+    default=str(Path(__file__).parent / "build" / "StandaloneLinux64" / "vehiclePursuit.x86_64"),
 )
 parser.add_argument("-D", "--no-display", action="store_true")
 parser.add_argument("-t", "--time-scale", type=float, default=1.0)
@@ -68,7 +67,6 @@ def run_episode(
     agents: list[Agent],
 ) -> None:
     bar = tqdm(total=memory_size)
-    agents = [leader_agent, follower_agent]
     for n_steps in range(0, memory_size, NUM_AREAS):
         bar.update(NUM_AREAS)
         for agent in agents:
@@ -134,13 +132,13 @@ if __name__ == "__main__":
 
     agents = [leader_agent, follower_agent]
 
+    print(LEADER_ONLY)
+    if LEADER_ONLY:
+        agents: list[Agent] = [leader_agent]
+
+    print("agents:", agents)
+
     # remove agent if not in env -- so we could use the same script to train only leader
-    for agent in agents:
-        try:
-            steps = env.get_steps(agent.behavior_name)
-        except UnityActionException:
-            agents.remove(agent)
-            continue
 
     try:
         if SAVE_MODEL:
@@ -161,7 +159,7 @@ if __name__ == "__main__":
 
             writer.flush()
 
-            if (SAVE_MODEL and episode % 10 == 0 and episode > 50) or listener.was_pressed():
+            if (SAVE_MODEL and episode % 10 == 0 and episode > 5) or listener.was_pressed():
                 folder = Path(model_folder)
                 folder.mkdir(parents=True, exist_ok=True)
 

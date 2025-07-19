@@ -8,6 +8,7 @@ from mlagents_envs.environment import ActionTuple, DecisionSteps, TerminalSteps
 from scipy.ndimage import gaussian_filter
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard.writer import SummaryWriter
+from tqdm import tqdm
 
 from agent_interface import Agent
 from leader_agent.buffer import Experience, ReplayBuffer, StateTargetValuesDataset
@@ -179,6 +180,7 @@ class LeaderAgent(Agent):
         loss_sum = 0
         count = 0
 
+        bar = tqdm(total=epochs * len(dataloader), desc="Fitting leader")
         for _ in range(epochs):
             for batch in dataloader:
                 # We run the training step with the recorded inputs and new Q value targets.
@@ -186,13 +188,13 @@ class LeaderAgent(Agent):
 
                 y_hat = self.model(x)
                 loss = self.loss_fn(y_hat, y)
-                print(f"loss {loss}")  # noqa: T201
                 # Backprop
                 self.optim.zero_grad()
                 loss.backward()
                 self.optim.step()
                 loss_sum += loss.item()
                 count += 1
+                bar.update()
 
         if self.writer is not None:
             self.writer.add_scalar("Loss/Episode Leader", loss_sum / count, self.curr_episode)
