@@ -46,16 +46,16 @@ jobs:
        unityVersion: auto
        targetPlatform: StandaloneLinux64
        projectPath: unity_env
-       buildsPath: python_trainer/build
+       buildsPath: src/build
        buildName: vehiclePursuit
 
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
        name: Build-LinuxStandalone
-       path: python_trainer/build
+       path: src/build
 
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
        commit_message: 'CI: Add build'
-       file_pattern: 'python_trainer/build/*'
+       file_pattern: 'src/build/*'
