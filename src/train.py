@@ -159,7 +159,7 @@ if __name__ == "__main__":
 
             writer.flush()
 
-            if (SAVE_MODEL and episode % 10 == 0 and episode > 5) or listener.was_pressed():
+            if (SAVE_MODEL and episode % 10 == 0 and episode > 80) or listener.was_pressed():
                 folder = Path(model_folder)
                 folder.mkdir(parents=True, exist_ok=True)
 
