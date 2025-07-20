@@ -65,6 +65,8 @@ class AgentOnnyx(Agent):
 
     def submit_actions(self, steps: tuple[DecisionSteps, TerminalSteps]) -> ActionTuple | None:
         decision_steps, _ = steps
+        cont_action_values = []
+        dis_action_values = []
         if len(decision_steps) == 0:
             return None
 
@@ -86,17 +88,17 @@ class AgentOnnyx(Agent):
 
             outputs = self.model.run(None, {"visual_obs": visual_ob, "nonvis_obs": nonvis_ob})
 
-            cont_action_values = [[]]
-
             actions = outputs[1]
+            dis_action_values.append(actions[0])
+            cont_action_values.append([])
 
-            action_tuple = ActionTuple()
-            final_dis_action_values = actions
-            final_cont_action_values = np.array(cont_action_values)
-            action_tuple.add_discrete(final_dis_action_values)
-            action_tuple.add_continuous(final_cont_action_values)
+        action_tuple = ActionTuple()
+        final_dis_action_values = np.array(dis_action_values)
+        final_cont_action_values = np.array(cont_action_values)
+        action_tuple.add_discrete(final_dis_action_values)
+        action_tuple.add_continuous(final_cont_action_values)
 
-            return action_tuple
+        return action_tuple
 
     def train(self) -> float:
         return 0.0

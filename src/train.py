@@ -111,14 +111,14 @@ if __name__ == "__main__":
     print_env_info(env)
 
     model_folder = Path(MODEL_PATH) / datetime.datetime.now().strftime("%y-%m-%d %H%M%S")
+    leader_path = Path(MODEL_PATH) / "25-07-20 011427" / "Leader" / "model-episode-490.onnx"
 
-    leader_agent = LeaderAgent(
-        visual_input_shape=leader_hyperparams.VISUAL_INPUT_SHAPE,
-        nonvis_input_shape=leader_hyperparams.NONVISUAL_INPUT_SHAPE,
-        buffer_size=NUM_TRAINING_EXAMPLES,
-        device=device,
-        num_agents=NUM_AREAS,
-        writer=writer,
+    leader_agent = Agent.from_onnyx(
+        LeaderAgent,
+        str(leader_path),
+        leader_hyperparams.VISUAL_INPUT_SHAPE,
+        leader_hyperparams.NONVISUAL_INPUT_SHAPE,
+        inject_correct=True,
     )
 
     follower_agent = FollowerAgent(

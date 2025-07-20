@@ -69,7 +69,6 @@ if __name__ == "__main__":
         leader_path,
         leader_hyperparams.VISUAL_INPUT_SHAPE,
         leader_hyperparams.NONVISUAL_INPUT_SHAPE,
-        inject_correct=True,
     )
     if follower_path:
         follower_agent = Agent.from_onnyx(

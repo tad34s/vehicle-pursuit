@@ -24,7 +24,7 @@ public class TrackGenerator : MonoBehaviour
 
     public TrackPiece[] trackPieces;
     public float trackPieceSize = 2;
-    public int activeTracksAtOnce = 4;
+    public int activeTracksAtOnce = 5;
 
     public List<TrackPiece> track = new List<TrackPiece>();
 
