@@ -274,6 +274,9 @@ public class PrometeoCarController : MonoBehaviour
 	public int getAmountOfWheelsOnRoad()
 	{
 		int amount = 0;
+		if(frontRightWheel == null || frontLeftWheel == null || rearRightWheel == null || rearLeftWheel == null)
+			return 4;
+
 		if (frontRightWheel.onRoad) amount++;
 		if (frontLeftWheel.onRoad) amount++;
 		if (rearRightWheel.onRoad) amount++;
@@ -290,6 +293,8 @@ public class PrometeoCarController : MonoBehaviour
 	// Update is called once per frame
 	public void Movement(bool useParams=false, bool forward=false, bool back=false, bool left=false, bool right=false)
 	{
+		if(carRigidbody == null)
+			return;
 
 		//CAR DATA
 
