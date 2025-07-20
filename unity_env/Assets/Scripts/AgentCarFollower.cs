@@ -115,7 +115,7 @@ public class AgentCarFollower : Agent
                     Vector3.up
                 );
 
-        reward += - 2 * Math.Abs(signedAngle) / 180
+        reward += - 2 * Math.Abs(signedAngle) / 180;
         return reward;
     }
 
