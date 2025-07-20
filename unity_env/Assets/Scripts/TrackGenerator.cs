@@ -173,7 +173,8 @@ public class TrackGenerator : MonoBehaviour
 
     public void UpdateTrack(int index)
     {
-        for (int i = 0; i < index - 1; i++)
+        int track_start = index < 2 ? index - 1 : index - 2
+        for (int i = 0; i < track_start; i++)
         {
             track[i].go.SetActive(false);
         }
