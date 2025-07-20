@@ -143,6 +143,11 @@ class FollowerAgent(Agent):
         return final_episode_rewards
 
     def save_model(self, path: Path) -> None:
+        self.model.depth_net.to("cpu")
+        self.model.depth_net.eval()
+        self.model.qnet.to("cpu")
+        self.model.qnet.eval()
+
         torch.onnx.export(
             WrapperNet(copy.deepcopy(self.model)),
             (
@@ -162,6 +167,11 @@ class FollowerAgent(Agent):
                 "actions": {0: "batch_size"},
             },
         )
+
+        self.model.depth_net.to(self.device)
+        self.model.depth_net.eval()
+        self.model.qnet.to(self.device)
+        self.model.qnet.eval()
 
     def get_state_and_reward(self, step: DecisionStep | TerminalStep) -> tuple[State, float]:
         state = State(step.obs)

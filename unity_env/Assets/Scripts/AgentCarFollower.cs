@@ -29,13 +29,13 @@ public class AgentCarFollower : Agent
     public AgentCar carLeader;
 
     float deathPenalty = -10f;
-    float bestDistance = 10f;
+    float bestDistance = 5f;
 
     public void Start()
     {
         carController.useControls = false;
         deathPenalty = DataChannel.getParameter("deathPenalty", -10f);
-        bestDistance = DataChannel.getParameter("bestDistance", 10f);
+        bestDistance = DataChannel.getParameter("bestDistance", 5f);
     }
 
     public override void OnEpisodeBegin()
@@ -102,13 +102,23 @@ public class AgentCarFollower : Agent
         else
         {
             float difference = relativePosition.magnitude - bestDistance;
-            reward = (float)(5 / (1 + (0.5 * (difference * difference))));
+            reward = (float)-0.01f  * difference * difference + 10;
             reward *= relativePosition.y / relativePosition.magnitude;
         }
 
         Debug.Log(reward);
+
+
+        float signedAngle = Vector3.SignedAngle(
+                    transform.rotation * Vector3.forward,
+                    carLeader.transform.rotation * Vector3.forward,
+                    Vector3.up
+                );
+
+        reward += - 2 * Math.Abs(signedAngle) / 180
         return reward;
     }
+
 
     void TriggerAction(ActionBuffers actions)
     {

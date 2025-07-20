@@ -52,7 +52,7 @@ class NetworkPipeline:
         return q_values, t_ref_pred, action_index[0]
 
     def fit(
-        self, memory: ReplayBuffer, epochs_qnet: int = 1, epochs_depth_net: int = 10
+        self, memory: ReplayBuffer, epochs_qnet: int = 1, epochs_depth_net: int = 1
     ) -> tuple[float, float]:
         dataset_qnet = memory.get_qnet_dataset(self.inject_correct_values)
         avg_loss_qnet = self.qnet.fit(dataset_qnet, self.device, epochs_qnet)

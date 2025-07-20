@@ -19,6 +19,7 @@ from follower_agent.network_pipeline import NetworkPipeline
 class WrapperNet(torch.nn.Module):
     def __init__(self, net: NetworkPipeline):
         super(WrapperNet, self).__init__()
+
         self.depth_net = net.depth_net
         self.qnet = net.qnet
         self.temperature = 0.0
