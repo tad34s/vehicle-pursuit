@@ -80,8 +80,7 @@ unity_env/Assets/ML-Agents/
 **/vehiclePursuit_Data/ML-Agents/
 
 # Automatically saved models
-src/models/
-models/
+models/*/
 # Saved runs
 src/runs/
 
