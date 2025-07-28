@@ -113,7 +113,7 @@ class FollowerAgent(Agent):
             self.memory.add_exp(exp)
             self.episode_rewards += float(sum(exp.rewards))
 
-        self.memory.flip_dataset()
+        # self.memory.flip_dataset()
         sample_exp = self.memory.buffer[int(self.memory.size() / 2)]
         sample_image = sample_exp.states[int(len(sample_exp) / 2)].img
         sample_q_values = sample_exp.q_values_pred[int(len(sample_exp) / 2)]

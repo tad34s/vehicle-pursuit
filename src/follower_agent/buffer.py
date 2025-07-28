@@ -112,16 +112,6 @@ class Experience:
     ) -> tuple[list[np.ndarray], list[np.ndarray]]:
         targets = []
         states = []
-        # print("states")
-        # print(self.states)
-        # print("actions")
-        # print(self.actions)
-        # print("rewards")
-        # print(self.rewards)
-        # print("t_ref_pred")
-        # print(self.t_ref_pred)
-        # print("q_values_pred")
-        # print(self.q_values_pred)
         for e, state in enumerate(self.states):
             if self.actions[e] is None:
                 break
@@ -186,6 +176,8 @@ class ReplayBuffer:
         state_dataset = []
         targets_dataset = []
         for exp in self.buffer:
+            if len(exp) <= 5:  # ignoring very short exps
+                continue
             states, targets = exp.calculate_targets(inject_correct_values)
             targets_dataset += targets
             state_dataset += states
