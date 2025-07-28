@@ -102,11 +102,10 @@ public class AgentCarFollower : Agent
         else
         {
             float difference = relativePosition.magnitude - bestDistance;
-            reward = (float)-0.01f  * difference * difference + 10;
+            reward = (float)-0.01f * difference * difference + 10;
             reward *= relativePosition.y / relativePosition.magnitude;
         }
 
-        Debug.Log(reward);
 
 
         float signedAngle = Vector3.SignedAngle(
@@ -115,7 +114,7 @@ public class AgentCarFollower : Agent
                     Vector3.up
                 );
 
-        reward += - 2 * Math.Abs(signedAngle) / 180;
+        reward += -2 * Math.Abs(signedAngle) / 180;
         return reward;
     }
 

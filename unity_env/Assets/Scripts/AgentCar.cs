@@ -124,8 +124,8 @@ public class AgentCar : Agent
         {
             SetReward(deathPenalty);
             carFollower.SetReward(carFollower.calcDistanceToLeader());
-            EndEpisode();
             carFollower.EndEpisode();
+            EndEpisode();
         }
 
         AddReward((4 - carController.getAmountOfWheelsOnRoad()) * -1f);
