@@ -114,7 +114,7 @@ public class AgentCarFollower : Agent
                     Vector3.up
                 );
 
-        reward += -2 * Math.Abs(signedAngle) / 180;
+        reward += -10 * Math.Abs(signedAngle) / 180;
         return reward;
     }
 
@@ -149,6 +149,7 @@ public class AgentCarFollower : Agent
         AddReward((4 - carController.getAmountOfWheelsOnRoad()) * -1f);
 
         TriggerAction(actions);
+        Debug.Log(carController.carSpeed);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
