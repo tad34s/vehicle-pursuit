@@ -31,6 +31,9 @@ class State:
 
         return new_state
 
+    def __str__(self) -> str:
+        return f"steer: {self.steer}, speed:{self.speed}, leader_speed: {self.leader_speed}, t_ref: {self.t_ref}"
+
 
 class StateTargetValuesDataset(Dataset):
     def __init__(self, states: list, targets: list) -> None:
@@ -136,6 +139,7 @@ class Experience:
                 t_ref = self.t_ref_pred[e]
             else:
                 t_ref = state.t_ref
+            # Qnet input from state
             states.append(
                 np.array([state.steer, state.speed, state.leader_speed, *t_ref], dtype=np.float32)
             )
@@ -171,7 +175,7 @@ class ReplayBuffer:
         return len(self.buffer)
 
     def create_qnet_targets(
-        self, inject_correct_values=False
+        self, inject_correct_values
     ) -> tuple[list[np.ndarray], list[np.ndarray]]:
         state_dataset = []
         targets_dataset = []
@@ -210,7 +214,7 @@ class ReplayBuffer:
         for new_exp in new_exps:
             self.buffer.append(new_exp)
 
-    def get_qnet_dataset(self, inject_correct_values=False) -> StateTargetValuesDataset:
+    def get_qnet_dataset(self, inject_correct_values) -> StateTargetValuesDataset:
         states, targets = self.create_qnet_targets(inject_correct_values)
         return StateTargetValuesDataset(states, targets)
 

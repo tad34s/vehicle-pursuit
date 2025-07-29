@@ -90,9 +90,9 @@ class LeaderAgent(Agent):
             self.episode_rewards += sum(exp.rewards)
 
         self.memory.flip_dataset()
-        sample_exp = self.memory.buffer[int(self.memory.size() / 2)]
-        sample_image = sample_exp.observations[int(len(sample_exp) / 2)][0]
-        sample_q_values = sample_exp.predicted_values[int(len(sample_exp) / 2)]
+        sample_exp = self.memory.buffer[int(self.memory.size() / 3)]
+        sample_image = sample_exp.observations[int(len(sample_exp) / 3)][0]
+        sample_q_values = sample_exp.predicted_values[int(len(sample_exp) / 3)]
 
         self.temperature = max(0.0, self.temperature - REDUCE_TEMPERATURE)
 
@@ -106,7 +106,7 @@ class LeaderAgent(Agent):
                 steer += f"{s:.2f} "
 
             self.writer.add_text("Sample Q leader values (steer)", steer, self.curr_episode)
-            self.writer.add_scalar("Temperature follower", self.temperature, self.curr_episode)
+            self.writer.add_scalar("Temperature Leader", self.temperature, self.curr_episode)
 
         self.fit(1)
         self.memory.wipe()

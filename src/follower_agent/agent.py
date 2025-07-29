@@ -114,25 +114,31 @@ class FollowerAgent(Agent):
             self.episode_rewards += float(sum(exp.rewards))
 
         # self.memory.flip_dataset()
-        sample_exp = self.memory.buffer[int(self.memory.size() / 2)]
-        sample_image = sample_exp.states[int(len(sample_exp) / 2)].img
-        sample_q_values = sample_exp.q_values_pred[int(len(sample_exp) / 2)]
+        sample_exp = self.memory.buffer[int(self.memory.size() / 3)]
+        picked_index = int(len(sample_exp) / 2)
+        sample_image = sample_exp.states[picked_index].img
+        sample_q_values = sample_exp.q_values_pred[picked_index]
 
         avg_loss_qnet, avg_loss_depth_net = self.model.fit(self.memory)
         self.temperature = max(0.0, self.temperature - REDUCE_TEMPERATURE)
         if self.writer is not None:
-            self.writer.add_image("Sample image follower", sample_image)
+            self.writer.add_image("Sample Image Follower", sample_image)
+            self.writer.add_text("Sample State Follower", str(sample_exp.states[picked_index]))
 
             # Add text
             steer = ""
-
             for s in sample_q_values:
-                steer += f"{s:.2f} "
+                steer += f"{s:.3f} "
+            self.writer.add_text("Sample Q values Follower", steer, self.curr_episode)
+            rewards = ""
+            for reward in sample_exp.rewards:
+                rewards += f"{reward:.3f} "
+            self.writer.add_text("Sample Rewards Follower", rewards, self.curr_episode)
 
-            self.writer.add_text("Sample Q follower values (steer)", steer, self.curr_episode)
-
-            self.writer.add_scalar("Loss/Epoch Q-Net", avg_loss_qnet, self.curr_episode)
-            self.writer.add_scalar("Loss/Epoch Depth-Net", avg_loss_depth_net, self.curr_episode)
+            self.writer.add_scalar("Loss/Epoch Follower Q-Net", avg_loss_qnet, self.curr_episode)
+            self.writer.add_scalar(
+                "Loss/Epoch Follower Depth-Net", avg_loss_depth_net, self.curr_episode
+            )
             self.writer.add_scalar("Temperature Follower ", self.temperature, self.curr_episode)
 
         self.memory.wipe()
