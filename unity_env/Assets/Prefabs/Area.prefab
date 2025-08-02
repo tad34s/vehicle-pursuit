@@ -311,6 +311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AgentFollower
       objectReference: {fileID: 0}
+    - target: {fileID: 6282186036672718647, guid: e9c7c3637b31d5515a4a368dab6e2dc3, type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6476220630122798795, guid: e9c7c3637b31d5515a4a368dab6e2dc3, type: 3}
       propertyPath: carLeader
       value: 

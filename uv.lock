@@ -12,6 +12,32 @@ wheels = [
 ]
 
 [[package]]
+name = "assimp-py"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0b/6c/bfab1e914dc0b93a482f8093d4f04c85e8c58f0c9de341291e3d6f00744d/assimp_py-1.1.0.tar.gz", hash = "sha256:ad982d33ba9ff836749a6475e145e8dcdfc106e174876ac035662301707c967c", size = 2940292, upload-time = "2025-04-25T19:26:07.708Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a9/10/dd36ce1c1ac31676811ceb17f897004904449911ce73e36a92984a0c036f/assimp_py-1.1.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:55504335142d77509388546308e80183afa6804a35702668f3ec45717c9aed29", size = 5531302, upload-time = "2025-04-25T19:23:46.746Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/db/9eec4c41fddc2581b27b29d510534a408b09577cfa7f5802ae146b2e2a5a/assimp_py-1.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ffecf1a371bdfe01ebca462eda62eede806d822cad8f38bd5e3bd923b5bcaaaf", size = 3689333, upload-time = "2025-04-25T19:23:48.725Z" },
+    { url = "https://files.pythonhosted.org/packages/4b/f1/4d00a2553cc9def350c717cf0733ccae341ffe0928bc5afcb84f3d8c2c3e/assimp_py-1.1.0-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:4ea5227582bc2af4bb2fcefe7d724053f32cd71d4003afdf9409a60a89ec7600", size = 3896712, upload-time = "2025-04-25T19:23:50.385Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/ac/2325021cb322de29c880979e163e80f4b049a151fe9daea4a37af6bae20a/assimp_py-1.1.0-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:29591bfb39e71d75b02bf0f4f7b212afa8af12b2ae75d96be3524a9a6feef471", size = 4107975, upload-time = "2025-04-25T19:23:51.623Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/4d/829cc492c7d51aa395f6ebfa07bc6bf58e570283b8f9635a40cf42568ba6/assimp_py-1.1.0-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:834f42d51a99408a605b37bbb97fc406375879992d4ee2d0960f0e72cb50ca35", size = 3783388, upload-time = "2025-04-25T19:23:53.355Z" },
+    { url = "https://files.pythonhosted.org/packages/bc/ce/2a4702acdcac65923b0b436185a921f813199cbadda3957f6aa37a9aa823/assimp_py-1.1.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:54b029879552aa00ea15957ec8159e0660967d2b03cb48440fcc65ca4878fd2f", size = 3868144, upload-time = "2025-04-25T19:23:55.074Z" },
+    { url = "https://files.pythonhosted.org/packages/75/a6/459b1fe1b0d81ec32b29213f961ad11084beedddff28aedfb84b48821131/assimp_py-1.1.0-cp310-cp310-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:2114f1ba89d53f7268e452022d84c30ec2d4298d9a196ee00b8a8d1bc709bc61", size = 3659001, upload-time = "2025-04-25T19:23:56.379Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/06/ef5e87219d9e8fea08d1bee6f895459a2769d29af5743c996c35a56ffa88/assimp_py-1.1.0-cp310-cp310-manylinux_2_27_ppc64le.manylinux_2_28_ppc64le.whl", hash = "sha256:6fdd7e1f0e9851d850a3a28c891cf5bca65847baa76daf327110ecb8eefd8694", size = 4142657, upload-time = "2025-04-25T19:23:58.117Z" },
+    { url = "https://files.pythonhosted.org/packages/72/2a/475022a3209d30b6cb43b74944b0e08470de87185dfb426788cb5b7259a5/assimp_py-1.1.0-cp310-cp310-manylinux_2_27_s390x.manylinux_2_28_s390x.whl", hash = "sha256:93d3aa769f08152fd7a46c12288aa9ea025736f166fae66692dbecf537cd827f", size = 3925261, upload-time = "2025-04-25T19:23:59.859Z" },
+    { url = "https://files.pythonhosted.org/packages/22/9a/a86848fedafdc12afccb58d46aab40ca5c1cc0e9edb580aefde3c0370138/assimp_py-1.1.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:2033734ebf606e16a0bfe7d0c259512e619e10e85160b702d1fa81d5f11e6483", size = 3881834, upload-time = "2025-04-25T19:24:01.622Z" },
+    { url = "https://files.pythonhosted.org/packages/46/ad/07af1c3cf8efde1f1cb452a98affc2c01809ea334a3d86956b859d0340ab/assimp_py-1.1.0-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:96e1ec70fd68dca726beb202dd89cd00103d74c0d62d5606a4525b659a9ff0e7", size = 4697014, upload-time = "2025-04-25T19:24:02.89Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/95/8f40e4842b70dafdbfe6d98db0d54f8604c8fa63d64590b393ea4a3205f0/assimp_py-1.1.0-cp310-cp310-musllinux_1_2_armv7l.whl", hash = "sha256:1f56123fe91beb075a06c83093e84205485650ca54023417058e091dc8054c98", size = 4195969, upload-time = "2025-04-25T19:24:04.164Z" },
+    { url = "https://files.pythonhosted.org/packages/45/e8/920d836ac6dd44b302cb23b26d7bb62305b49918c10cb686472df81109dd/assimp_py-1.1.0-cp310-cp310-musllinux_1_2_i686.whl", hash = "sha256:2bb38165493644441e140b16c3047786d1c31b53169bffd2d66eaaf525b883ef", size = 5183732, upload-time = "2025-04-25T19:24:05.475Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/69/ee9eaec5ffab333a45617b3de6b024330165c9b0de576b558c71fb70a3aa/assimp_py-1.1.0-cp310-cp310-musllinux_1_2_ppc64le.whl", hash = "sha256:61299a1246c0da00f0a4df6ad4198f265d1575da83776e8f43f61216fa28006c", size = 5264655, upload-time = "2025-04-25T19:24:07.171Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/1c/0887d6d3bfbd9a739e43a9eb9cff112addf1ed71dc42be3067df7eb47000/assimp_py-1.1.0-cp310-cp310-musllinux_1_2_s390x.whl", hash = "sha256:f3b8db11014f05b4ed263e849d9745765d513e75a77f9c97577c7fe813b9a9ce", size = 5482814, upload-time = "2025-04-25T19:24:08.599Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/ec/17047d6c2ab96609dbf09d62ab9935e763dd14a49cc920dfd48719edeb3a/assimp_py-1.1.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:f3af3f74dce45ed8e19cfd5fac7b071b0730f5f62e5758546286a8f8df5ba0c4", size = 4973526, upload-time = "2025-04-25T19:24:10.427Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/94/8a9fd7071adc5a6035a0f9de19e3398ad0bb935d2db0f3cf80280f90f5d2/assimp_py-1.1.0-cp310-cp310-win_amd64.whl", hash = "sha256:56f426fbc652cfe0e0a56116c93923497ae54edfb0cb479c71d44c5ab72f96f1", size = 1889636, upload-time = "2025-04-25T19:24:11.988Z" },
+    { url = "https://files.pythonhosted.org/packages/90/30/33d67c7626cba841e78e769a2059dc59df8aea4c6920345584a29ff9da9f/assimp_py-1.1.0-cp310-cp310-win_arm64.whl", hash = "sha256:0298d1521fff9f3eae028706a2b9802bf896fafa63714b906c9ebb00e46ae072", size = 1889636, upload-time = "2025-04-25T19:24:13.72Z" },
+]
+
+[[package]]
 name = "attrs"
 version = "25.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1093,6 +1119,7 @@ name = "vehicle-pursuit"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "assimp-py" },
     { name = "matplotlib" },
     { name = "mlagents" },
     { name = "mlagents-envs" },
@@ -1110,6 +1137,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "assimp-py", specifier = ">=1.1.0" },
     { name = "matplotlib" },
     { name = "mlagents", specifier = "==1.0.0" },
     { name = "mlagents-envs", specifier = "==1.0.0" },

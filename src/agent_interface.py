@@ -86,7 +86,6 @@ class AgentOnnyx(Agent):
             if not self.inject_correct:
                 nonvis_ob[0, 3:] = torch.nan
 
-            print(self.name, nonvis_ob)
             outputs = self.model.run(None, {"visual_obs": visual_ob, "nonvis_obs": nonvis_ob})
 
             actions = outputs[1]
