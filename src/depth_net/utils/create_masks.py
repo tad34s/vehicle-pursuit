@@ -9,18 +9,18 @@ from PIL import Image
 from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor, SamModel, SamProcessor
 
 # Configuration
-INPUT_DIR = Path("input_images")
-OUTPUT_DIR = Path("output_masks")
+INPUT_DIR = Path("dataset") / "images"
+OUTPUT_DIR = Path("dataset") / "output_masks"
 TEXT_PROMPT = "red car"
-BOX_THRESHOLD = 0.01
-TEXT_THRESHOLD = 0.01
+BOX_THRESHOLD = 0.25
+TEXT_THRESHOLD = 0.25
 
 # Setup device
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
 # Create output directory
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
 
 def load_models():

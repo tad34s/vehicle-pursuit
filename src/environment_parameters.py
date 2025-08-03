@@ -7,7 +7,7 @@ def set_parameters(data_channel) -> None:
     # 1 -> Black & white road
     data_channel.set_int_parameter("roadColor", 0)
 
-    data_channel.set_bool_parameter("randomBackgroundColor", True)
+    data_channel.set_bool_parameter("randomBackgroundColor", False)
 
     data_channel.set_float_parameter("changingBackgroundColorSpeed", 0.75)
 

@@ -92,8 +92,6 @@ class AgentOnnyx(Agent):
                 dim = (128, 128)
                 visual_ob = step.obs[0]
                 visual_ob = np.transpose(visual_ob, (1, 2, 0))
-                cv2.imshow("img", visual_ob)
-                cv2.waitKey(0)
                 visual_ob = cv2.resize(visual_ob, dsize=dim, interpolation=cv2.INTER_AREA)
                 visual_ob = np.transpose(visual_ob, (2, 0, 1))
                 visual_ob = visual_ob.reshape(1, *self.visual_input_shape)

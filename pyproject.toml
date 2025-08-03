@@ -19,6 +19,7 @@ dependencies = [
     "scipy==1.10.1",
     "torchvision>=0.16.0",
     "assimp-py>=1.1.0",
+    "transformers>=4.54.1",
 ]
 
 [tool.ruff]
