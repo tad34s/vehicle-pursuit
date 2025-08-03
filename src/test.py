@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("leader")
 parser.add_argument("-f", "--follower")
 parser.add_argument("-c", "--inject-correct", action="store_true")
+parser.add_argument("-d", "--create-dataset", action="store_true")
 parser.add_argument(
     "-e",
     "--env",
@@ -44,6 +45,7 @@ if __name__ == "__main__":
     follower_path = args.follower
     leader_path = args.leader
     inject_correct = args.inject_correct
+    create_dataset = args.create_dataset
     env_path = args.env
 
     leader_only = not follower_path
@@ -79,6 +81,7 @@ if __name__ == "__main__":
             follower_hyperparams.VISUAL_INPUT_SHAPE,
             follower_hyperparams.NONVISUAL_INPUT_SHAPE,
             inject_correct=inject_correct,
+            create_dataset=create_dataset,
         )
 
         agents = [leader_agent, follower_agent]

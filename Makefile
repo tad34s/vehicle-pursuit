@@ -13,3 +13,9 @@ install-hooks: ## Install pre-commit hooks
 
 train:
 	uv run src/train.py
+
+test:
+	uv run src/test.py models/leader.onnx -f models/follower.onnx 
+
+dataset:
+	uv run src/test.py models/leader.onnx -f models/follower.onnx -d

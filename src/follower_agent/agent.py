@@ -1,6 +1,7 @@
 import copy
 from pathlib import Path
 
+import cv2
 import numpy as np
 import torch
 import torch.onnx
@@ -14,6 +15,8 @@ from follower_agent.hyperparameters import REDUCE_TEMPERATURE, START_TEMPERATURE
 from follower_agent.network_pipeline import NetworkPipeline
 from follower_agent.wrapper_net import WrapperNet
 from variables import ACTION_OPTIONS
+
+counter = 0
 
 
 class FollowerAgent(Agent):
@@ -180,7 +183,20 @@ class FollowerAgent(Agent):
         self.model.qnet.eval()
 
     def get_state_and_reward(self, step: DecisionStep | TerminalStep) -> tuple[State, float]:
+        global counter
         state = State(step.obs)
+        dataset_path = Path("dataset")
+        dataset_images = dataset_path / "images"
+        dataset_t_ref = dataset_path / "t_ref"
+        dataset_images.mkdir(parents=True, exist_ok=True)
+        dataset_t_ref.mkdir(parents=True, exist_ok=True)
+
+        img_rgb = state.img.transpose(1, 2, 0)
+
+        cv2.imwrite(str(dataset_images / f"{counter}.png"), img_rgb)
+        np.save(str(dataset_t_ref / f"{counter}.npy"), state.t_ref)
+        state.img = cv2.resize(state.img, (128, 128), interpolation=cv2.INTER_LANCZOS4)
+        counter += 1
 
         reward = step.reward
         return state, reward

@@ -1,10 +1,15 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
+import cv2
 import numpy as np
 import onnxruntime as ort
 import torch
 from mlagents_envs.environment import ActionTuple, DecisionSteps, TerminalSteps
+
+from follower_agent.buffer import State
+
+counter = 0
 
 
 class Agent(ABC):
@@ -34,6 +39,7 @@ class Agent(ABC):
         visual_input_shape,
         nonvis_input_shape,
         inject_correct: bool = False,
+        create_dataset: bool = False,
     ) -> "AgentOnnyx":
         return AgentOnnyx(
             agent_class.behavior_name,
@@ -42,6 +48,7 @@ class Agent(ABC):
             visual_input_shape,
             nonvis_input_shape,
             inject_correct,
+            create_dataset,
         )
 
 
@@ -54,6 +61,7 @@ class AgentOnnyx(Agent):
         visual_input_shape,
         nonvis_input_shape,
         inject_correct: bool,
+        create_dataset: bool = False,
     ) -> None:
         super().__init__()
         self.model = ort.InferenceSession(model_path)
@@ -62,6 +70,7 @@ class AgentOnnyx(Agent):
         self.name = name
         self.visual_input_shape = visual_input_shape
         self.nonvis_input_shape = nonvis_input_shape
+        self.save_dataset = create_dataset
 
     def submit_actions(self, steps: tuple[DecisionSteps, TerminalSteps]) -> ActionTuple | None:
         decision_steps, _ = steps
@@ -72,6 +81,9 @@ class AgentOnnyx(Agent):
 
         for agent_id in decision_steps:
             step = decision_steps[agent_id]
+            if self.save_dataset:
+                self.save_state(State(step.obs))
+
             if self.name == "Leader":
                 from leader_agent.agent import LeaderAgent
 
@@ -106,3 +118,22 @@ class AgentOnnyx(Agent):
     def save_model(self, path: Path) -> None:
         _ = path
         pass
+
+    def save_state(self, state: State):
+        global counter
+
+        dataset_path = Path("dataset")
+        dataset_images = dataset_path / "images"
+        dataset_t_ref = dataset_path / "t_ref"
+        dataset_images.mkdir(parents=True, exist_ok=True)
+        dataset_t_ref.mkdir(parents=True, exist_ok=True)
+
+        img = np.transpose(state.img, (1, 2, 0))
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        if img.dtype in [np.float32, np.float64]:
+            img = (img * 255).astype(np.uint8)
+        elif img.dtype == np.uint16:
+            pass
+        cv2.imwrite(str(dataset_images / f"{counter}.png"), img)
+        np.save(str(dataset_t_ref / f"{counter}.npy"), state.t_ref)
+        counter += 1
