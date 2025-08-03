@@ -11074,7 +11074,7 @@ MonoBehaviour:
   m_Camera: {fileID: 6282186036672718647}
   m_SensorName: CameraSensor
   m_Width: 1080
-  m_Height: 128
+  m_Height: 1080
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0

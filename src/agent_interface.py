@@ -81,8 +81,6 @@ class AgentOnnyx(Agent):
 
         for agent_id in decision_steps:
             step = decision_steps[agent_id]
-            if self.save_dataset:
-                self.save_state(State(step.obs))
 
             if self.name == "Leader":
                 from leader_agent.agent import LeaderAgent
@@ -91,12 +89,22 @@ class AgentOnnyx(Agent):
                     self.visual_input_shape, step.obs[0]
                 ).reshape(1, *self.visual_input_shape)
             else:
-                visual_ob = step.obs[0].reshape(1, *self.visual_input_shape)
+                dim = (128, 128)
+                visual_ob = step.obs[0]
+                visual_ob = np.transpose(visual_ob, (1, 2, 0))
+                cv2.imshow("img", visual_ob)
+                cv2.waitKey(0)
+                visual_ob = cv2.resize(visual_ob, dsize=dim, interpolation=cv2.INTER_AREA)
+                visual_ob = np.transpose(visual_ob, (2, 0, 1))
+                visual_ob = visual_ob.reshape(1, *self.visual_input_shape)
 
             nonvis_ob = step.obs[1].reshape(1, *self.nonvis_input_shape)
 
             if not self.inject_correct:
                 nonvis_ob[0, 3:] = torch.nan
+
+            if self.save_dataset:
+                self.save_state(State(step.obs))
 
             outputs = self.model.run(None, {"visual_obs": visual_ob, "nonvis_obs": nonvis_ob})
 
