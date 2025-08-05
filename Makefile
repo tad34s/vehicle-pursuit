@@ -18,4 +18,5 @@ test:
 	uv run src/test.py models/leader.onnx -f models/follower.onnx 
 
 dataset:
-	uv run src/test.py models/leader.onnx -f models/follower.onnx -d
+	uv run src/test.py models/leader.onnx -f models/follower.onnx -c -d 
+	uv run src/depth_net/utils/create_masks.py

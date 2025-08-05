@@ -142,6 +142,7 @@ if __name__ == "__main__":
     # Get image files
     image_extensions = [".jpg", ".jpeg", ".png", ".bmp"]
     image_paths = [f for f in INPUT_DIR.iterdir() if f.suffix.lower() in image_extensions]
+    image_paths.sort()
 
     if not image_paths:
         print(f"No images found in {INPUT_DIR}")

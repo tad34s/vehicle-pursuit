@@ -5,7 +5,7 @@ from pytorch3d.structures import Pointclouds
 
 
 def fbx_to_pytorch_pointcloud(
-    fbx_path: str, num_points: int = 100000, device: str = "cpu"
+    fbx_path: str, num_points: int = 1000, device: str = "cpu"
 ) -> Pointclouds:
     """
     Reads an FBX file, converts its mesh data to a PyTorch3D Meshes object,
