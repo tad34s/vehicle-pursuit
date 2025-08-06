@@ -15,16 +15,11 @@ TEXT_PROMPT = "red car"
 BOX_THRESHOLD = 0.25
 TEXT_THRESHOLD = 0.25
 
-# Setup device
 device = "cuda" if torch.cuda.is_available() else "cpu"
-print(f"Using device: {device}")
-
-# Create output directory
 OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
 
 def load_models():
-    """Load Grounding DINO and SAM models with processors"""
     print("Loading models...")
 
     # Grounding DINO
@@ -41,11 +36,9 @@ def load_models():
 
 
 def create_mask_visual(mask, image_np):
-    """Create visualization of mask overlay on image"""
     plt.figure(figsize=(10, 10))
     plt.imshow(image_np)
 
-    # Apply semi-transparent blue mask
     color = np.array([30 / 255, 144 / 255, 255 / 255, 0.6])
     h, w = mask.shape
     mask_img = mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
@@ -56,19 +49,15 @@ def create_mask_visual(mask, image_np):
 
 
 def process_image(image_path, dino_processor, dino_model, sam_processor, sam_model):
-    """Process single image through detection and segmentation pipeline"""
-    # Load image
     image = Image.open(image_path).convert("RGB")
     image_np = np.array(image)
     filename = image_path.stem
 
-    # Grounding DINO detection
     inputs = dino_processor(images=image, text=TEXT_PROMPT, return_tensors="pt").to(device)
 
     with torch.no_grad():
         outputs = dino_model(**inputs)
 
-    # Process detections
     results = dino_processor.post_process_grounded_object_detection(
         outputs,
         inputs.input_ids,
@@ -77,7 +66,6 @@ def process_image(image_path, dino_processor, dino_model, sam_processor, sam_mod
         target_sizes=[image.size[::-1]],  # (height, width)
     )
 
-    # Extract results - note: returns list per image
     if results and len(results) > 0:
         result = results[0]
         boxes = result["boxes"]
@@ -86,10 +74,8 @@ def process_image(image_path, dino_processor, dino_model, sam_processor, sam_mod
     else:
         boxes, scores, labels = [], [], []
 
-    # Filter relevant boxes
     filtered_boxes = []
     for i, label in enumerate(labels):
-        # Check if the detected label matches the prompt
         if TEXT_PROMPT.lower() in label.lower() and scores[i] > BOX_THRESHOLD:
             filtered_boxes.append(boxes[i])
 
@@ -99,13 +85,12 @@ def process_image(image_path, dino_processor, dino_model, sam_processor, sam_mod
         empty_mask = np.zeros(image.size[::-1], dtype=np.uint8)
         return empty_mask, image_np, filename
 
-    # Prepare boxes for SAM - convert to list of lists
     boxes_list = [box.cpu().tolist() for box in filtered_boxes]
 
     # SAM segmentation
     sam_inputs = sam_processor(
         image,
-        input_boxes=[boxes_list],  # Wrap in list for batch dimension
+        input_boxes=[boxes_list],
         return_tensors="pt",
     ).to(device)
 
@@ -120,16 +105,12 @@ def process_image(image_path, dino_processor, dino_model, sam_processor, sam_mod
         binarize=True,
     )
 
-    # Combine all masks - FIXED LOGIC
-    # Initialize a blank mask
     combined_mask = torch.zeros(image.size[::-1], dtype=torch.bool)
 
     # Process each set of masks
     for mask_set in masks:
-        # Check if mask_set has any masks
-        if mask_set.numel() > 0:  # Proper way to check for empty tensors
-            # We'll take the first mask for each box (best quality)
-            mask_first = mask_set[0, 0]  # Shape: (H, W)
+        if mask_set.numel() > 0:  # proper way to check for empty tensors
+            mask_first = mask_set[0, 0]
             combined_mask = combined_mask | mask_first
 
     return combined_mask.numpy().astype(np.uint8) * 255, image_np, filename
