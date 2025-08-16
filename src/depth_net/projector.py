@@ -14,6 +14,7 @@ from pytorch3d.renderer import (
 )
 from pytorch3d.structures import Meshes
 from pytorch3d.transforms import axis_angle_to_matrix
+from torchvision.io import read_image
 
 
 def center_mesh(mesh: Meshes) -> Meshes:
@@ -74,6 +75,9 @@ class Projector:
     CAR_SIZES = [2.188, 1.273, 5.416]  # in x,y,z direction
     IMAGE_SIZE = (1080, 1080)
 
+    FOCAL_LENGTH_MM = 50
+    SENSOR_WIDTH_MM = 70
+
     def __init__(self, car_model_path: str, device=torch.device("cpu")) -> None:
         mesh = IO().load_mesh(car_model_path, device=device)
         scale, move_y = self.calc_scale_move(mesh)
@@ -85,12 +89,11 @@ class Projector:
         self.car_mesh.to(self.device)
 
         self.camera = self.create_camera()
+        self.renderer = self.create_renderer()
 
     def create_camera(self) -> PerspectiveCameras:
-        focal_length_mm = 50
-        sensor_width_mm = 70
         W, H = self.IMAGE_SIZE
-        focal_len = (focal_length_mm / sensor_width_mm) * W
+        focal_len = (self.FOCAL_LENGTH_MM / self.SENSOR_WIDTH_MM) * W
 
         cam_R = axis_angle_to_matrix(math.pi * self.CAMERA_ROT / 180)
         T = -self.CAMERA_POS @ cam_R
@@ -114,6 +117,19 @@ class Projector:
             device=self.device,
         )
         return camera
+
+    def create_renderer(self):
+        raster_settings = RasterizationSettings(
+            image_size=self.IMAGE_SIZE,
+            blur_radius=1e-6,
+            faces_per_pixel=50,
+        )
+
+        renderer = MeshRenderer(
+            rasterizer=MeshRasterizer(cameras=self.camera, raster_settings=raster_settings),
+            shader=SoftSilhouetteShader(blend_params=BlendParams(sigma=1e-6, gamma=1e-6)),
+        )
+        return renderer
 
     @classmethod
     def calc_scale_move(cls, pc: Meshes) -> tuple[float, float]:
@@ -141,28 +157,79 @@ class Projector:
 
         return self.car_mesh.update_padded(new_verts)
 
+    def move_car_tensor(self, position: torch.Tensor):
+        verts = self.car_mesh.verts_padded()
+
+        # Extract components
+        x = position[0]
+        y = position[1]
+        theta_deg = position[2]
+        theta_rad = torch.deg2rad(theta_deg)
+        zero = torch.zeros_like(theta_rad)
+
+        rot_vec = torch.stack([zero, -theta_rad, zero]).unsqueeze(0)
+        rot_matrix = axis_angle_to_matrix(rot_vec)  # (1, 3, 3)
+
+        # Rotate vertices (differentiable)
+        rotated_verts = torch.bmm(verts, rot_matrix.transpose(1, 2))
+
+        # Create translation vector [x, 0, y] (differentiable)
+        zero_trans = torch.zeros_like(x)
+        translation = torch.stack([x, zero_trans, y]).unsqueeze(0).unsqueeze(0)  # (1, 1, 3)
+
+        new_verts = rotated_verts + translation
+
+        return self.car_mesh.update_padded(new_verts)
+
     def render_mask(self, x, y, theta):
         mesh = self.move_car(x, y, theta)
-        raster_settings = RasterizationSettings(
-            image_size=self.IMAGE_SIZE,
-            blur_radius=1e-6,
-            faces_per_pixel=50,
-        )
-
-        renderer = MeshRenderer(
-            rasterizer=MeshRasterizer(cameras=self.camera, raster_settings=raster_settings),
-            shader=SoftSilhouetteShader(blend_params=BlendParams(sigma=1e-6, gamma=1e-6)),
-        )
-        silhouette = renderer(mesh, cameras=self.camera)
+        silhouette = self.renderer(mesh, cameras=self.camera)
 
         silhouette_mask = silhouette[..., 3]
         mask = (silhouette_mask > 0.5).float()
         plt.imsave("out.png", mask[0].cpu().numpy(), cmap="gray")
 
+    def calculate_mask(self, position: torch.Tensor) -> np.ndarray:
+        mesh = self.move_car_tensor(position)
+        silhouette = self.renderer(mesh, cameras=self.camera)
+        return silhouette[..., 3]
+
+    def loss(self, position: torch.Tensor, ref_image: torch.Tensor) -> torch.Tensor:
+        ref_image = ref_image.to(self.device)
+        if ref_image.dtype != torch.float32:
+            ref_image = ref_image.float() / 255.0
+        ref_image = (ref_image > 0.5).float()
+
+        mask = projector.calculate_mask(position)
+        ref_image = (ref_image > 0.5).float()
+        loss = torch.sum((mask - ref_image) ** 2)
+        return loss
+
 
 if __name__ == "__main__":
+    data_num = 107
+    ref_image = read_image(f"dataset/output_masks/mask_{data_num}.png")
+    t_ref: np.ndarray = np.load(f"dataset/t_ref/{data_num}.npy")
+    t_ref_worse = t_ref.copy()
+    t_ref_worse[1] = t_ref_worse[1] - 1
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     projector = Projector("src/depth_net/utils/Prometheus.obj", device)
-    t_ref = np.load("dataset/t_ref/107.npy")
-    print(t_ref)
-    projector.render_mask(t_ref[0], t_ref[1], t_ref[2])
+    position = torch.tensor(t_ref, device=device, dtype=torch.float32, requires_grad=True)
+    position_worse = torch.tensor(
+        t_ref_worse,
+        device=device,
+        dtype=torch.float32,
+        requires_grad=True,
+    )
+
+    print(position, position_worse)
+    print("good estimate", projector.loss(position, ref_image))
+    print("worse estimate", projector.loss(position_worse, ref_image))
+
+    loss_value = projector.loss(position_worse, ref_image)
+
+    # Compute gradients
+    loss_value.backward()
+    print("Loss:", loss_value.item())
+    print("Gradient:", position.grad)
