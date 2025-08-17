@@ -14,3 +14,7 @@ ACTION_OPTIONS = [
     np.array([[1, 0, 0, 1]]),
 ]
 MIRRORED_ACTIONS = [2, 1, 0]
+
+# DepthNet
+
+IMAGE_SIZE = (512, 512)

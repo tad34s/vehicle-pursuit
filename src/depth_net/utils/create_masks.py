@@ -10,13 +10,17 @@ from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor, Sam
 
 # Configuration
 INPUT_DIR = Path("dataset") / "images"
-OUTPUT_DIR = Path("dataset") / "output_masks"
+OUTPUT_DIR = Path("dataset") / "masks"
+
+VIZ_DIR = Path("dataset") / "overlayed_masks"
+
 TEXT_PROMPT = "red car"
 BOX_THRESHOLD = 0.25
 TEXT_THRESHOLD = 0.25
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
+VIZ_DIR.mkdir(exist_ok=True, parents=True)
 
 
 def load_models():
@@ -138,13 +142,13 @@ if __name__ == "__main__":
         )
 
         # Save mask
-        mask_path = OUTPUT_DIR / f"mask_{filename}.png"
+        mask_path = OUTPUT_DIR / f"{filename}.png"
         cv2.imwrite(str(mask_path), mask)
         print(f"Mask saved to {mask_path}")
 
         # Save visualization
         plt = create_mask_visual(mask, image_np)
-        overlay_path = OUTPUT_DIR / f"overlay_{filename}.png"
+        overlay_path = VIZ_DIR / f"{filename}.png"
         plt.savefig(overlay_path, bbox_inches="tight", pad_inches=0)
         plt.close()
         print(f"Overlay saved to {overlay_path}")

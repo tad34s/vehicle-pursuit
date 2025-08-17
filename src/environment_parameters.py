@@ -1,7 +1,12 @@
+from variables import IMAGE_SIZE
+
+
 def set_parameters(data_channel) -> None:
     # Wide - 15
     # Slim - 10
     data_channel.set_int_parameter("roadSize", 15)
+    data_channel.set_int_parameter("imageHeight", IMAGE_SIZE[0])
+    data_channel.set_int_parameter("imageWidth", IMAGE_SIZE[1])
 
     # 0 -> Amazon road
     # 1 -> Black & white road
