@@ -30,8 +30,8 @@ class MaskDataset(Dataset):
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         id = self.ids[index]
         img, mask = (
-            read_image(self.input_images[id]).to(self.device),
-            read_image(self.masks[id]).to(self.device),
+            read_image(self.input_images[id]),
+            read_image(self.masks[id]),
         )
         if self.transform:
             img = self.transform(img)

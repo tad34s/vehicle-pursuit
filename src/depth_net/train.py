@@ -15,6 +15,7 @@ def pretrain(net, dataset, epochs=1) -> None:
         print(f"Epoch {epoch}")
         for batch in dataloader:
             x, _ = batch
+            x = x.to(net.device)
             batch_size = x.shape[0]
             y = torch.tensor([[0.0, 10.0, 0.0]] * batch_size, device=net.device)
             y_hat = net.forward(x)
@@ -42,6 +43,8 @@ def fit(net, dataset, epochs=1) -> None:
         for i, batch in enumerate(dataloader):
             print(f"{i}/{len(dataloader)}")
             x, ref_img = batch
+            x = x.to(net.device)
+            ref_img = ref_img.to(net.device)
             batch_size = x.size(0)
             y_hat = net.forward(x)
             loss = net.projector.loss(y_hat, ref_img)
