@@ -8,6 +8,7 @@ import torch
 from mlagents_envs.environment import ActionTuple, DecisionSteps, TerminalSteps
 
 from follower_agent.buffer import State
+from variables import DATASET_LOCATION
 
 counter = 0
 
@@ -128,7 +129,7 @@ class AgentOnnyx(Agent):
     def save_state(self, state: State):
         global counter
 
-        dataset_path = Path("dataset")
+        dataset_path = Path(DATASET_LOCATION)
         dataset_images = dataset_path / "images"
         dataset_t_ref = dataset_path / "t_ref"
         dataset_images.mkdir(parents=True, exist_ok=True)

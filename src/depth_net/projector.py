@@ -16,7 +16,27 @@ from pytorch3d.structures import Meshes
 from pytorch3d.transforms import axis_angle_to_matrix
 from torchvision.io import read_image
 
-from variables import IMAGE_SIZE
+
+def dice_loss(pred, target, smooth=1):
+    """
+    Computes the Dice Loss for binary segmentation.
+    Args:
+        pred: Tensor of predictions (batch_size, 1, H, W).
+        target: Tensor of ground truth (batch_size, 1, H, W).
+        smooth: Smoothing factor to avoid division by zero.
+    Returns:
+        Scalar Dice Loss.
+    """
+
+    # Calculate intersection and union
+    intersection = (pred * target).sum(dim=(2, 3))
+    union = pred.sum(dim=(2, 3)) + target.sum(dim=(2, 3))
+
+    # Compute Dice Coefficient
+    dice = (2.0 * intersection + smooth) / (union + smooth)
+
+    # Return Dice Loss
+    return 1 - dice.mean()
 
 
 def center_mesh(mesh: Meshes) -> Meshes:
@@ -79,7 +99,7 @@ class Projector:
     FOCAL_LENGTH_MM = 50
     SENSOR_WIDTH_MM = 70
 
-    def __init__(self, car_model_path: str, device=torch.device("cpu")) -> None:
+    def __init__(self, car_model_path: str, image_size, device=torch.device("cpu")) -> None:
         mesh = IO().load_mesh(car_model_path, device=device)
         scale, move_y = self.calc_scale_move(mesh)
         mesh.scale_verts_(scale)
@@ -89,11 +109,12 @@ class Projector:
         self.device = device
         self.car_mesh.to(self.device)
 
+        self.image_size = image_size
         self.camera = self.create_camera()
         self.renderer = self.create_renderer()
 
     def create_camera(self) -> PerspectiveCameras:
-        W, H = IMAGE_SIZE
+        W, H = self.image_size
         focal_len = (self.FOCAL_LENGTH_MM / self.SENSOR_WIDTH_MM) * W
 
         cam_R = axis_angle_to_matrix(math.pi * self.CAMERA_ROT / 180)
@@ -103,7 +124,7 @@ class Projector:
             [focal_len, focal_len], device=self.device, dtype=torch.float32
         ).unsqueeze(0)
         principal_point = torch.tensor(
-            [IMAGE_SIZE[0] / 2, IMAGE_SIZE[1] / 2],
+            [self.image_size[0] / 2, self.image_size[1] / 2],
             device=self.device,
             dtype=torch.float32,
         ).unsqueeze(0)
@@ -114,14 +135,14 @@ class Projector:
             focal_length=focal_length,
             principal_point=principal_point,
             in_ndc=False,
-            image_size=[IMAGE_SIZE],
+            image_size=[self.image_size],
             device=self.device,
         )
         return camera
 
     def create_renderer(self):
         raster_settings = RasterizationSettings(
-            image_size=IMAGE_SIZE,
+            image_size=self.image_size,
             blur_radius=1e-6,
             faces_per_pixel=50,
         )
@@ -204,26 +225,32 @@ class Projector:
 
     def loss(self, position: torch.Tensor, ref_image: torch.Tensor) -> torch.Tensor:
         ref_image = ref_image.to(self.device)
-        if ref_image.dtype != torch.float32:
-            ref_image = ref_image.float() / 255.0
+        ref_image = ref_image / 255.0
 
-        mask = self.calculate_mask(position)
-        ref_image = (ref_image > 0.5).float()
+        mask = self.calculate_mask(position)  # B, H, W
+        mask.unsqueeze_(1)  # B, 1, H, W
+        ref_image = (ref_image > 0.5).float()  # B, 1, H, W
 
-        loss = torch.sum((mask - ref_image) ** 2)
+        loss = dice_loss(mask, ref_image)
         return loss
 
 
 if __name__ == "__main__":
+    import torchvision
+
     torch.autograd.set_detect_anomaly(True)  # Add this first
     data_num = 107
-    ref_image = read_image(f"dataset/masks/{data_num}.png")
+    ref_image = read_image(f"dataset/masks/{data_num}.png").unsqueeze(0)
+    image_size = (128, 128)
+
+    transform = torchvision.transforms.Resize(image_size)
+    ref_image = transform(ref_image)
     t_ref: np.ndarray = np.load(f"dataset/t_ref/{data_num}.npy")
     t_ref_worse = t_ref.copy()
     t_ref_worse[1] = t_ref_worse[1] - 1
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    projector = Projector("src/depth_net/utils/Prometheus.obj", device)
+    projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, device)
     position = torch.tensor(
         t_ref.reshape(1, 3), device=device, dtype=torch.float32, requires_grad=True
     )
@@ -233,19 +260,21 @@ if __name__ == "__main__":
         dtype=torch.float32,
         requires_grad=True,
     )
+    position_worst = torch.tensor(
+        [[137.2555, -136.3660, -15.0732]],
+        device=device,
+        dtype=torch.float32,
+        requires_grad=True,
+    )
 
     print(position, position_worse)
+    print(position.shape, ref_image.shape)
     print("good estimate", projector.loss(position, ref_image))
     print("worse estimate", projector.loss(position_worse, ref_image))
+    print("worst estimate", projector.loss(position_worst, ref_image))
 
     loss_value = projector.loss(position_worse, ref_image)
     # Compute gradients
     loss_value.backward()
     print("Loss:", loss_value.item())
     print("Gradient:", position_worse.grad)
-
-    loss_value = projector.loss(position, ref_image)
-    # Compute gradients
-    loss_value.backward()
-    print("Loss:", loss_value.item())
-    print("Gradient:", position.grad)

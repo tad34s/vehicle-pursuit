@@ -18,3 +18,5 @@ MIRRORED_ACTIONS = [2, 1, 0]
 # DepthNet
 
 IMAGE_SIZE = (512, 512)
+
+DATASET_LOCATION = "dataset"

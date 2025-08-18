@@ -1,3 +1,4 @@
+import torch
 from net import DepthNetwork
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -6,31 +7,36 @@ from dataset import MaskDataset
 
 
 def fit(net, dataset, epochs=1) -> None:
-    # train qnet
-    dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
-    loss_sum = 0
+    dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
 
     for epoch in range(epochs):
+        epoch_loss = 0.0  # Reset each epoch
+        total_samples = 0
         print(f"Epoch {epoch}")
         for batch in tqdm(dataloader):
             x, ref_img = batch
-
+            batch_size = x.size(0)
             y_hat = net.forward(x)
-            print(y_hat.shape)
             loss = net.projector.loss(y_hat, ref_img)
-            # Backprop
+
             net.optim.zero_grad()
             loss.backward()
             net.optim.step()
-            loss_sum += loss.item()
-        print(f"Average loss: {loss_sum / len(dataset)}")
 
-    return
+            epoch_loss += loss.item() * batch_size
+            total_samples += batch_size
+
+        avg_epoch_loss = epoch_loss / total_samples
+        print(f"Average loss: {avg_epoch_loss}")
 
 
 def main():
-    dataset = MaskDataset("dataset/images", "dataset/masks")
-    net = DepthNetwork()
+    image_size = (128, 128)
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    dataset = MaskDataset("dataset/images", "dataset/masks", device, image_size)
+    net = DepthNetwork(image_size, device)
+    net.to(device)
     fit(net, dataset, epochs=100)
 
 

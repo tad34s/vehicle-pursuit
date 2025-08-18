@@ -86,8 +86,13 @@ def process_image(image_path, dino_processor, dino_model, sam_processor, sam_mod
     # Handle no detections
     if not filtered_boxes:
         print(f"No '{TEXT_PROMPT}' detected in {filename}")
-        empty_mask = np.zeros(image.size[::-1], dtype=np.uint8)
-        return empty_mask, image_np, filename
+        id = int(image_path.name[:-4])
+        print(image_path.name[:-4])
+        print(int(image_path.name[:-4]))
+        t_ref = image_path.parent.parent / "t_ref" / f"{id}.npy"
+        image_path.unlink()
+        t_ref.unlink()
+        return None, image_np, filename
 
     boxes_list = [box.cpu().tolist() for box in filtered_boxes]
 
@@ -125,7 +130,7 @@ if __name__ == "__main__":
     dino_processor, dino_model, sam_processor, sam_model = load_models()
 
     # Get image files
-    image_extensions = [".jpg", ".jpeg", ".png", ".bmp"]
+    image_extensions = [".png"]
     image_paths = [f for f in INPUT_DIR.iterdir() if f.suffix.lower() in image_extensions]
     image_paths.sort()
 
@@ -143,12 +148,13 @@ if __name__ == "__main__":
 
         # Save mask
         mask_path = OUTPUT_DIR / f"{filename}.png"
-        cv2.imwrite(str(mask_path), mask)
-        print(f"Mask saved to {mask_path}")
+        if mask is not None:
+            cv2.imwrite(str(mask_path), mask)
+            print(f"Mask saved to {mask_path}")
 
-        # Save visualization
-        plt = create_mask_visual(mask, image_np)
-        overlay_path = VIZ_DIR / f"{filename}.png"
-        plt.savefig(overlay_path, bbox_inches="tight", pad_inches=0)
-        plt.close()
-        print(f"Overlay saved to {overlay_path}")
+            # Save visualization
+            plt = create_mask_visual(mask, image_np)
+            overlay_path = VIZ_DIR / f"{filename}.png"
+            plt.savefig(overlay_path, bbox_inches="tight", pad_inches=0)
+            plt.close()
+            print(f"Overlay saved to {overlay_path}")
