@@ -1,23 +1,22 @@
 import torch
 from net import DepthNetwork
 from torch.utils.data import DataLoader
-from tqdm import tqdm
 
 from dataset import MaskDataset
 
 
 def pretrain(net, dataset, epochs=1) -> None:
-    batch_size = 64
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-    y = torch.tensor([[0.0, 10.0, 0.0]] * batch_size, device=net.device)
+    dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
     loss_fn = torch.nn.MSELoss()
 
     for epoch in range(epochs):
         epoch_loss = 0.0  # Reset each epoch
         total_samples = 0
         print(f"Epoch {epoch}")
-        for batch in tqdm(dataloader):
+        for batch in dataloader:
             x, _ = batch
+            batch_size = x.shape[0]
+            y = torch.tensor([[0.0, 10.0, 0.0]] * batch_size, device=net.device)
             y_hat = net.forward(x)
             loss = loss_fn(y_hat, y)
 
@@ -30,6 +29,7 @@ def pretrain(net, dataset, epochs=1) -> None:
 
         avg_epoch_loss = epoch_loss / total_samples
         print(f"Average loss: {avg_epoch_loss}")
+        print("-----------------------")
 
 
 def fit(net, dataset, epochs=1) -> None:
@@ -39,7 +39,8 @@ def fit(net, dataset, epochs=1) -> None:
         epoch_loss = 0.0  # Reset each epoch
         total_samples = 0
         print(f"Epoch {epoch}")
-        for batch in tqdm(dataloader):
+        for i, batch in enumerate(dataloader):
+            print(f"{i}/{len(dataloader)}")
             x, ref_img = batch
             batch_size = x.size(0)
             y_hat = net.forward(x)
@@ -54,6 +55,7 @@ def fit(net, dataset, epochs=1) -> None:
 
         avg_epoch_loss = epoch_loss / total_samples
         print(f"Average loss: {avg_epoch_loss}")
+        print("-----------------------")
 
 
 def main():
@@ -63,8 +65,10 @@ def main():
     dataset = MaskDataset("dataset/images", "dataset/masks", device, image_size)
     net = DepthNetwork(image_size, device)
     net.to(device)
-    pretrain(net, dataset, epochs=20)
-    fit(net, dataset, epochs=100)
+    print("Pretraining...")
+    pretrain(net, dataset, epochs=3)
+    print("Fitting...")
+    fit(net, dataset, epochs=500)
 
 
 if __name__ == "__main__":

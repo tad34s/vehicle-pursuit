@@ -11,7 +11,9 @@ class DepthNetwork(torch.nn.Module):
         super().__init__()
 
         self.alex_net_transorms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.alexnet(weights=True).features
+        self.features = torchvision.models.alexnet(
+            weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
+        ).features
         self.extra = torch.nn.MaxPool2d((2, 2))
         self.predict = torch.nn.Sequential(
             torch.nn.Flatten(),
