@@ -6,7 +6,7 @@ from dataset import MaskDataset
 
 
 def pretrain(net, dataset, epochs=1) -> None:
-    dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+    dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
     loss_fn = torch.nn.MSELoss()
 
     for epoch in range(epochs):
@@ -33,7 +33,7 @@ def pretrain(net, dataset, epochs=1) -> None:
 
 
 def fit(net, dataset, epochs=1) -> None:
-    dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+    dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
 
     for epoch in range(epochs):
         epoch_loss = 0.0  # Reset each epoch
