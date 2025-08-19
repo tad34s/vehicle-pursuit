@@ -31,8 +31,7 @@ def pretrain(net, dataset, epochs=1) -> None:
             total_samples += batch_size
 
         avg_epoch_loss = epoch_loss / total_samples
-        print(f"Average loss: {avg_epoch_loss}")
-        print("-----------------------")
+        print(f"Epoch {epoch}, average loss: {avg_epoch_loss}")
 
 
 def train_step(net, training_loader):
