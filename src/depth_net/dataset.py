@@ -9,13 +9,18 @@ from torchvision.io import read_image
 
 class MaskDataset(Dataset):
     def __init__(
-        self, input_images_path: str, masks_path: str, device, resized_image_size=None
+        self,
+        input_images_path: str,
+        masks_path: str,
+        ids: list[int],
+        device,
+        resized_image_size=None,
     ) -> None:
         self.input_images = {
             int(x.name[:-4]): str(x) for x in Path(input_images_path).glob("*.png")
         }
         self.masks = {int(x.name[:-4]): str(x) for x in Path(masks_path).glob("*.png")}
-        self.ids = sorted(list(self.input_images.keys()))
+        self.ids = sorted(ids)
         if len(self.input_images) != len(self.masks):
             raise ValueError
 
@@ -26,7 +31,7 @@ class MaskDataset(Dataset):
         self.device = device
 
     def __len__(self) -> int:
-        return len(self.input_images)
+        return len(self.ids)
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         id = self.ids[index]
@@ -42,13 +47,18 @@ class MaskDataset(Dataset):
 
 class TestDataset(Dataset):
     def __init__(
-        self, input_images_path: str, t_ref_path: str, device, resized_image_size=None
+        self,
+        input_images_path: str,
+        t_ref_path: str,
+        ids: list[int],
+        device,
+        resized_image_size=None,
     ) -> None:
         self.input_images = {
             int(x.name[:-4]): str(x) for x in Path(input_images_path).glob("*.png")
         }
         self.t_refs = {int(x.name[:-4]): str(x) for x in Path(t_ref_path).glob("*.npy")}
-        self.ids = sorted(list(self.input_images.keys()))
+        self.ids = sorted(ids)
         if len(self.input_images) != len(self.t_refs):
             raise ValueError
 
@@ -59,7 +69,7 @@ class TestDataset(Dataset):
         self.device = device
 
     def __len__(self) -> int:
-        return len(self.input_images)
+        return len(self.ids)
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         id = self.ids[index]

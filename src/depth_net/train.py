@@ -1,4 +1,5 @@
 from copy import deepcopy
+from pathlib import Path
 
 import torch
 from net import DepthNetwork
@@ -140,18 +141,30 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    dataset = MaskDataset("dataset/images", "dataset/masks", device, image_size)
+    input_images_path = "dataset/images"
+    available_ids = [int(x.name[:-4]) for x in Path(input_images_path).glob("*.png")]
     generator = torch.Generator().manual_seed(42)
-    train_dataset, val_dataset = random_split(dataset, [0.3, 0.7], generator=generator)
+    train_dataset_ids, val_dataset_ids = random_split(
+        available_ids, [0.7, 0.3], generator=generator
+    )
+
+    train_dataset = MaskDataset(
+        input_images_path, "dataset/masks", train_dataset_ids, device, image_size
+    )
+    val_dataset = MaskDataset(
+        input_images_path, "dataset/masks", val_dataset_ids, device, image_size
+    )
 
     net = DepthNetwork(image_size, device)
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, dataset, epochs=3)
+    pretrain(net, train_dataset, epochs=3)
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, epochs=500)
-    test_dataset = TestDataset("dataset/images", "dataset/t_ref", device, image_size)
+    test_dataset = TestDataset(
+        "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
+    )
     print("Testing against ground truth...")
     test_net(best_net, test_dataset)
 
