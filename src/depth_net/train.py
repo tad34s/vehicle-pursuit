@@ -14,7 +14,6 @@ def pretrain(net, dataset, epochs=1) -> None:
     for epoch in range(epochs):
         epoch_loss = 0.0  # Reset each epoch
         total_samples = 0
-        print(f"Epoch {epoch}")
         for batch in dataloader:
             x, _ = batch
             x = x.to(net.device)
