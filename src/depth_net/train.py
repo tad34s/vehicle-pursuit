@@ -62,8 +62,8 @@ def validate_net(net, val_loader):
         x = x.to(net.device)  # Move batch to GPU
         ref_image = ref_image.to(net.device)
         with torch.no_grad():
-            outputs = net(x)
-            loss = net.projector.loss(x, ref_image)
+            y_hat = net(x)
+            loss = net.projector.loss(y_hat, ref_image)
 
         last_mean_loss = loss.item()
         running_cum_loss += last_mean_loss * x.shape[0]
