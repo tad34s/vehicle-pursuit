@@ -243,7 +243,7 @@ if __name__ == "__main__":
     ref_image = read_image(f"dataset/masks/{data_num}.png").unsqueeze(0)
     image_size = (128, 128)
 
-    transform = torchvision.transforms.Resize(image_size)
+    transform = torchvision.transforms.Resize(image_size, antialias=True)
     ref_image = transform(ref_image)
     t_ref: np.ndarray = np.load(f"dataset/t_ref/{data_num}.npy")
     t_ref_worse = t_ref.copy()

@@ -20,7 +20,7 @@ class MaskDataset(Dataset):
             raise ValueError
 
         if resized_image_size is not None:
-            self.transform = torchvision.transforms.Resize(resized_image_size)
+            self.transform = torchvision.transforms.Resize(resized_image_size, antialias=True)
         else:
             self.transform = None
         self.device = device
@@ -53,7 +53,7 @@ class TestDataset(Dataset):
             raise ValueError
 
         if resized_image_size is not None:
-            self.transform = torchvision.transforms.Resize(resized_image_size)
+            self.transform = torchvision.transforms.Resize(resized_image_size, antialias=True)
         else:
             self.transform = None
         self.device = device

@@ -120,7 +120,7 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
         net.train(False)
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         val_loss.append(avg_val_loss)
-        print(f"mean training loss: {avg_loss},mean validation loss {avg_val_loss}")
+        print(f"mean training loss: {avg_loss}, mean validation loss {avg_val_loss}")
 
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
@@ -152,7 +152,7 @@ def main():
     print("Pretraining...")
     pretrain(net, dataset, epochs=1)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, epochs=2)
+    best_net = fit(net, train_dataset, val_dataset, epochs=5)
     test_dataset = TestDataset("dataset/images", "dataset/t_ref", device, image_size)
     test_net(best_net, test_dataset)
 
