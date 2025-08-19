@@ -93,10 +93,10 @@ def test_net(net, test_dataset):
     q2 = quantiles[1]  # 75% quantile (3/4) [3]
 
     # Print results (or return/store as needed)
-    print(f"Mean Error: {mean}")
-    print(f"Std Error: {std}")
-    print(f"10% Quantile: {q1}")
-    print(f"90% Quantile: {q2}")
+    print(f"Mean error: {mean}")
+    print(f"Std error: {std}")
+    print(f"10% quantile: {q1}")
+    print(f"90% quantile: {q2}")
 
     # Return statistics if needed
     return
@@ -154,6 +154,7 @@ def main():
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, epochs=5)
     test_dataset = TestDataset("dataset/images", "dataset/t_ref", device, image_size)
+    print("Testing against ground truth...")
     test_net(best_net, test_dataset)
 
 
