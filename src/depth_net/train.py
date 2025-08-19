@@ -88,15 +88,15 @@ def test_net(net, test_dataset):
 
     mean = all_errors.mean(dim=0)  # Mean error [3]
     std = all_errors.std(dim=0)  # Standard deviation [3]
-    quantiles = torch.quantile(all_errors, torch.tensor([0.25, 0.75]), dim=0)  # Shape [2, 3]
+    quantiles = torch.quantile(all_errors, torch.tensor([0.1, 0.9]), dim=0)  # Shape [2, 3]
     q1 = quantiles[0]  # 25% quantile (1/4) [3]
-    q3 = quantiles[1]  # 75% quantile (3/4) [3]
+    q2 = quantiles[1]  # 75% quantile (3/4) [3]
 
     # Print results (or return/store as needed)
     print(f"Mean Error (per column): {mean}")
     print(f"Std Error (per column): {std}")
-    print(f"25% Quantile (per column): {q1}")
-    print(f"75% Quantile (per column): {q3}")
+    print(f"10% Quantile (per column): {q1}")
+    print(f"90% Quantile (per column): {q2}")
 
     # Return statistics if needed
     return
@@ -120,6 +120,7 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
         net.train(False)
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         val_loss.append(avg_val_loss)
+        print(f"mean training loss: {avg_loss},mean validation loss {avg_val_loss}")
 
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
@@ -133,7 +134,7 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
             print("Early stopping now")
             return best_net
 
-        return best_net
+    return best_net
 
 
 def main():
