@@ -120,7 +120,7 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
         net.train(False)
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         val_loss.append(avg_val_loss)
-        print(f"mean training loss: {avg_loss}, mean validation loss {avg_val_loss}")
+        print(f"Epoch {epoch}, mean training loss: {avg_loss}, mean validation loss {avg_val_loss}")
 
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
