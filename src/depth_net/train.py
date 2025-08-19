@@ -93,10 +93,10 @@ def test_net(net, test_dataset):
     q2 = quantiles[1]  # 75% quantile (3/4) [3]
 
     # Print results (or return/store as needed)
-    print(f"Mean Error (per column): {mean}")
-    print(f"Std Error (per column): {std}")
-    print(f"10% Quantile (per column): {q1}")
-    print(f"90% Quantile (per column): {q2}")
+    print(f"Mean Error: {mean}")
+    print(f"Std Error: {std}")
+    print(f"10% Quantile: {q1}")
+    print(f"90% Quantile: {q2}")
 
     # Return statistics if needed
     return
