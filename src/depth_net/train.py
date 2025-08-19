@@ -148,9 +148,9 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, dataset, epochs=1)
+    pretrain(net, dataset, epochs=3)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, epochs=5)
+    best_net = fit(net, train_dataset, val_dataset, epochs=500)
     test_dataset = TestDataset("dataset/images", "dataset/t_ref", device, image_size)
     print("Testing against ground truth...")
     test_net(best_net, test_dataset)
