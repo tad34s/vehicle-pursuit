@@ -30,7 +30,7 @@ class DepthNetwork(torch.nn.Module):
         )
 
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optim, mode="min", factor=0.1, patience=5, cooldown=2, threshold=0.01
+            self.optim, mode="min", factor=0.1, patience=3, cooldown=1, threshold=0.01
         )
 
         self.device = device
