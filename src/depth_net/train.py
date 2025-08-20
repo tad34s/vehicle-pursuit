@@ -138,7 +138,7 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
 
 
 def main():
-    image_size = (512, 512)
+    image_size = (256, 256)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
