@@ -130,9 +130,9 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
             epochs_from_best += 1
 
         # EARLY STOPPING
-        if epochs_from_best > early_stopping:
-            print("Early stopping now")
-            return best_net
+        # if epochs_from_best > early_stopping:
+        #     print("Early stopping now")
+        #     return best_net
 
     return best_net
 
