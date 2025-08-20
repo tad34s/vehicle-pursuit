@@ -45,7 +45,7 @@ LEADER_ONLY = args.train_leader
 
 def launch_tensor_board(logs_location: Path) -> None:
     tb = program.TensorBoard()
-    tb.configure(argv=[None, "--logdir", str(logs_location)])
+    tb.configure(argv=[None, "--logdir", str(logs_location), "--port 6006"])
     url = tb.launch()
     print(f"Tensorflow listening on {url}")
 

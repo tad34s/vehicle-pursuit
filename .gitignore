@@ -82,6 +82,7 @@ unity_env/Assets/ML-Agents/
 # Automatically saved models
 models/*/
 src/models/*/
+src/depth_net/runs/
 # Saved runs
 src/runs/
 
