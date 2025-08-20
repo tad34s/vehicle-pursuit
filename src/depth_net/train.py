@@ -111,7 +111,7 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
 
     best_val_loss = 1000000.0
     epochs_from_best = 0
-    early_stopping = 10
+    early_stopping = 30
 
     for epoch in range(epochs):
         net.train(True)
@@ -130,15 +130,15 @@ def fit(net, train_dataset, val_dataset, epochs=1) -> DepthNetwork:
             epochs_from_best += 1
 
         # EARLY STOPPING
-        # if epochs_from_best > early_stopping:
-        #     print("Early stopping now")
-        #     return best_net
+        if epochs_from_best > early_stopping:
+            print("Early stopping now")
+            return best_net
 
     return best_net
 
 
 def main():
-    image_size = (128, 128)
+    image_size = (512, 512)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
