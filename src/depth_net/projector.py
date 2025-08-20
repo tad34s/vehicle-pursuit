@@ -169,16 +169,6 @@ class Projector:
         move = (y_min < 0) * -y_min
         return (scale, move)
 
-    def move_car(self, x, y, theta):
-        verts = self.car_mesh.verts_padded()
-
-        # Create transformation matrix
-        rot_matrix = axis_angle_to_matrix(math.pi * torch.tensor([0, -theta, 0]) / 180)
-        # Apply transformation
-        new_verts = verts @ rot_matrix.T + torch.tensor([x, 0, y], device=self.device)
-
-        return self.car_mesh.update_padded(new_verts)
-
     def move_car_tensor(self, position: torch.Tensor):
         # position shape: [n, 3]
         verts = self.car_mesh.verts_padded()
@@ -211,7 +201,7 @@ class Projector:
         ).to(self.device)
 
     def render_mask(self, x, y, theta, file_name="out.png"):
-        mesh = self.move_car(x, y, theta)
+        mesh = self.move_car_tensor(torch.tensor([[x, y, theta]]))
         silhouette = self.renderer(mesh, cameras=self.camera)
 
         silhouette_mask = silhouette[..., 3]

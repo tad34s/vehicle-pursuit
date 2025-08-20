@@ -96,11 +96,11 @@ def test_net(net: DepthNetwork, test_dataset, writer):
         with torch.no_grad():
             y_hat = net(x)
         position = y_hat[0]
-        x = position[0].detach().cpu().item()
-        y = position[1].detach().cpu().item()
-        theta = position[2].detach().cpu().item()
+        x = position[0].item()
+        y = position[1].item()
+        theta = position[2].item()
 
-        net.projector.render_mask(x, y, theta, file_name=f"projections/{i}.png")
+        # net.projector.render_mask(x, y, theta, file_name=f"projections/{i}.png")
         error = y_hat - t_ref
         errors.append(error.cpu())
 
