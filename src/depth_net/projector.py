@@ -210,13 +210,13 @@ class Projector:
             textures=self.car_mesh.textures,
         ).to(self.device)
 
-    def render_mask(self, x, y, theta):
+    def render_mask(self, x, y, theta, file_name="out.png"):
         mesh = self.move_car(x, y, theta)
         silhouette = self.renderer(mesh, cameras=self.camera)
 
         silhouette_mask = silhouette[..., 3]
         mask = (silhouette_mask > 0.5).float()
-        plt.imsave("out.png", mask[0].cpu().numpy(), cmap="gray")
+        plt.imsave(file_name, mask[0].cpu().numpy(), cmap="gray")
 
     def calculate_mask(self, position: torch.Tensor) -> torch.Tensor:
         mesh = self.move_car_tensor(position)

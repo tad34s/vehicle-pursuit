@@ -34,6 +34,15 @@ class DepthNetwork(torch.nn.Module):
 
         self.projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, self.device)
 
+    @property
+    def gradient_norm(self):
+        total_norm = 0
+        for p in self.parameters():
+            param_norm = p.grad.detach().data.norm(2)
+            total_norm += param_norm.item() ** 2
+        total_norm = total_norm**0.5
+        return total_norm
+
     def forward(self, img):
         img = img.view(-1, *self.input_shape)
         img = self.alex_net_transorms(img)
