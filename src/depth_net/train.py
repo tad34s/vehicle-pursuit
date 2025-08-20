@@ -57,6 +57,7 @@ def train_step(net, training_loader, writer, epoch_number):
 
         net.optim.zero_grad()
         loss.backward()
+        torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=20.0)
         grad_norm = net.gradient_norm
         net.optim.step()
         writer.add_scalar("Gradient norm", grad_norm, epoch_number * len(training_loader) + i)
@@ -67,7 +68,7 @@ def train_step(net, training_loader, writer, epoch_number):
     return running_cum_loss
 
 
-def validate_net(net, val_loader):
+def validate_net(net: DepthNetwork, val_loader):
     running_cum_loss = 0.0
     for data in val_loader:
         x, ref_image = data
@@ -121,7 +122,7 @@ def test_net(net: DepthNetwork, test_dataset, writer):
     return
 
 
-def fit(net, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
+def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
     train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
     val_dataloader = DataLoader(val_dataset, batch_size=64, shuffle=True, num_workers=4)
     best_net = deepcopy(net)
@@ -138,6 +139,7 @@ def fit(net, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         writer.add_scalar("Validation loss", avg_val_loss, epoch)
 
+        net.scheduler.step(avg_val_loss)
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             best_net = deepcopy(net)
@@ -180,9 +182,9 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=1)
+    pretrain(net, train_dataset, writer, epochs=3)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=1)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )

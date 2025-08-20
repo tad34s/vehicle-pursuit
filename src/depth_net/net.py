@@ -4,7 +4,7 @@ from projector import Projector
 
 
 class DepthNetwork(torch.nn.Module):
-    LEARNING_RATE = 1e-4
+    LEARNING_RATE = 1e-3
     WEIGHT_DECAY = 1e-7
 
     def __init__(self, image_size, device):
@@ -27,6 +27,10 @@ class DepthNetwork(torch.nn.Module):
             self.parameters(),
             lr=self.LEARNING_RATE,
             weight_decay=self.WEIGHT_DECAY,
+        )
+
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optim, mode="min", factor=0.1, patience=5, cooldown=2, threshold=0.01
         )
 
         self.device = device
