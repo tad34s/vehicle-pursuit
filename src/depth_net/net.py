@@ -17,7 +17,7 @@ class DepthNetwork(torch.nn.Module):
         self.extra = torch.nn.MaxPool2d((2, 2))
         self.predict = torch.nn.Sequential(
             torch.nn.Flatten(),
-            torch.nn.Linear(256 * 3 * 3, 64),
+            torch.nn.Linear(256 * 6 * 6, 64),
             torch.nn.ReLU(),
             torch.nn.Linear(64, 3),
         )
@@ -37,7 +37,6 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.alex_net_transorms(img)
         features = self.features(img)
-        features = self.extra(features)  # [B, 256, 3, 3]
-        features = features.view(-1, 256 * 3 * 3)
+        features = features.view(-1, 256 * 6 * 6)
         preds = self.predict(features)
         return preds
