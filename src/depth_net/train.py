@@ -13,7 +13,7 @@ from dataset import MaskDataset, TestDataset
 
 def launch_tensor_board(logs_location: Path) -> None:
     tb = program.TensorBoard()
-    tb.configure(argv=[None, "--logdir", str(logs_location)])
+    tb.configure(argv=[None, "--bind_all", "--logdir", str(logs_location)])
     url = tb.launch()
     print(f"Tensorflow listening on {url}")
 
