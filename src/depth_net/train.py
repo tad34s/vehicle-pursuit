@@ -46,6 +46,7 @@ def train_step(net, training_loader):
 
         net.optim.zero_grad()
         loss.backward()
+        torch.nn.utils.clip_grad_norm_(net.parameters(), clip_value)
         net.optim.step()
 
         last_mean_loss = loss.item()

@@ -17,6 +17,7 @@ class DepthNetwork(torch.nn.Module):
         self.extra = torch.nn.MaxPool2d((2, 2))
         self.predict = torch.nn.Sequential(
             torch.nn.Flatten(),
+            torch.nn.BatchNorm1d(256 * 6 * 6),  # Added batch normalization
             torch.nn.Linear(256 * 6 * 6, 64),
             torch.nn.ReLU(),
             torch.nn.Linear(64, 3),
