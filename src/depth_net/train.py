@@ -131,7 +131,7 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
         ref_image = ref_image.to(best_net.device)
         with torch.no_grad():
             y_hat = best_net(x)
-            img = best_net.projector.visualize_prediction(y_hat[0], ref_image)
+            img = best_net.projector.visualize_prediction(y_hat, ref_image)
         writer.add_image(f"Prediction {i}", img)
         i += 1
         if i >= 10:
