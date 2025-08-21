@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torchvision
+import torchvision.transforms.functional as F
 from torch.utils.data import Dataset
 from torchvision.io import read_image
 
@@ -15,6 +16,7 @@ class MaskDataset(Dataset):
         ids: list[int],
         device,
         resized_image_size=None,
+        flip=False,
     ) -> None:
         self.input_images = {
             int(x.name[:-4]): str(x) for x in Path(input_images_path).glob("*.png")
@@ -30,6 +32,9 @@ class MaskDataset(Dataset):
             self.transform = None
         self.device = device
 
+        self.flip = flip
+        self.flip_prob = 0.5
+
     def __len__(self) -> int:
         return len(self.ids)
 
@@ -42,7 +47,24 @@ class MaskDataset(Dataset):
         if self.transform:
             img = self.transform(img)
             mask = self.transform(mask)
+        if self.flip:
+            if torch.rand(1) < self.flip_prob:
+                img = torch.flip(img, [-1])
+                mask = torch.flip(mask, [-1])
+
+                self._save_flipped_image(img, f"debug_flip/flipped_image_{id}.png")
+                self._flip_saved = True
+
         return img.type(torch.float32), mask.type(torch.float32)
+
+        return img.to(self.device), mask.to(self.device)
+
+    def _save_flipped_image(self, image_tensor: torch.Tensor, filepath: str):
+        """Save a flipped image for verification"""
+        # Convert tensor to PIL Image and save
+        pil_image = F.to_pil_image(image_tensor.cpu())
+        pil_image.save(filepath)
+        print(f"Flipped image saved to: {filepath}")
 
 
 class TestDataset(Dataset):

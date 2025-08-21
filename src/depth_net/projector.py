@@ -224,12 +224,10 @@ class Projector:
             background, mask1_bool.unsqueeze(0), colors=["red"], alpha=1.0
         )
 
-        # Then draw mask2 (blue) on top
         visualization = torchvision.utils.draw_segmentation_masks(
             visualization, mask2_bool.unsqueeze(0), colors=["blue"], alpha=1.0
         )
 
-        # Finally draw intersection (green) on top
         visualization = torchvision.utils.draw_segmentation_masks(
             visualization, intersection.unsqueeze(0), colors=["green"], alpha=1.0
         )

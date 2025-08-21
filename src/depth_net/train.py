@@ -188,7 +188,7 @@ def main():
     )
 
     train_dataset = MaskDataset(
-        input_images_path, "dataset/masks", train_dataset_ids, device, image_size
+        input_images_path, "dataset/masks", train_dataset_ids, device, image_size, flip=True
     )
     val_dataset = MaskDataset(
         input_images_path, "dataset/masks", val_dataset_ids, device, image_size
