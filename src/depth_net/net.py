@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torchvision
 from projector import Projector
 
@@ -55,6 +56,9 @@ class DepthNetwork(torch.nn.Module):
         self.input_shape = (3, *image_size)
 
         self.projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, self.device)
+        self.focal_length = self.projector.camera.focal_length[0][1].item()
+        self.image_width = self.projector.image_size[0]
+        self.cx = self.image_width / 2  # Principal point (image center)
 
     @property
     def gradient_norm(self):
@@ -65,10 +69,28 @@ class DepthNetwork(torch.nn.Module):
         total_norm = total_norm**0.5
         return total_norm
 
+    def activation_fn(self, preds):
+        x_raw = preds[:, 0]
+        y_raw = preds[:, 1]
+        theta_raw = preds[:, 2]
+
+        x_ratio = torch.tanh(x_raw)  # [-1, 1]
+        y_dist = F.softplus(y_raw)  # ensure distance is positive
+
+        theta = torch.tanh(theta_raw) * 180
+
+        # Calculate x coordinate using the physical constraint
+        max_x = y_dist * ((self.image_width) / (2 * self.focal_length))
+        x_coord = x_ratio * max_x
+
+        return torch.stack([x_coord, y_dist, theta], dim=1)
+
     def forward(self, img):
         img = img.view(-1, *self.input_shape)
         img = self.alex_net_transorms(img)
         features = self.features(img)
         features = features.view(-1, 256 * 6 * 6)
         preds = self.predict(features)
+        preds = self.activation_fn(preds)
+
         return preds
