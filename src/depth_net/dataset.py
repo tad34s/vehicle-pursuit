@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 import torch
 import torchvision
-import torchvision.transforms.functional as F
 from torch.utils.data import Dataset
 from torchvision.io import read_image
 
@@ -52,19 +51,7 @@ class MaskDataset(Dataset):
                 img = torch.flip(img, [-1])
                 mask = torch.flip(mask, [-1])
 
-                self._save_flipped_image(img, f"debug_flip/flipped_image_{id}.png")
-                self._flip_saved = True
-
         return img.type(torch.float32), mask.type(torch.float32)
-
-        return img.to(self.device), mask.to(self.device)
-
-    def _save_flipped_image(self, image_tensor: torch.Tensor, filepath: str):
-        """Save a flipped image for verification"""
-        # Convert tensor to PIL Image and save
-        pil_image = F.to_pil_image(image_tensor.cpu())
-        pil_image.save(filepath)
-        print(f"Flipped image saved to: {filepath}")
 
 
 class TestDataset(Dataset):
