@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import torch
+import torchvision
 from matplotlib import pyplot as plt
 from pytorch3d.io import IO
 from pytorch3d.renderer import (
