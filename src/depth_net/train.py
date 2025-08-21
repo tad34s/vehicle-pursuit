@@ -122,6 +122,22 @@ def test_net(net: DepthNetwork, test_dataset, writer):
     return
 
 
+def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter):
+    val_loader = DataLoader(val_dataset, batch_size=1, shuffle=True, num_workers=4)
+    i = 0
+    for data in val_loader:
+        x, ref_image = data
+        x = x.to(best_net.device)  # Move batch to GPU
+        ref_image = ref_image.to(best_net.device)
+        with torch.no_grad():
+            y_hat = best_net(x)
+            img = best_net.projector.visualize_prediction(y_hat[0], ref_image)
+        writer.add_image(f"Prediction {i}", img)
+        i += 1
+        if i >= 10:
+            break
+
+
 def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
     train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
     val_dataloader = DataLoader(val_dataset, batch_size=64, shuffle=True, num_workers=4)
@@ -182,14 +198,16 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=3)
+    pretrain(net, train_dataset, writer, epochs=1)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=1)
+
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )
     print("Testing against ground truth...")
     test_net(best_net, test_dataset, writer)
+    visualize_predictions(best_net, val_dataset, writer)
 
 
 if __name__ == "__main__":

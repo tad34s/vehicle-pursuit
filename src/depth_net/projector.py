@@ -208,6 +208,33 @@ class Projector:
         mask = (silhouette_mask > 0.5).float()
         plt.imsave(file_name, mask[0].cpu().numpy(), cmap="gray")
 
+    def visualize_prediction(self, prediction, ref_image):
+        mask = self.calculate_mask(prediction)
+        ref_image = ref_image / 255.0  # 1, 1, H, W
+
+        mask1_bool = mask.squeeze().bool()
+        mask2_bool = ref_image.squeeze().bool()
+
+        intersection = torch.logical_and(mask1_bool, mask2_bool)
+        height, width = mask1_bool.shape
+        background = torch.zeros((3, height, width), dtype=torch.uint8)
+
+        visualization = torchvision.utils.draw_segmentation_masks(
+            background, mask1_bool.unsqueeze(0), colors=["red"], alpha=1.0
+        )
+
+        # Then draw mask2 (blue) on top
+        visualization = torchvision.utils.draw_segmentation_masks(
+            visualization, mask2_bool.unsqueeze(0), colors=["blue"], alpha=1.0
+        )
+
+        # Finally draw intersection (green) on top
+        visualization = torchvision.utils.draw_segmentation_masks(
+            visualization, intersection.unsqueeze(0), colors=["green"], alpha=1.0
+        )
+
+        return visualization
+
     def calculate_mask(self, position: torch.Tensor) -> torch.Tensor:
         mesh = self.move_car_tensor(position)
         silhouette = self.renderer(mesh, cameras=self.camera)
