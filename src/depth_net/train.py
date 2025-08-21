@@ -129,7 +129,7 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
 
     best_val_loss = 1000000.0
     epochs_from_best = 0
-    early_stopping = 100
+    early_stopping = 40
 
     for epoch in range(epochs):
         net.train(True)

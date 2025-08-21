@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import torchvision
 from projector import Projector
 
@@ -11,16 +12,34 @@ class DepthNetwork(torch.nn.Module):
         super().__init__()
 
         self.alex_net_transorms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.alexnet(
-            weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
-        ).features
-        self.extra = torch.nn.MaxPool2d((2, 2))
+
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.Conv2d(64, 192, kernel_size=5, padding=2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(192, 384, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(384, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+        )
+
+        # self.features = torchvision.models.alexnet(
+        #     weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
+        # ).features
+
         self.predict = torch.nn.Sequential(
-            torch.nn.Flatten(),
-            torch.nn.BatchNorm1d(256 * 6 * 6),  # Added batch normalization
-            torch.nn.Linear(256 * 6 * 6, 64),
-            torch.nn.ReLU(),
-            torch.nn.Linear(64, 3),
+            nn.Flatten(),
+            nn.BatchNorm1d(256 * 27 * 27),  # Added batch normalization
+            nn.Dropout1d(p=0.3),
+            nn.Linear(256 * 27 * 27, 256),
+            nn.ReLU(),
+            nn.Linear(256, 64),
+            nn.ReLU(),
+            nn.Linear(64, 3),
         )
 
         self.optim = torch.optim.Adam(
@@ -51,6 +70,6 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.alex_net_transorms(img)
         features = self.features(img)
-        features = features.view(-1, 256 * 6 * 6)
+        features = features.view(-1, 256 * 27 * 27)
         preds = self.predict(features)
         return preds
