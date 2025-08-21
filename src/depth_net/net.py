@@ -69,6 +69,6 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.alex_net_transorms(img)
         features = self.features(img)
-        features = features.view(-1, 256 * 27 * 27)
+        features = features.view(-1, 256 * 6 * 6)
         preds = self.predict(features)
         return preds
