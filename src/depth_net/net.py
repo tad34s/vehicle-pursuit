@@ -13,9 +13,9 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.EfficientNet_V2_S_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.efficientnet_v2_s(
-            weights=torchvision.models.EfficientNet_V2_S_Weights.IMAGENET1K_V1
+        self.transforms = torchvision.models.EfficientNet_B1_Weights.IMAGENET1K_V1.transforms()
+        self.features = torchvision.models.efficientnet_b1(
+            weights=torchvision.models.EfficientNet_B1_Weights.IMAGENET1K_V1
         ).features
 
         self.features_len = 1536 * 10 * 10
