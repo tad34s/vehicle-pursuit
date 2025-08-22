@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.10.1, <3.11"
 
 [[package]]
@@ -206,22 +206,6 @@ wheels = [
 ]
 
 [[package]]
-name = "fvcore"
-version = "0.1.5.post20221221"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "iopath" },
-    { name = "numpy" },
-    { name = "pillow" },
-    { name = "pyyaml" },
-    { name = "tabulate" },
-    { name = "termcolor" },
-    { name = "tqdm" },
-    { name = "yacs" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a5/93/d056a9c4efc6c79ba7b5159cc66bb436db93d2cc46dca18ed65c59cc8e4e/fvcore-0.1.5.post20221221.tar.gz", hash = "sha256:f2fb0bb90572ae651c11c78e20493ed19b2240550a7e4bbb2d6de87bdd037860", size = 50217, upload-time = "2022-12-21T08:10:53.563Z" }
-
-[[package]]
 name = "google-auth"
 version = "2.40.3"
 source = { registry = "https://pypi.org/simple" }
@@ -355,17 +339,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/f1/70/7703c29685631f5a7
 wheels = [
     { url = "https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl", hash = "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3", size = 70442, upload-time = "2024-09-15T18:07:37.964Z" },
 ]
-
-[[package]]
-name = "iopath"
-version = "0.1.10"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "portalocker" },
-    { name = "tqdm" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/72/73/b3d451dfc523756cf177d3ebb0af76dc7751b341c60e2a21871be400ae29/iopath-0.1.10.tar.gz", hash = "sha256:3311c16a4d9137223e20f141655759933e1eda24f8bff166af834af3c645ef01", size = 42226, upload-time = "2022-07-09T19:00:50.866Z" }
 
 [[package]]
 name = "jinja2"
@@ -732,18 +705,6 @@ wheels = [
 ]
 
 [[package]]
-name = "portalocker"
-version = "3.2.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pywin32", marker = "sys_platform == 'win32'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/5e/77/65b857a69ed876e1951e88aaba60f5ce6120c33703f7cb61a3c894b8c1b6/portalocker-3.2.0.tar.gz", hash = "sha256:1f3002956a54a8c3730586c5c77bf18fae4149e07eaf1c29fc3faf4d5a3f89ac", size = 95644, upload-time = "2025-06-14T13:20:40.03Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4b/a6/38c8e2f318bf67d338f4d629e93b0b4b9af331f455f0390ea8ce4a099b26/portalocker-3.2.0-py3-none-any.whl", hash = "sha256:3cdc5f565312224bc570c49337bd21428bba0ef363bbcf58b9ef4a9f11779968", size = 22424, upload-time = "2025-06-14T13:20:38.083Z" },
-]
-
-[[package]]
 name = "pre-commit"
 version = "4.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -918,18 +879,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytorch3d"
-version = "0.7.5"
-source = { registry = "https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py310_cu121_pyt210/download.html" }
-dependencies = [
-    { name = "fvcore" },
-    { name = "iopath" },
-]
-wheels = [
-    { url = "https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py310_cu121_pyt210/pytorch3d-0.7.5-cp310-cp310-linux_x86_64.whl" },
-]
-
-[[package]]
 name = "pywin32"
 version = "310"
 source = { registry = "https://pypi.org/simple" }
@@ -1088,15 +1037,6 @@ wheels = [
 ]
 
 [[package]]
-name = "tabulate"
-version = "0.9.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ec/fe/802052aecb21e3797b8f7902564ab6ea0d60ff8ca23952079064155d1ae1/tabulate-0.9.0.tar.gz", hash = "sha256:0095b12bf5966de529c0feb1fa08671671b3368eec77d7ef7ab114be2c068b3c", size = 81090, upload-time = "2022-10-06T17:21:48.54Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/40/44/4a5f08c96eb108af5cb50b41f76142f0afa346dfa99d5296fe7202a11854/tabulate-0.9.0-py3-none-any.whl", hash = "sha256:024ca478df22e9340661486f85298cff5f6dcdba14f3813e8830015b9ed1948f", size = 35252, upload-time = "2022-10-06T17:21:44.262Z" },
-]
-
-[[package]]
 name = "tensorboard"
 version = "2.15.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1129,15 +1069,6 @@ wheels = [
 ]
 
 [[package]]
-name = "termcolor"
-version = "3.1.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ca/6c/3d75c196ac07ac8749600b60b03f4f6094d54e132c4d94ebac6ee0e0add0/termcolor-3.1.0.tar.gz", hash = "sha256:6a6dd7fbee581909eeec6a756cff1d7f7c376063b14e4a298dc4980309e55970", size = 14324, upload-time = "2025-04-30T11:37:53.791Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4f/bd/de8d508070629b6d84a30d01d57e4a65c69aa7f5abe7560b8fad3b50ea59/termcolor-3.1.0-py3-none-any.whl", hash = "sha256:591dd26b5c2ce03b9e43f391264626557873ce1d379019786f99b0c2bee140aa", size = 7684, upload-time = "2025-04-30T11:37:52.382Z" },
-]
-
-[[package]]
 name = "tokenizers"
 version = "0.21.4"
 source = { registry = "https://pypi.org/simple" }
@@ -1164,7 +1095,7 @@ wheels = [
 
 [[package]]
 name = "torch"
-version = "2.1.0"
+version = "2.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "filelock" },
@@ -1187,16 +1118,16 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/13/b5e8bacd980b2195f8a1741ce11cbb9146568607795d5e4ff510dcff1064/torch-2.1.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:bf57f8184b2c317ef81fb33dc233ce4d850cd98ef3f4a38be59c7c1572d175db", size = 670168911, upload-time = "2023-10-04T16:53:01.826Z" },
-    { url = "https://files.pythonhosted.org/packages/32/87/9c6f150d29efc6125c13e0bb05112183e3e233f574c306354bfa0112d449/torch-2.1.0-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:a04a0296d47f28960f51c18c5489a8c3472f624ec3b5bcc8e2096314df8c3342", size = 84138364, upload-time = "2023-10-04T16:50:11.258Z" },
-    { url = "https://files.pythonhosted.org/packages/fa/47/1a7daf04f40715fc1cdc6f1cc3200228a556d06c843e6ceb58883b745e1b/torch-2.1.0-cp310-cp310-win_amd64.whl", hash = "sha256:0bd691efea319b14ef239ede16d8a45c246916456fa3ed4f217d8af679433cc6", size = 192330959, upload-time = "2023-10-04T16:58:18.966Z" },
-    { url = "https://files.pythonhosted.org/packages/67/d8/98b2836bd83707ecf27d66587fab9dedcfe746efab775042b93cd146d027/torch-2.1.0-cp310-none-macosx_10_9_x86_64.whl", hash = "sha256:101c139152959cb20ab370fc192672c50093747906ee4ceace44d8dd703f29af", size = 146972565, upload-time = "2023-10-04T16:53:49.501Z" },
-    { url = "https://files.pythonhosted.org/packages/ab/6a/0debe1ec3c63b1fd7487ec7dd8fb1adf19898bef5a8dc151265d79ffd915/torch-2.1.0-cp310-none-macosx_11_0_arm64.whl", hash = "sha256:a6b7438a90a870e4cdeb15301519ae6c043c883fcd224d303c5b118082814767", size = 59546722, upload-time = "2023-10-04T16:49:15.951Z" },
+    { url = "https://files.pythonhosted.org/packages/96/82/0966469ded5946cb4c18dd11b04eac78c943269fc79d290740d6477005e8/torch-2.1.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:5ebc43f5355a9b7be813392b3fb0133991f0380f6f0fcc8218d5468dc45d1071", size = 670166803, upload-time = "2023-11-15T16:42:26.343Z" },
+    { url = "https://files.pythonhosted.org/packages/d2/f0/5cb5bb2ba2140015308245e37b140683c538cb2afe1f7567eda51eea2893/torch-2.1.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:84fefd63356416c0cd20578637ccdbb82164993400ed17b57c951dd6376dcee8", size = 84137834, upload-time = "2023-11-15T16:45:25.977Z" },
+    { url = "https://files.pythonhosted.org/packages/11/e4/e8a947f36ae2be1223ea8bd8f4714ed6a7a47bf3c6b74705daa17bd127fa/torch-2.1.1-cp310-cp310-win_amd64.whl", hash = "sha256:0a7a9da0c324409bcb5a7bdad1b4e94e936d21c2590aaa7ac2f63968da8c62f7", size = 192313970, upload-time = "2023-11-15T16:45:18.865Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/0c/57bd3fd19758cdc4bd92637cfea9fcb9b3f65e38199e20a3605231a898f7/torch-2.1.1-cp310-none-macosx_10_9_x86_64.whl", hash = "sha256:1e1e5faddd43a8f2c0e0e22beacd1e235a2e447794d807483c94a9e31b54a758", size = 146978712, upload-time = "2023-11-15T16:45:11.288Z" },
+    { url = "https://files.pythonhosted.org/packages/25/5d/22b4d5d2183e03f197a5e6b2721bb8f7a3e92b4947b16b70316c1e3771f3/torch-2.1.1-cp310-none-macosx_11_0_arm64.whl", hash = "sha256:e76bf3c5c354874f1da465c852a2fb60ee6cbce306e935337885760f080f9baa", size = 59555381, upload-time = "2023-11-15T16:45:30.644Z" },
 ]
 
 [[package]]
 name = "torchvision"
-version = "0.16.0"
+version = "0.16.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -1205,11 +1136,11 @@ dependencies = [
     { name = "torch" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/76/89/0cdc6f497cbbb83dd51804cd4f788b7f5bd529f07b5417b50fe9c5655b76/torchvision-0.16.0-cp310-cp310-macosx_10_13_x86_64.whl", hash = "sha256:16c300fdbbe91469f5e9feef8d24c6acabd8849db502a06160dd76ba68e897a0", size = 1705727, upload-time = "2023-10-04T17:02:21.647Z" },
-    { url = "https://files.pythonhosted.org/packages/de/5c/63da40bcac00e06eae06b52b4a82ba089b44d2cbd232020fe9194ea75ea9/torchvision-0.16.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:ef5dec6c48b715353781b83749efcdea03835720a71b377684453ee117aab3c7", size = 1617103, upload-time = "2023-10-04T17:02:57.971Z" },
-    { url = "https://files.pythonhosted.org/packages/84/eb/4f6483ae9094e164dc5b9b792e377f7d37823b0bedc3eef3193d416d2bb6/torchvision-0.16.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:9e3a2012e463f498de21f6598cc7a266b9a8c6fe15788472fdc419233ea6f3f2", size = 6920219, upload-time = "2023-10-04T17:02:17.445Z" },
-    { url = "https://files.pythonhosted.org/packages/82/29/824940e810a81c419a9d35d6c400bd8f99f322878bdd637ac769a597cf0f/torchvision-0.16.0-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:e4327e082b703921ae52caeee4f7839f7e6c73cfc5eedea468ecb5c1487ecdbf", size = 14076642, upload-time = "2023-10-04T17:02:49.175Z" },
-    { url = "https://files.pythonhosted.org/packages/59/af/426c2b90f5c4f8aba778746465af9e662680570e950e02379e91c6138285/torchvision-0.16.0-cp310-cp310-win_amd64.whl", hash = "sha256:62f01513687cce3480df8928fcc6c09b4aa0433d05ac75e82877acc773f6a568", size = 1263025, upload-time = "2023-10-04T17:02:29.381Z" },
+    { url = "https://files.pythonhosted.org/packages/4b/f6/7049c63eb322c7a705610edf4e93c9d6435f861ec94e5639b1a0016ba678/torchvision-0.16.1-cp310-cp310-macosx_10_13_x86_64.whl", hash = "sha256:987132795e5c037cb74e7be35a693999fdb2f603152266ee15b80206e83a5b0c", size = 1586645, upload-time = "2023-11-15T16:46:30.204Z" },
+    { url = "https://files.pythonhosted.org/packages/02/b6/a540edc7ebcd510d42611e4344bbaa9c73e0c262750652e276866b43e33e/torchvision-0.16.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:25da6a7b22ea0348f62c45ec0daf157731096babcae65d222404081af96e085c", size = 1498013, upload-time = "2023-11-15T16:46:25.226Z" },
+    { url = "https://files.pythonhosted.org/packages/a3/73/1aa7a38ec9b20ebc55bd6ac70c6c134333933c3be4572e4885d609cd1625/torchvision-0.16.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:c82e291e674a18b67f92ddb476ae18498fb46d7032ae914f3fda90c955e7d86f", size = 6796033, upload-time = "2023-11-15T16:46:20.5Z" },
+    { url = "https://files.pythonhosted.org/packages/14/e0/542fd0594d49ea8320951f924af0ded2543d3af8498d6ed10e12173214b7/torchvision-0.16.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:632887b22e67ce32a3ede806b868bba4057601e46d680de14b32a391eac1b483", size = 13959237, upload-time = "2023-11-15T16:45:54.361Z" },
+    { url = "https://files.pythonhosted.org/packages/14/0f/9c650b3d20fd8bf24d61dc2f59d734b64f3ab4473b8699dacf44a8a41140/torchvision-0.16.1-cp310-cp310-win_amd64.whl", hash = "sha256:92c76a5092b4033efdb183b11fa4854a7630e23c46f4a1c3ffd70c30cb5be4fc", size = 1137891, upload-time = "2023-11-15T16:46:23.267Z" },
 ]
 
 [[package]]
@@ -1287,7 +1218,6 @@ dependencies = [
     { name = "onnx" },
     { name = "pre-commit" },
     { name = "pynput" },
-    { name = "pytorch3d" },
     { name = "scipy" },
     { name = "tensorboard" },
     { name = "tensorboard-data-server" },
@@ -1307,12 +1237,11 @@ requires-dist = [
     { name = "onnx" },
     { name = "pre-commit" },
     { name = "pynput" },
-    { name = "pytorch3d", specifier = ">=0.7.5" },
     { name = "scipy", specifier = "==1.10.1" },
     { name = "tensorboard", specifier = "==2.15.1" },
     { name = "tensorboard-data-server", specifier = "==0.7.2" },
-    { name = "torch", specifier = "==2.1.0" },
-    { name = "torchvision", specifier = ">=0.16.0" },
+    { name = "torch", specifier = "==2.1.1" },
+    { name = "torchvision", specifier = ">=0.16.1" },
     { name = "tqdm" },
     { name = "transformers", specifier = ">=4.54.1" },
 ]
@@ -1341,16 +1270,4 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/9f/69/83029f1f6300c5fb2471d621ab06f6ec6b3324685a2ce0f9777fd4a8b71e/werkzeug-3.1.3.tar.gz", hash = "sha256:60723ce945c19328679790e3282cc758aa4a6040e4bb330f53d30fa546d44746", size = 806925, upload-time = "2024-11-08T15:52:18.093Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/52/24/ab44c871b0f07f491e5d2ad12c9bd7358e527510618cb1b803a88e986db1/werkzeug-3.1.3-py3-none-any.whl", hash = "sha256:54b78bf3716d19a65be4fceccc0d1d7b89e608834989dfae50ea87564639213e", size = 224498, upload-time = "2024-11-08T15:52:16.132Z" },
-]
-
-[[package]]
-name = "yacs"
-version = "0.1.8"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pyyaml" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/44/3e/4a45cb0738da6565f134c01d82ba291c746551b5bc82e781ec876eb20909/yacs-0.1.8.tar.gz", hash = "sha256:efc4c732942b3103bea904ee89af98bcd27d01f0ac12d8d4d369f1e7a2914384", size = 11100, upload-time = "2020-08-10T16:37:47.755Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/4f/fe9a4d472aa867878ce3bb7efb16654c5d63672b86dc0e6e953a67018433/yacs-0.1.8-py3-none-any.whl", hash = "sha256:99f893e30497a4b66842821bac316386f7bd5c4f47ad35c9073ef089aa33af32", size = 14747, upload-time = "2020-08-10T16:37:46.4Z" },
 ]

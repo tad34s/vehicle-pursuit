@@ -15,12 +15,11 @@ dependencies = [
     "mlagents-envs==1.0.0",
     "tensorboard==2.15.1",
     "tensorboard-data-server==0.7.2",
-    "torch==2.1.0",
+    "torch==2.1.1",
     "scipy==1.10.1",
-    "torchvision>=0.16.0",
+    "torchvision>=0.16.1",
     "assimp-py>=1.1.0",
     "transformers>=4.54.1",
-    "pytorch3d>=0.7.5",
 ]
 
 [tool.ruff]
