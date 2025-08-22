@@ -20,7 +20,7 @@ class DepthNetwork(torch.nn.Module):
 
         self.features.requires_grad_(False)
 
-        self.features_len = 1536 * 10 * 10
+        self.features_len = 1280 * 12 * 12
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
@@ -83,8 +83,6 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.transforms(img)
         features = self.features(img)
-        print(features.shape)
-        return
         features = features.view(-1, self.features_len)
         preds = self.predict(features)
         preds = self.activation_fn(preds)
