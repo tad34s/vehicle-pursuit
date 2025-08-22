@@ -8,23 +8,23 @@ from projector import Projector
 class DepthNetwork(torch.nn.Module):
     LEARNING_RATE = 1e-3
     WEIGHT_DECAY = 1e-7
+    DROPOUT_RATE = 0.3
 
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.EfficientNet_B5_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.efficientnet_b5(
-            weights=torchvision.models.EfficientNet_B5_Weights.IMAGENET1K_V1
+        self.transforms = torchvision.models.EfficientNet_B3_Weights.IMAGENET1K_V1.transforms()
+        self.features = torchvision.models.efficientnet_b3(
+            weights=torchvision.models.EfficientNet_B3_Weights.IMAGENET1K_V1
         ).features
 
-        # self.features = torchvision.models.alexnet(
-        #     weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
-        # ).features
+        self.features_len = 1536 * 10 * 10
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
-            nn.BatchNorm1d(256 * 6 * 6),  # Added batch normalization
-            nn.Linear(256 * 6 * 6, 256),
+            nn.BatchNorm1d(self.features_len),  # Added batch normalization
+            nn.Dropout(self.DROPOUT_RATE),
+            nn.Linear(self.features_len, 256),
             nn.ReLU(),
             nn.Linear(256, 64),
             nn.ReLU(),
@@ -81,9 +81,7 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.transforms(img)
         features = self.features(img)
-        print(features.shape)
-        return
-        features = features.view(-1, 256 * 6 * 6)
+        features = features.view(-1, self.features_len)
         preds = self.predict(features)
         preds = self.activation_fn(preds)
 
