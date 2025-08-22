@@ -18,6 +18,8 @@ class DepthNetwork(torch.nn.Module):
             weights=torchvision.models.EfficientNet_V2_S_Weights.IMAGENET1K_V1
         ).features
 
+        self.features.requires_grad_(False)
+
         self.features_len = 1536 * 10 * 10
 
         self.predict = torch.nn.Sequential(
