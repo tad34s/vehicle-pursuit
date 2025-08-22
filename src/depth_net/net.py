@@ -13,14 +13,12 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.EfficientNet_V2_S_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.efficientnet_v2_s(
-            weights=torchvision.models.EfficientNet_V2_S_Weights.IMAGENET1K_V1
+        self.transforms = torchvision.models.MobileNet_V3_Small_Weights.IMAGENET1K_V1.transforms()
+        self.features = torchvision.models.mobilenet_v3_small(
+            weights=torchvision.models.MobileNet_V3_Small_Weights.IMAGENET1K_V1
         ).features
 
-        self.features.requires_grad_(False)
-
-        self.features_len = 1280 * 12 * 12
+        self.features_len = 576 * 7 * 7
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
