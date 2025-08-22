@@ -39,7 +39,7 @@ class DepthNetwork(torch.nn.Module):
             nn.ReLU(),
             nn.Linear(256, 64),
             nn.ReLU(),
-            nn.Linear(64, 3),
+            nn.Linear(64, 4),
         )
 
         self.optim = torch.optim.Adam(
@@ -72,12 +72,12 @@ class DepthNetwork(torch.nn.Module):
     def activation_fn(self, preds):
         x_raw = preds[:, 0]
         y_raw = preds[:, 1]
-        theta_raw = preds[:, 2]
+        sin_raw = preds[:, 2]
+        cos_raw = preds[:, 3]
+        theta = torch.atan2(torch.tanh(sin_raw), torch.tanh(cos_raw))
 
         x_ratio = torch.tanh(x_raw)  # [-1, 1]
         y_dist = F.softplus(y_raw)  # ensure distance is positive
-
-        theta = torch.tanh(theta_raw) * 180
 
         # Calculate x coordinate using the physical constraint
         max_x = y_dist * ((self.image_width) / (2 * self.focal_length))
