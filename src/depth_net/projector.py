@@ -112,6 +112,7 @@ class Projector:
 
         self.image_size = image_size
         self.camera = self.create_camera()
+        self.fov = 2 * np.arctan(self.SENSOR_WIDTH_MM / self.FOCAL_LENGTH_MM * 2)
         self.renderer = self.create_renderer()
 
     def create_camera(self) -> PerspectiveCameras:
