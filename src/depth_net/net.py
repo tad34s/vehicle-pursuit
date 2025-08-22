@@ -18,7 +18,7 @@ class DepthNetwork(torch.nn.Module):
             weights=torchvision.models.EfficientNet_B1_Weights.IMAGENET1K_V1
         ).features
 
-        self.features_len = 1536 * 10 * 10
+        self.features_len = 1280 * 8 * 8
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
@@ -81,8 +81,6 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.transforms(img)
         features = self.features(img)
-        print(features.shape)
-        return
         features = features.view(-1, self.features_len)
         preds = self.predict(features)
         preds = self.activation_fn(preds)
