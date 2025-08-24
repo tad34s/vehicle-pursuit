@@ -13,12 +13,12 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.MobileNet_V3_Small_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.mobilenet_v3_small(
-            weights=torchvision.models.MobileNet_V3_Small_Weights.IMAGENET1K_V1
+        self.transforms = torchvision.models.MobileNet_V3_Large_Weights.IMAGENET1K_V1.transforms()
+        self.features = torchvision.models.mobilenet_v3_large(
+            weights=torchvision.models.MobileNet_V3_Large_Weights.IMAGENET1K_V1
         ).features
 
-        self.features_len = 576 * 7 * 7
+        self.features_len = 960 * 7 * 7
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
@@ -38,7 +38,7 @@ class DepthNetwork(torch.nn.Module):
         )
 
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optim, mode="min", factor=0.1, patience=3, cooldown=1, threshold=0.001
+            self.optim, mode="min", factor=0.5, patience=3, cooldown=2, threshold=0.001
         )
 
         self.device = device
@@ -63,11 +63,10 @@ class DepthNetwork(torch.nn.Module):
     def activation_fn(self, preds):
         x_raw = preds[:, 0]
         y_raw = preds[:, 1]
-        theta_raw = preds[:, 2]
+        theta = preds[:, 2]
 
         x_ratio = torch.tanh(x_raw)  # [-1, 1]
         y_dist = F.softplus(y_raw)  # ensure distance is positive
-        theta = torch.tanh(theta_raw) * 180
 
         max_x = (y_dist - self.projector.CAMERA_POS[2]) * (
             (self.projector.SENSOR_WIDTH_MM) / (2 * self.projector.FOCAL_LENGTH_MM)
