@@ -59,6 +59,8 @@ class DepthNetwork(torch.nn.Module):
     def gradient_norm(self):
         total_norm = 0
         for p in self.parameters():
+            if not p.requires_grad:
+                continue
             param_norm = p.grad.detach().data.norm(2)
             total_norm += param_norm.item() ** 2
         total_norm = total_norm**0.5

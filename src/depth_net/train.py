@@ -1,4 +1,5 @@
 import datetime
+import math
 from copy import deepcopy
 from pathlib import Path
 
@@ -45,7 +46,7 @@ def pretrain(net, dataset, writer, epochs=1) -> None:
         writer.add_scalar("Pretraining loss", avg_epoch_loss, epoch)
 
 
-def train_step(net, training_loader, writer, epoch_number):
+def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     running_cum_loss = 0.0
     for i, data in enumerate(training_loader):
         x, ref_image = data
@@ -59,6 +60,8 @@ def train_step(net, training_loader, writer, epoch_number):
         loss.backward()
         torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=20.0)
         grad_norm = net.gradient_norm
+        if math.isnan(grad_norm):
+            continue
         net.optim.step()
         writer.add_scalar("Gradient norm", grad_norm, epoch_number * len(training_loader) + i)
 
