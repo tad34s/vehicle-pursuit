@@ -13,28 +13,22 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
-        self.features = nn.Sequential(
-            nn.Conv2d(3, 128, kernel_size=8, stride=2, padding=2),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=3, stride=2),
-            nn.Conv2d(128, 256, kernel_size=2, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=3, stride=2),
-            nn.Conv2d(256, 384, kernel_size=2, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=3, stride=2),
-            nn.Conv2d(384, 256, kernel_size=2, padding=1),
-            nn.MaxPool2d(kernel_size=2, stride=1),
-        )
+        self.transforms = torchvision.models.EfficientNet_B5_Weights.IMAGENET1K_V1.transforms()
+        self.features = torchvision.models.efficientnet_b5(
+            weights=torchvision.models.EfficientNet_B5_Weights.IMAGENET1K_V1
+        ).features
+        self.features_len = 2048 * 15 * 15
 
-        self.features_len = 256 * 13 * 13
+        for param in self.features.parameters():
+            param.requires_grad = False
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
             nn.BatchNorm1d(self.features_len),
             nn.Dropout(self.DROPOUT_RATE),
-            nn.Linear(self.features_len, 256),
+            nn.Linear(self.features_len, 1024),
+            nn.ReLU(),
+            nn.Linear(1024, 256),
             nn.ReLU(),
             nn.Linear(256, 64),
             nn.ReLU(),
