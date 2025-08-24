@@ -13,16 +13,26 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.MobileNet_V3_Large_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.mobilenet_v3_large(
-            weights=torchvision.models.MobileNet_V3_Large_Weights.IMAGENET1K_V1
-        ).features
+        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 128, kernel_size=8, stride=2, padding=2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.Conv2d(128, 256, kernel_size=2, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.Conv2d(256, 384, kernel_size=2, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.Conv2d(384, 256, kernel_size=2, padding=1),
+            nn.MaxPool2d(kernel_size=2, stride=1),
+        )
 
-        self.features_len = 960 * 7 * 7
+        self.features_len = 256 * 13 * 13
 
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
-            nn.BatchNorm1d(self.features_len),  # Added batch normalization
+            nn.BatchNorm1d(self.features_len),
             nn.Dropout(self.DROPOUT_RATE),
             nn.Linear(self.features_len, 256),
             nn.ReLU(),
