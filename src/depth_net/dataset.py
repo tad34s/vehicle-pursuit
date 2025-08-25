@@ -115,6 +115,9 @@ class OverSampler(Sampler):
             np.random.shuffle(x)
         self.nbins = nbins
         self.drop_last = drop_last
+        self.num_batches = len(self.data) // self.batch_size
+        if not drop_last and len(self.data) % self.batch_size != 0:
+            self.num_batches += 1
 
     @staticmethod
     def bin_iter(bin):
@@ -125,19 +128,18 @@ class OverSampler(Sampler):
 
     def __iter__(self):
         bin_iters = [self.bin_iter(x) for x in self.bins]
-        i = 0
-        batch = []
-        for i in range(0, len(self.data), self.nbins):
-            new_data = [next(x) for x in bin_iters]
-            batch += new_data
-
-            if len(batch) == self.batch_size:
-                yield batch
-                batch = []
-                if self.drop_last:
-                    i += 1
-                    if i >= len(self.data) // self.batch_size:
-                        break
+        for _ in range(self.num_batches):
+            batch = []
+            for _ in range(self.batch_size // self.nbins):
+                new_data = [next(x) for x in bin_iters]
+                batch.extend(new_data)
+            if len(batch) < self.batch_size and not self.drop_last:
+                while len(batch) < self.batch_size:
+                    for it in bin_iters:
+                        if len(batch) >= self.batch_size:
+                            break
+                        batch.append(next(it))
+            yield batch[: self.batch_size]  # Ensure exact batch size
 
     def __len__(self):
-        return len(self.data)
+        return self.num_batches

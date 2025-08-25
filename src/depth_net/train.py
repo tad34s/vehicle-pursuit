@@ -92,7 +92,7 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
             channel_values = torch.cat(y_hat_agg[c], dim=0)
             writer.add_histogram(f"hist_{epoch_number}/channel_{c}", channel_values, epoch_number)
 
-    return running_cum_loss, losses
+    return losses
 
 
 def validate_net(net: DepthNetwork, val_loader):
@@ -181,10 +181,11 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
         train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
 
         net.train(True)
-        loss_sum, losses = train_step(net, train_dataloader, writer, epoch)
+        losses = train_step(net, train_dataloader, writer, epoch)
         net.train(False)
-        loss_sum /= len(train_dataset)
-        writer.add_scalar("Training loss", loss_sum, epoch)
+        avg_loss = sum(x for x in losses.values()) / len(losses)
+        print(avg_loss)
+        writer.add_scalar("Training loss", avg_loss, epoch)
 
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         writer.add_scalar("Validation loss", avg_val_loss, epoch)
@@ -234,9 +235,9 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=3)
+    pretrain(net, train_dataset, writer, epochs=1)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=1)
 
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
