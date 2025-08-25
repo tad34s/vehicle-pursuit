@@ -37,7 +37,7 @@ def dice_loss(pred, target, smooth=1):
     dice = (2.0 * intersection + smooth) / (union + smooth)
 
     # Return Dice Loss
-    return 1 - dice.mean()
+    return 1 - dice
 
 
 def center_mesh(mesh: Meshes) -> Meshes:

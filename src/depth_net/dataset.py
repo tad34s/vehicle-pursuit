@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torchvision
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, Sampler
 from torchvision.io import read_image
 
 
@@ -37,7 +37,7 @@ class MaskDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, int]:
         id = self.ids[index]
         img, mask = (
             read_image(self.input_images[id]),
@@ -51,7 +51,11 @@ class MaskDataset(Dataset):
                 img = torch.flip(img, [-1])
                 mask = torch.flip(mask, [-1])
 
-        return img.type(torch.float32), mask.type(torch.float32)
+        return (
+            img.type(torch.float32),
+            mask.type(torch.float32),
+            id,
+        )
 
 
 class TestDataset(Dataset):
@@ -80,11 +84,44 @@ class TestDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
-        id = self.ids[index]
+    def __getitem__(self, id: int) -> tuple[torch.Tensor, torch.Tensor, int]:
         img = read_image(self.input_images[id])
         t_ref = np.load(self.t_refs[id])
         if self.transform:
             img = self.transform(img)
         t_ref = torch.tensor(t_ref, dtype=torch.float32)
-        return img.type(torch.float32), t_ref
+        return img.type(torch.float32), t_ref, id
+
+
+class OverSampler(Sampler):
+    def __init__(
+        self, dataset: MaskDataset, losses: dict[int, float] | None = None, batch_size=64, nbins=16
+    ):
+        self.batch_size = batch_size
+        self.data = dataset
+        if losses is None:
+            sorted_indices = np.random.shuffle(dataset.ids)
+        else:
+            sorted_indices = sorted(losses.keys(), key=lambda x: losses[x])
+        self.bins = [np.random.shuffle(x) for x in np.array_split(sorted_indices, nbins)]
+        self.nbins = nbins
+
+    @staticmethod
+    def bin_iter(bin):
+        for i in bin:
+            yield i
+
+    def __iter__(self):
+        bin_iters = [self.bin_iter(x) for x in self.bins]
+
+        batch = []
+        for i in range(0, len(self.data), self.nbins):
+            new_data = [next(x) for x in bin_iters]
+            batch += new_data
+
+            if len(batch) == self.batch_size:
+                yield batch
+                batch = []
+
+    def __len__(self):
+        return len(self.data)

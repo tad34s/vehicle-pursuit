@@ -9,7 +9,7 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import MaskDataset, TestDataset
+from dataset import MaskDataset, OverSampler, TestDataset
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -27,7 +27,7 @@ def pretrain(net, dataset, writer, epochs=1) -> None:
         epoch_loss = 0.0  # Reset each epoch
         total_samples = 0
         for batch in dataloader:
-            x, _ = batch
+            x, _, _ = batch
             x = x.to(net.device)
             batch_size = x.shape[0]
             y = torch.tensor([[0.0, 10.0, 0.0]] * batch_size, device=net.device)
@@ -48,16 +48,21 @@ def pretrain(net, dataset, writer, epochs=1) -> None:
 
 def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     running_cum_loss = 0.0
+    losses = {}
     for i, data in enumerate(training_loader):
-        x, ref_image = data
+        x, ref_image, ids = data
         x = x.to(net.device)  # Move batch to GPU
         ref_image = ref_image.to(net.device)
 
         y_hat = net(x)
         loss = net.projector.loss(y_hat, ref_image)
 
+        loss_mean = loss.mean()
+        for i, x in enumerate(loss):
+            losses[ids[i]] = x.item()
+
         net.optim.zero_grad()
-        loss.backward()
+        loss_mean.backward()
         torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=20.0)
         grad_norm = net.gradient_norm
         if math.isnan(grad_norm):
@@ -65,21 +70,21 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
         net.optim.step()
         writer.add_scalar("Gradient norm", grad_norm, epoch_number * len(training_loader) + i)
 
-        last_mean_loss = loss.item()
+        last_mean_loss = loss_mean.item()
         running_cum_loss += last_mean_loss * x.shape[0]
 
-    return running_cum_loss
+    return running_cum_loss, losses
 
 
 def validate_net(net: DepthNetwork, val_loader):
     running_cum_loss = 0.0
     for data in val_loader:
-        x, ref_image = data
+        x, ref_image, _ = data
         x = x.to(net.device)  # Move batch to GPU
         ref_image = ref_image.to(net.device)
         with torch.no_grad():
             y_hat = net(x)
-            loss = net.projector.loss(y_hat, ref_image)
+            loss = net.projector.loss(y_hat, ref_image).mean()
 
         last_mean_loss = loss.item()
         running_cum_loss += last_mean_loss * x.shape[0]
@@ -142,17 +147,22 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
 
 
 def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
-    val_dataloader = DataLoader(val_dataset, batch_size=64, shuffle=True, num_workers=4)
+    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
+    val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     best_net = deepcopy(net)
 
     best_val_loss = 1000000.0
     epochs_from_best = 0
     early_stopping = 40
+    losses = None
 
     for epoch in range(epochs):
+        sampler = OverSampler(dataset=train_dataset, losses=losses, batch_size=64)
+        train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
+
         net.train(True)
-        avg_loss = train_step(net, train_dataloader, writer, epoch) / len(train_dataset)
+        avg_loss, losses = train_step(net, train_dataloader, writer, epoch)
+        avg_loss /= len(train_dataset)
         writer.add_scalar("Training loss", avg_loss, epoch)
         net.train(False)
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
@@ -201,9 +211,9 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=3)
+    pretrain(net, train_dataset, writer, epochs=1)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=1)
 
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
