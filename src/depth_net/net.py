@@ -13,11 +13,27 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.EfficientNet_B5_Weights.IMAGENET1K_V1.transforms()
-        self.features = torchvision.models.efficientnet_b5(
-            weights=torchvision.models.EfficientNet_B5_Weights.IMAGENET1K_V1
+        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
+
+        # self.features = nn.Sequential(
+        #     nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
+        #     nn.ReLU(inplace=True),
+        #     nn.MaxPool2d(kernel_size=3, stride=2),
+        #     nn.Conv2d(64, 192, kernel_size=5, padding=2),
+        #     nn.ReLU(inplace=True),
+        #     nn.Conv2d(192, 384, kernel_size=3, padding=1),
+        #     nn.ReLU(inplace=True),
+        #     nn.Conv2d(384, 256, kernel_size=3, padding=1),
+        #     nn.ReLU(inplace=True),
+        #     nn.Conv2d(256, 256, kernel_size=3, padding=1),
+        #     nn.ReLU(inplace=True),
+        # )
+
+        self.features = torchvision.models.alexnet(
+            weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
         ).features
-        self.features_len = 2048 * 15 * 15
+
+        self.features_len = 256 * 6 * 6
 
         for param in self.features.parameters():
             param.requires_grad = False

@@ -20,7 +20,8 @@ def launch_tensor_board(logs_location: Path) -> None:
 
 
 def pretrain(net, dataset, writer, epochs=1) -> None:
-    dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
+    sampler = OverSampler(dataset=dataset, losses=None, batch_size=64)
+    dataloader = DataLoader(dataset, batch_sampler=sampler, num_workers=4)
     loss_fn = torch.nn.MSELoss()
 
     for epoch in range(epochs):

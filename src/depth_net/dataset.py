@@ -1,3 +1,4 @@
+import copy
 from pathlib import Path
 
 import numpy as np
@@ -37,8 +38,7 @@ class MaskDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, int]:
-        id = self.ids[index]
+    def __getitem__(self, id: int) -> tuple[torch.Tensor, torch.Tensor, int]:
         img, mask = (
             read_image(self.input_images[id]),
             read_image(self.masks[id]),
@@ -100,16 +100,21 @@ class OverSampler(Sampler):
         self.batch_size = batch_size
         self.data = dataset
         if losses is None:
-            sorted_indices = np.random.shuffle(dataset.ids)
+            sorted_indices = copy.copy(dataset.ids)
+            np.random.shuffle(sorted_indices)
         else:
             sorted_indices = sorted(losses.keys(), key=lambda x: losses[x])
-        self.bins = [np.random.shuffle(x) for x in np.array_split(sorted_indices, nbins)]
+        self.bins = np.array_split(sorted_indices, nbins)
+        for x in self.bins:
+            np.random.shuffle(x)
         self.nbins = nbins
 
     @staticmethod
     def bin_iter(bin):
-        for i in bin:
-            yield i
+        i = 0
+        while True:
+            yield bin[i]
+            i = (i + 1) % len(bin)
 
     def __iter__(self):
         bin_iters = [self.bin_iter(x) for x in self.bins]
