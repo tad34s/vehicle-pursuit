@@ -235,7 +235,7 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=2)
+    pretrain(net, train_dataset, writer, epochs=10)
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
 
