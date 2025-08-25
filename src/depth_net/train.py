@@ -50,17 +50,24 @@ def pretrain(net, dataset, writer, epochs=1) -> None:
 def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     running_cum_loss = 0.0
     losses = {}
+    write_hist = False
+    if epoch_number % 10 == 0:
+        write_hist = True
+
+    # Initialize lists to aggregate y_hat values for each channel if write_hist is True
+    if write_hist:
+        y_hat_agg = [[] for _ in range(3)]  # One list per channel (R, G, B)
+
     for i, data in enumerate(training_loader):
         x, ref_image, ids = data
-        x = x.to(net.device)  # Move batch to GPU
+        x = x.to(net.device)
         ref_image = ref_image.to(net.device)
 
         y_hat = net(x)
         loss = net.projector.loss(y_hat, ref_image)
-
         loss_mean = loss.mean()
-        for i, x in enumerate(loss):
-            losses[ids[i]] = x.item()
+        for j, loss_val in enumerate(loss):
+            losses[ids[j]] = loss_val.item()
 
         net.optim.zero_grad()
         loss_mean.backward()
@@ -73,6 +80,19 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
 
         last_mean_loss = loss_mean.item()
         running_cum_loss += last_mean_loss * x.shape[0]
+
+        # Aggregate y_hat values for each channel if write_hist is True
+        if write_hist:
+            y_hat_cpu = y_hat.detach().cpu()
+            for c in range(3):  # Iterate over each channel
+                y_hat_agg[c].append(y_hat_cpu[:, c])  # Collect values for channel c
+
+    # After processing all batches, create and write histograms if write_hist is True
+    if write_hist:
+        for c in range(3):
+            # Concatenate all collected values for the channel
+            channel_values = torch.cat(y_hat_agg[c], dim=0)
+            writer.add_histogram(f"hist_{epoch_number}/channel_{c}", channel_values, epoch_number)
 
     return running_cum_loss, losses
 
@@ -159,11 +179,12 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
     losses = None
 
     for epoch in range(epochs):
-        sampler = OverSampler(dataset=train_dataset, losses=losses, batch_size=64)
+        sampler = OverSampler(dataset=train_dataset, losses=losses, batch_size=64, nbins=8)
         train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
 
         net.train(True)
         avg_loss, losses = train_step(net, train_dataloader, writer, epoch)
+        print(avg_loss)
         avg_loss /= len(train_dataset)
         writer.add_scalar("Training loss", avg_loss, epoch)
         net.train(False)
@@ -182,6 +203,8 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
         if epochs_from_best > early_stopping:
             print("Early stopping now")
             return best_net
+
+        writer.flush()
 
     return best_net
 
@@ -213,9 +236,9 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=1)
+    pretrain(net, train_dataset, writer, epochs=3)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=1)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
 
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
@@ -223,6 +246,7 @@ def main():
     print("Testing against ground truth...")
     test_net(best_net, test_dataset, writer)
     visualize_predictions(best_net, val_dataset, writer)
+    writer.flush()
 
 
 if __name__ == "__main__":

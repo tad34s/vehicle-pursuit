@@ -96,7 +96,12 @@ class TestDataset(Dataset):
 
 class OverSampler(Sampler):
     def __init__(
-        self, dataset: MaskDataset, losses: dict[int, float] | None = None, batch_size=64, nbins=16
+        self,
+        dataset: MaskDataset,
+        losses: dict[int, float] | None = None,
+        batch_size=64,
+        nbins=16,
+        drop_last=False,
     ):
         self.batch_size = batch_size
         self.data = dataset
@@ -109,6 +114,7 @@ class OverSampler(Sampler):
         for x in self.bins:
             np.random.shuffle(x)
         self.nbins = nbins
+        self.drop_last = drop_last
 
     @staticmethod
     def bin_iter(bin):
@@ -119,7 +125,7 @@ class OverSampler(Sampler):
 
     def __iter__(self):
         bin_iters = [self.bin_iter(x) for x in self.bins]
-
+        i = 0
         batch = []
         for i in range(0, len(self.data), self.nbins):
             new_data = [next(x) for x in bin_iters]
@@ -128,6 +134,10 @@ class OverSampler(Sampler):
             if len(batch) == self.batch_size:
                 yield batch
                 batch = []
+                if self.drop_last:
+                    i += 1
+                    if i >= len(self.data) // self.batch_size:
+                        break
 
     def __len__(self):
         return len(self.data)
