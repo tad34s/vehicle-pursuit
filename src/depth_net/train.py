@@ -132,10 +132,11 @@ def test_net(net: DepthNetwork, test_dataset, writer):
 
 
 def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter):
-    val_loader = DataLoader(val_dataset, batch_size=1, shuffle=True, num_workers=4)
+    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=1)
+    val_loader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     i = 0
     for data in val_loader:
-        x, ref_image = data
+        x, ref_image, _ = data
         x = x.to(best_net.device)  # Move batch to GPU
         ref_image = ref_image.to(best_net.device)
         with torch.no_grad():
