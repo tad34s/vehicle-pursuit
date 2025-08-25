@@ -67,6 +67,7 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
         loss = net.projector.loss(y_hat, ref_image)
         loss_mean = loss.mean()
         for j, loss_val in enumerate(loss):
+            running_cum_loss += loss_val.item()
             losses[ids[j]] = loss_val.item()
 
         net.optim.zero_grad()
@@ -77,9 +78,6 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
             continue
         net.optim.step()
         writer.add_scalar("Gradient norm", grad_norm, epoch_number * len(training_loader) + i)
-
-        last_mean_loss = loss_mean.item()
-        running_cum_loss += last_mean_loss * x.shape[0]
 
         # Aggregate y_hat values for each channel if write_hist is True
         if write_hist:
@@ -105,10 +103,10 @@ def validate_net(net: DepthNetwork, val_loader):
         ref_image = ref_image.to(net.device)
         with torch.no_grad():
             y_hat = net(x)
-            loss = net.projector.loss(y_hat, ref_image).mean()
+            loss = net.projector.loss(y_hat, ref_image).sum()
 
-        last_mean_loss = loss.item()
-        running_cum_loss += last_mean_loss * x.shape[0]
+        loss_sum = loss.item()
+        running_cum_loss += loss_sum
 
     return running_cum_loss
 
@@ -183,11 +181,11 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
         train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
 
         net.train(True)
-        avg_loss, losses = train_step(net, train_dataloader, writer, epoch)
-        print(avg_loss)
-        avg_loss /= len(train_dataset)
-        writer.add_scalar("Training loss", avg_loss, epoch)
+        loss_sum, losses = train_step(net, train_dataloader, writer, epoch)
         net.train(False)
+        loss_sum /= len(train_dataset)
+        writer.add_scalar("Training loss", loss_sum, epoch)
+
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         writer.add_scalar("Validation loss", avg_val_loss, epoch)
 
