@@ -184,7 +184,6 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
         losses = train_step(net, train_dataloader, writer, epoch)
         net.train(False)
         avg_loss = sum(x for x in losses.values()) / len(losses)
-        print(avg_loss)
         writer.add_scalar("Training loss", avg_loss, epoch)
 
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
