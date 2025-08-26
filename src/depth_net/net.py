@@ -13,35 +13,15 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
-
-        # self.features = nn.Sequential(
-        #     nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
-        #     nn.ReLU(inplace=True),
-        #     nn.MaxPool2d(kernel_size=3, stride=2),
-        #     nn.Conv2d(64, 192, kernel_size=5, padding=2),
-        #     nn.ReLU(inplace=True),
-        #     nn.Conv2d(192, 384, kernel_size=3, padding=1),
-        #     nn.ReLU(inplace=True),
-        #     nn.Conv2d(384, 256, kernel_size=3, padding=1),
-        #     nn.ReLU(inplace=True),
-        #     nn.Conv2d(256, 256, kernel_size=3, padding=1),
-        #     nn.ReLU(inplace=True),
-        # )
-
+        self.alex_net_transorms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
         self.features = torchvision.models.alexnet(
             weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
         ).features
 
-        self.features_len = 256 * 6 * 6
-
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
-            nn.BatchNorm1d(self.features_len),
-            nn.Dropout(self.DROPOUT_RATE),
-            nn.Linear(self.features_len, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 256),
+            nn.BatchNorm1d(256 * 6 * 6),
+            nn.Linear(256 * 6 * 6, 256),
             nn.ReLU(),
             nn.Linear(256, 64),
             nn.ReLU(),
@@ -55,7 +35,7 @@ class DepthNetwork(torch.nn.Module):
         )
 
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optim, mode="min", factor=0.5, patience=3, cooldown=2, threshold=0.001
+            self.optim, mode="min", factor=0.1, patience=3, cooldown=1, threshold=0.01
         )
 
         self.device = device
