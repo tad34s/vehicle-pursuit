@@ -9,7 +9,7 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import ActiveLearningDataset, ImprovedOverSampler, MaskDataset, TestDataset
+from dataset import ActiveLearningDataset, MaskDataset, TestDataset
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -147,8 +147,7 @@ def test_net(net: DepthNetwork, test_dataset, writer):
 
 
 def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter):
-    val_sampler = ImprovedOverSampler(dataset=val_dataset, losses=None, batch_size=1)
-    val_loader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
+    val_loader = DataLoader(val_dataset, batch_size=1, num_workers=4)
     i = 0
     for data in val_loader:
         x, ref_image, _ = data
@@ -164,15 +163,8 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
 
 
 def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    oversampler = ImprovedOverSampler(
-        dataset=train_dataset,
-        losses=None,
-        batch_size=64,
-        focus_factor=1.5,  # Moderate focus on high-loss samples
-        min_weight=0.1,
-    )
-
     val_dataloader = DataLoader(val_dataset, batch_size=64, num_workers=4)
+    train_dataloader = DataLoader(train_dataset, batch_size=64, num_workers=4)
     best_net = deepcopy(net)
 
     best_val_loss = float("inf")
@@ -181,20 +173,9 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
     losses = None
 
     for epoch in range(epochs):
-        train_dataloader = DataLoader(
-            train_dataset,
-            batch_size=64,
-            sampler=oversampler.get_sampler(),
-            num_workers=4,
-        )
-
         net.train(True)
         losses = train_step(net, train_dataloader, writer, epoch)
         net.train(False)
-
-        focus_factor = min(3.0, 1.5 + epoch / epochs * 1.5)  # Increase focus over time
-        oversampler.update_parameters(focus_factor=focus_factor)
-        oversampler.update_weights(losses)
 
         avg_loss = sum(x for x in losses.values()) / len(losses)
         writer.add_scalar("Training loss", avg_loss, epoch)
@@ -237,8 +218,9 @@ def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.3):
     return output
 
 
-def generate_dataset_dict(net, unsure_examples, train_dataset):
+def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
     dataset = {}
+    losses = []
     for id in unsure_examples:
         x, y = train_dataset.get_by_id(id)
         x = x.to(net.device)
@@ -246,8 +228,12 @@ def generate_dataset_dict(net, unsure_examples, train_dataset):
         with torch.no_grad():
             y_hat = net(x.unsqueeze(0))
 
-        estimate_gt = net.projector.optimize(y_hat, y.unsqueeze(0))
+        estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
         dataset[id] = estimate_gt.detach().cpu()
+        losses.append(loss.item())
+
+    losses_tensor = torch.tensor(losses)
+    writer.add_histogram("Fianl optimized loss", losses_tensor, 0)
 
     return dataset
 
@@ -275,7 +261,7 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
 def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
     unsure_examples = get_unsure_examples(net, train_dataset)
     print(f"Generationg dataset for {len(unsure_examples)} entries")
-    dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset)
+    dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset, writer)
     new_dataset = ActiveLearningDataset(train_dataset, dataset_dict)
 
     train_dataloader = DataLoader(new_dataset, batch_size=64, shuffle=True, num_workers=4)
