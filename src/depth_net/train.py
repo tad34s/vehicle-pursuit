@@ -276,6 +276,7 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
 
 def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
     unsure_examples = get_unsure_examples(net, train_dataset)
+    print(f"Generationg dataset for {len(unsure_examples)} entries")
     dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset)
     new_dataset = ActiveLearningDataset(train_dataset, dataset_dict)
 
@@ -297,7 +298,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
         writer.add_scalar("Active Training loss", avg_loss, epoch)
 
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
-        writer.add_scalar("Validation loss", avg_val_loss, epoch)
+        writer.add_scalar("Active Training Validation loss", avg_val_loss, epoch)
 
         net.scheduler.step(avg_val_loss)
         if avg_val_loss < best_val_loss:
@@ -346,16 +347,15 @@ def main():
     print("Pretraining...")
     pretrain(net, train_dataset, writer, epochs=2)
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=10)
-
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )
-
+    print("Active learning...")
+    active_learn(net, train_dataset, val_dataset, writer, epochs=100)
     print("Testing against ground truth...")
-    active_learn(net, train_dataset, val_dataset, writer, epochs=1)
-    # test_net(best_net, test_dataset, writer)
-    # visualize_predictions(best_net, val_dataset, writer)
+    test_net(best_net, test_dataset, writer)
+    visualize_predictions(best_net, val_dataset, writer)
     writer.flush()
 
 
