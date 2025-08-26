@@ -108,9 +108,10 @@ class OverSampler(Sampler):
         if losses is None:
             sorted_indices = copy.copy(dataset.ids)
             np.random.shuffle(sorted_indices)
+            self.bins = np.array_split(sorted_indices, nbins)
         else:
-            sorted_indices = sorted(losses.keys(), key=lambda x: losses[x])
-        self.bins = np.array_split(sorted_indices, nbins)
+            self.bins = self.create_histogram(losses, nbins)
+
         for x in self.bins:
             np.random.shuffle(x)
         self.nbins = nbins
@@ -118,6 +119,28 @@ class OverSampler(Sampler):
         self.num_batches = len(self.data) // self.batch_size
         if not drop_last and len(self.data) % self.batch_size != 0:
             self.num_batches += 1
+
+    @staticmethod
+    def create_histogram(losses: dict[int, float], nbins):
+        values = list(losses.values())
+        min_val = np.min(values)
+        max_val = np.max(values)
+
+        bin_step = (max_val - min_val) / nbins
+
+        histogram = [[] for _ in range(nbins)]
+
+        bin_edges = [min_val + i * bin_step for i in range(nbins + 1)]
+
+        for key, value in losses.items():
+            if value == max_val:  # Handle the edge case of max value
+                bin_index = nbins - 1
+            else:
+                bin_index = int((value - min_val) / bin_step)
+
+            histogram[bin_index].append(key)
+
+        return histogram
 
     @staticmethod
     def bin_iter(bin):
