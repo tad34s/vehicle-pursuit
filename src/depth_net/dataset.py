@@ -122,6 +122,7 @@ class ActiveLearningDataset(Dataset):
         id = self.ids[index]
         gt = self.dataset_dict[id]
         x, _ = self.train_datset.get_by_id(id)
+        print(x, gt)
         return x, gt
 
 

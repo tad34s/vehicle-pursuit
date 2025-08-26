@@ -249,7 +249,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset):
 
         print(y_hat.shape)
         estimate_gt = net.projector.optimize(y_hat, y.unsqueeze(0))
-        dataset[id] = estimate_gt
+        dataset[id] = estimate_gt.detach()
 
     return dataset
 
