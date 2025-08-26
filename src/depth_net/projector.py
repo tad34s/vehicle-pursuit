@@ -263,7 +263,7 @@ class Projector:
                 self.car_position = nn.Parameter(deepcopy(start_pos.unsqueeze(0)))
 
             def forward(self):
-                loss = projector.loss(self.car_position, self.ref_image)
+                loss = self.projector.loss(self.car_position, self.ref_image)
                 return loss
 
         model = Model(self, position, ref_image).to(self.device)
