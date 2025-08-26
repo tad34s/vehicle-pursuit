@@ -13,7 +13,7 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transorms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
+        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
         self.features = torchvision.models.alexnet(
             weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
         ).features
