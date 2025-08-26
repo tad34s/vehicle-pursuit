@@ -244,7 +244,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset):
         x, y = train_dataset.get_by_id(id)
         net.eval()
         with torch.no_grad():
-            y_hat = net(x.unqueeze(0))
+            y_hat = net(x.unsqueeze(0))
 
         estimate_gt = net.projector.optimize(y_hat.squeeze(0), y)
         dataset[id] = estimate_gt
