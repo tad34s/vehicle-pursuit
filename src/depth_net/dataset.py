@@ -58,6 +58,20 @@ class MaskDataset(Dataset):
             id,
         )
 
+    def get_by_id(self, id: int):
+        img, mask = (
+            read_image(self.input_images[id]),
+            read_image(self.masks[id]),
+        )
+        if self.transform:
+            img = self.transform(img)
+            mask = self.transform(mask)
+
+        return (
+            img.type(torch.float32),
+            mask.type(torch.float32),
+        )
+
 
 class TestDataset(Dataset):
     def __init__(
@@ -93,6 +107,19 @@ class TestDataset(Dataset):
             img = self.transform(img)
         t_ref = torch.tensor(t_ref, dtype=torch.float32)
         return img.type(torch.float32), t_ref
+
+
+class ActiveLearningDataset(Dataset):
+    def __init__(self, train_dataset: MaskDataset, unsure_examples: list[int]) -> None:
+        self.train_datset = train_dataset
+        self.unsure_examples = unsure_examples
+
+    def __len__(self) -> int:
+        return len(self.unsure_examples)
+
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
+        id = self.unsure_examples[index]
+        return self.train_datset.get_by_id(id)
 
 
 class OverSampler(Sampler):

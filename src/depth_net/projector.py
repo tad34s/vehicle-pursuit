@@ -1,7 +1,9 @@
 import math
+from copy import deepcopy
 
 import numpy as np
 import torch
+import torch.nn as nn
 import torchvision
 from matplotlib import pyplot as plt
 from pytorch3d.io import IO
@@ -250,6 +252,33 @@ class Projector:
 
         loss = dice_loss(mask, ref_image)
         return loss
+
+    def optimize(self, position: torch.Tensor, ref_image: torch.Tensor):
+        class Model(nn.Module):
+            def __init__(self, projector, start_pos: torch.Tensor, image_ref):
+                super().__init__()
+                self.projector = projector
+                self.image_ref = image_ref
+
+                self.car_position = nn.Parameter(deepcopy(start_pos.unsqueeze(0)))
+
+            def forward(self):
+                loss = projector.loss(self.car_position, self.ref_image)
+                return loss
+
+        model = Model(self, position, ref_image).to(device)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
+        for i in range(200):
+            optimizer.zero_grad()
+            loss = model()
+            loss.backward()
+            print(loss)
+            optimizer.step()
+
+            if loss.item() < 0.1:
+                break
+
+        return model.car_position.detach()
 
 
 if __name__ == "__main__":
