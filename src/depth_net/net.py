@@ -18,10 +18,12 @@ class DepthNetwork(torch.nn.Module):
             weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
         ).features
 
+        self.features_len = 256 * 6 * 6
+
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
-            nn.BatchNorm1d(256 * 6 * 6),
-            nn.Linear(256 * 6 * 6, 256),
+            nn.BatchNorm1d(self.features_len),
+            nn.Linear(self.features_len, 256),
             nn.ReLU(),
             nn.Linear(256, 64),
             nn.ReLU(),
