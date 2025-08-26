@@ -230,7 +230,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
 
         estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
         dataset[id] = estimate_gt.detach().cpu()
-        losses.append(loss.item())
+        losses.append(loss)
 
     losses_tensor = torch.tensor(losses)
     writer.add_histogram("Fianl optimized loss", losses_tensor, 0)
