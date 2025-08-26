@@ -272,7 +272,6 @@ class Projector:
             optimizer.zero_grad()
             loss = model()
             loss.backward()
-            print(loss)
             optimizer.step()
 
             if loss.item() < 0.1:
