@@ -247,6 +247,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset):
         with torch.no_grad():
             y_hat = net(x.unsqueeze(0))
 
+        print(y_hat.shape)
         estimate_gt = net.projector.optimize(y_hat, y.unsqueeze(0))
         dataset[id] = estimate_gt
 
@@ -342,9 +343,9 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    # pretrain(net, train_dataset, writer, epochs=1)
+    pretrain(net, train_dataset, writer, epochs=2)
     print("Fitting...")
-    # best_net = fit(net, train_dataset, val_dataset, writer, epochs=1)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=10)
 
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
