@@ -266,7 +266,7 @@ class Projector:
                 loss = projector.loss(self.car_position, self.ref_image)
                 return loss
 
-        model = Model(self, position, ref_image).to(device)
+        model = Model(self, position, ref_image).to(self.device)
         optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
         for i in range(200):
             optimizer.zero_grad()
