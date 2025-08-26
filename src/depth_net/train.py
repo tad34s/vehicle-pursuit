@@ -242,6 +242,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset):
     dataset = {}
     for id in unsure_examples:
         x, y = train_dataset.get_by_id(id)
+        x = x.to(net.device)
         net.eval()
         with torch.no_grad():
             y_hat = net(x.unsqueeze(0))
