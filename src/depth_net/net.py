@@ -8,7 +8,6 @@ from projector import Projector
 class DepthNetwork(torch.nn.Module):
     LEARNING_RATE = 1e-3
     WEIGHT_DECAY = 1e-7
-    DROPOUT_RATE = 0.3
 
     def __init__(self, image_size, device):
         super().__init__()
@@ -41,7 +40,6 @@ class DepthNetwork(torch.nn.Module):
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
             nn.BatchNorm1d(self.features_len),
-            nn.Dropout(self.DROPOUT_RATE),
             nn.Linear(self.features_len, 1024),
             nn.ReLU(),
             nn.Linear(1024, 256),
@@ -58,7 +56,7 @@ class DepthNetwork(torch.nn.Module):
         )
 
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optim, mode="min", factor=0.5, patience=3, cooldown=2, threshold=0.001
+            self.optim, mode="min", factor=0.5, patience=5, cooldown=2, threshold=0.001
         )
 
         self.device = device
