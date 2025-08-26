@@ -277,7 +277,7 @@ class Projector:
             if loss.item() < 0.1:
                 break
 
-        return model.car_position.detach()
+        return model.car_position.detach(), loss.item()
 
 
 if __name__ == "__main__":
