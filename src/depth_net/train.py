@@ -260,6 +260,7 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     for batch in training_loader:
         x, y = batch
         x = x.to(net.device)
+        y = y.to(net.device)
         batch_size = x.shape[0]
         y_hat = net.forward(x)
         loss = loss_fn(y_hat, y)
