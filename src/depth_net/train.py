@@ -139,7 +139,7 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
 
 
 def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    train_dataloader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
+    train_dataloader = DataLoader(train_dataset, batch_size=128, shuffle=True, num_workers=4)
     val_dataloader = DataLoader(val_dataset, batch_size=64, shuffle=True, num_workers=4)
     best_net = deepcopy(net)
 
@@ -197,8 +197,8 @@ def main():
     net = DepthNetwork(image_size, device)
     net.to(device)
 
-    print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=3)
+    # print("Pretraining...")
+    # pretrain(net, train_dataset, writer, epochs=3)
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
 

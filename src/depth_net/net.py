@@ -12,21 +12,7 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.alex_net_transorms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
-
-        # self.features = nn.Sequential(
-        #     nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
-        #     nn.ReLU(inplace=True),
-        #     nn.MaxPool2d(kernel_size=3, stride=2),
-        #     nn.Conv2d(64, 192, kernel_size=5, padding=2),
-        #     nn.ReLU(inplace=True),
-        #     nn.Conv2d(192, 384, kernel_size=3, padding=1),
-        #     nn.ReLU(inplace=True),
-        #     nn.Conv2d(384, 256, kernel_size=3, padding=1),
-        #     nn.ReLU(inplace=True),
-        #     nn.Conv2d(256, 256, kernel_size=3, padding=1),
-        #     nn.ReLU(inplace=True),
-        # )
+        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
 
         self.features = torchvision.models.alexnet(
             weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
@@ -49,7 +35,13 @@ class DepthNetwork(torch.nn.Module):
         )
 
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optim, mode="min", factor=0.1, patience=3, cooldown=1, threshold=0.001
+            self.optim,
+            mode="min",
+            patience=5,
+            factor=0.3,
+            threshold=1e-4,
+            min_lr=1e-7,
+            verbose=True,
         )
 
         self.device = device
@@ -89,7 +81,7 @@ class DepthNetwork(torch.nn.Module):
 
     def forward(self, img):
         img = img.view(-1, *self.input_shape)
-        img = self.alex_net_transorms(img)
+        img = self.transforms(img)
         features = self.features(img)
         features = features.view(-1, 256 * 6 * 6)
         preds = self.predict(features)
