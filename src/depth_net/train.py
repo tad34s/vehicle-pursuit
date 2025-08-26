@@ -234,7 +234,7 @@ def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.3):
         loss = net.projector.loss(y_hat, y)
         for j, loss_val in enumerate(loss):
             if loss_val > threshold:
-                output.append(ids[j])
+                output.append(ids[j].item())
     return output
 
 
