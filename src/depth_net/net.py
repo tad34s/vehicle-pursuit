@@ -74,11 +74,10 @@ class DepthNetwork(torch.nn.Module):
     def activation_fn(self, preds):
         x_raw = preds[:, 0]
         y_raw = preds[:, 1]
-        theta_raw = preds[:, 2]
+        theta = preds[:, 2]
 
         x_ratio = torch.tanh(x_raw)  # [-1, 1]
         y_dist = F.softplus(y_raw)  # ensure distance is positive
-        theta = torch.tanh(theta_raw) * 180
 
         max_x = (y_dist - self.projector.CAMERA_POS[2]) * (
             (self.projector.SENSOR_WIDTH_MM) / (2 * self.projector.FOCAL_LENGTH_MM)
