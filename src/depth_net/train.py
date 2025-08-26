@@ -226,6 +226,8 @@ def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.3):
     train_load = DataLoader(train_dataset, batch_size=64, num_workers=4)
     for batch in train_load:
         x, y, ids = batch
+        x = x.to(net.device)
+
         net.eval()
         with torch.no_grad():
             y_hat = net(x)
@@ -242,9 +244,9 @@ def generate_dataset_dict(net, unsure_examples, train_dataset):
         x, y = train_dataset.get_by_id(id)
         net.eval()
         with torch.no_grad():
-            y_hat = net(x)
+            y_hat = net(x.unqueeze(0))
 
-        estimate_gt = net.projector.optimize(y_hat, y)
+        estimate_gt = net.projector.optimize(y_hat.squeeze(0), y)
         dataset[id] = estimate_gt
 
     return dataset
