@@ -111,19 +111,21 @@ class TestDataset(Dataset):
 
 class ActiveLearningDataset(Dataset):
     def __init__(self, train_dataset: MaskDataset, dataset_dict: dict[int, torch.Tensor]) -> None:
-        self.train_datset = train_dataset
+        self.input_images = train_dataset.input_images
+        self.transform = train_dataset.transform
         self.dataset_dict = dataset_dict
         self.ids = list(self.dataset_dict.keys())
 
     def __len__(self) -> int:
-        return len(self.dataset_dict.keys())
+        return len(self.ids)
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         id = self.ids[index]
         gt = self.dataset_dict[id]
-        x, _ = self.train_datset.get_by_id(id)
-        print(x, gt)
-        return x, gt
+        img = read_image(self.input_images[id])
+        if self.transform:
+            img = self.transform(img)
+        return img, gt
 
 
 class OverSampler(Sampler):
