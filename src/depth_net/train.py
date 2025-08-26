@@ -9,7 +9,7 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import MaskDataset, OverSampler, TestDataset
+from dataset import ImprovedOverSampler, MaskDataset, TestDataset
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -20,8 +20,7 @@ def launch_tensor_board(logs_location: Path) -> None:
 
 
 def pretrain(net, dataset, writer, epochs=1) -> None:
-    sampler = OverSampler(dataset=dataset, losses=None, batch_size=64)
-    dataloader = DataLoader(dataset, batch_sampler=sampler, num_workers=4)
+    dataloader = DataLoader(dataset, batch_size=64, num_workers=4, shuffle=True)
     loss_fn = torch.nn.MSELoss()
 
     for epoch in range(epochs):
@@ -55,9 +54,8 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     if epoch_number % 10 == 0:
         write_hist = True
 
-    # Initialize lists to aggregate y_hat values for each channel if write_hist is True
     if write_hist:
-        y_hat_agg = [[] for _ in range(3)]  # One list per channel (R, G, B)
+        y_hat_agg = [[] for _ in range(3)]
 
     for i, data in enumerate(training_loader):
         x, ref_image, ids = data
@@ -80,7 +78,6 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
         net.optim.step()
         writer.add_scalar("Gradient norm", grad_norm, epoch_number * len(training_loader) + i)
 
-        # Aggregate y_hat values for each channel if write_hist is True
         if write_hist:
             y_hat_cpu = y_hat.detach().cpu()
             for c in range(3):  # Iterate over each channel
@@ -89,7 +86,6 @@ def train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     # After processing all batches, create and write histograms if write_hist is True
     if write_hist:
         for c in range(3):
-            # Concatenate all collected values for the channel
             channel_values = torch.cat(y_hat_agg[c], dim=0)
             writer.add_histogram(f"hist_{epoch_number}/channel_{c}", channel_values, epoch_number)
 
@@ -168,22 +164,38 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
 
 
 def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
-    val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
+    oversampler = ImprovedOverSampler(
+        dataset=train_dataset,
+        losses=None,
+        batch_size=64,
+        focus_factor=1.5,  # Moderate focus on high-loss samples
+        min_weight=0.1,
+    )
+
+    val_dataloader = DataLoader(val_dataset, batch_size=64, num_workers=4)
     best_net = deepcopy(net)
 
-    best_val_loss = 1000000.0
+    best_val_loss = float("inf")
     epochs_from_best = 0
     early_stopping = 40
     losses = None
 
     for epoch in range(epochs):
-        sampler = OverSampler(dataset=train_dataset, losses=losses, batch_size=64, nbins=8)
-        train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
+        train_dataloader = DataLoader(
+            train_dataset,
+            batch_size=64,
+            sampler=oversampler.get_sampler(),
+            num_workers=4,
+        )
 
         net.train(True)
         losses = train_step(net, train_dataloader, writer, epoch)
         net.train(False)
+
+        focus_factor = min(3.0, 1.5 + epoch / epochs * 1.5)  # Increase focus over time
+        oversampler.update_parameters(focus_factor=focus_factor)
+        oversampler.update_weights(losses)
+
         avg_loss = sum(x for x in losses.values()) / len(losses)
         writer.add_scalar("Training loss", avg_loss, epoch)
 

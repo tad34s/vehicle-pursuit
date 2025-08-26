@@ -4,8 +4,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torchvision
-from torch._dynamo.utils import istype
-from torch.utils.data import Dataset, Sampler
+from torch.utils.data import Dataset, Sampler, WeightedRandomSampler
 from torchvision.io import read_image
 
 
@@ -39,9 +38,8 @@ class MaskDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, id: int) -> tuple[torch.Tensor, torch.Tensor, int]:
-        if istype(id, torch.Tensor):
-            id = id.item()
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, int]:
+        id = self.ids[index]
         img, mask = (
             read_image(self.input_images[id]),
             read_image(self.masks[id]),
@@ -169,3 +167,66 @@ class OverSampler(Sampler):
 
     def __len__(self):
         return self.num_batches
+
+
+class ImprovedOverSampler:
+    def __init__(
+        self,
+        dataset,
+        losses: dict[int, float] | None = None,
+        batch_size=64,
+        focus_factor=2.0,
+        min_weight=0.1,
+    ):
+        self.batch_size = batch_size
+        self.dataset = dataset
+        self.focus_factor = focus_factor  # Controls how much to focus on high-loss samples
+        self.min_weight = min_weight  # Minimum weight to ensure all samples have some chance
+
+        if losses is None:
+            # Uniform sampling if no losses provided
+            self.weights = torch.ones(len(dataset))
+            self.sampler = WeightedRandomSampler(self.weights, len(dataset), replacement=True)
+        else:
+            # Create weights based on losses with specialized scaling for [0,1] range
+            self.weights = self._create_weights_from_losses(losses)
+            self.sampler = WeightedRandomSampler(self.weights, len(self.weights), replacement=True)
+
+    def _create_weights_from_losses(self, losses):
+        """Create sampling weights from losses with specialized scaling for [0,1] range"""
+        # Get losses for all samples in the dataset
+        loss_values = []
+        for i, id in enumerate(self.dataset.ids):
+            if id in losses:
+                loss_values.append(losses[id])
+            else:
+                # Use median loss if not found (shouldn't happen in practice)
+                median_loss = np.median(list(losses.values()))
+                loss_values.append(median_loss)
+
+        # Convert to tensor
+        loss_tensor = torch.tensor(loss_values, dtype=torch.float32)
+
+        # Specialized scaling for [0,1] range
+        # We use a power function to emphasize high-loss samples
+        # The focus_factor controls how much we focus on high-loss samples
+        weights = (loss_tensor + self.min_weight) ** self.focus_factor
+
+        # Normalize to avoid extreme values
+        weights = weights / weights.mean()
+
+        return weights
+
+    def get_sampler(self):
+        return self.sampler
+
+    def update_parameters(self, focus_factor=None, min_weight=None):
+        """Update sampling parameters dynamically"""
+        if focus_factor is not None:
+            self.focus_factor = focus_factor
+        if min_weight is not None:
+            self.min_weight = min_weight
+
+    def update_weights(self, losses):
+        self.weights = self._create_weights_from_losses(losses)
+        self.sampler = WeightedRandomSampler(self.weights, len(self.weights), replacement=True)
