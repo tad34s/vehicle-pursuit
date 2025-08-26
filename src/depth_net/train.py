@@ -1,4 +1,5 @@
 import datetime
+import math
 from copy import deepcopy
 from pathlib import Path
 
@@ -59,6 +60,10 @@ def train_step(net, training_loader, writer, epoch_number):
         loss.backward()
         torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=20.0)
         grad_norm = net.gradient_norm
+        if math.isnan(grad_norm):
+            last_mean_loss = loss.item()
+            running_cum_loss += last_mean_loss * x.shape[0]
+            continue
         net.optim.step()
         writer.add_scalar("Gradient norm", grad_norm, epoch_number * len(training_loader) + i)
 
