@@ -121,7 +121,7 @@ class ActiveLearningDataset(Dataset):
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         id = self.ids[index]
-        gt = self.dataset_dict[id]
+        gt = self.dataset_dict[id].squeeze(0)
         img = read_image(self.input_images[id])
         if self.transform:
             img = self.transform(img)
