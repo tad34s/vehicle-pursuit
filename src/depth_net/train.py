@@ -214,7 +214,6 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
         if epochs_from_best > early_stopping:
             print("Early stopping now")
             return best_net
-        break
 
         writer.flush()
 
