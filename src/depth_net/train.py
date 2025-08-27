@@ -358,7 +358,7 @@ def main():
     print("Active learning...")
     visualize_predictions(best_net, val_dataset, writer, False)
     test_net(best_net, test_dataset, writer, False)
-    active_learn(net, train_dataset, val_dataset, writer, epochs=100)
+    best_net = active_learn(best_net, train_dataset, val_dataset, writer, epochs=100)
     print("Testing against ground truth...")
     test_net(best_net, test_dataset, writer, True)
     visualize_predictions(best_net, val_dataset, writer, True)
