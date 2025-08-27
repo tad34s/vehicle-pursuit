@@ -39,26 +39,6 @@ class MaskDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    # def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, int]:
-    #     id = self.ids[index]
-    #     img, mask = (
-    #         read_image(self.input_images[id]),
-    #         read_image(self.masks[id]),
-    #     )
-    #     if self.transform:
-    #         img = self.transform(img)
-    #         mask = self.transform(mask)
-    #     if self.flip:
-    #         if torch.rand(1) < self.flip_prob:
-    #             img = torch.flip(img, [-1])
-    #             mask = torch.flip(mask, [-1])
-    #
-    #     return (
-    #         img.type(torch.float32),
-    #         mask.type(torch.float32),
-    #         id,
-    #     )
-
     def __getitem__(self, id: int):
         if istype(id, torch.Tensor):
             id = id.item()
@@ -69,6 +49,11 @@ class MaskDataset(Dataset):
         if self.transform:
             img = self.transform(img)
             mask = self.transform(mask)
+
+        if self.flip:
+            if torch.rand(1) < self.flip_prob:
+                img = torch.flip(img, [-1])
+                mask = torch.flip(mask, [-1])
 
         return (
             img.type(torch.float32),

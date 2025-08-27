@@ -309,6 +309,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
 
     for epoch in range(epochs):
         net.train(True)
+        net.freeze_batch_norm_()
         loss = active_train_step(net, train_dataloader, writer, epoch)
         net.train(False)
 
@@ -364,15 +365,19 @@ def main():
 
     print("Pretraining...")
     pretrain(net, train_dataset, writer, epochs=2)
+
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )
+
     print("Active learning...")
+    train_dataset.flip = False
     visualize_predictions(best_net, val_dataset, writer, False)
     test_net(best_net, test_dataset, writer, False)
     best_net = active_learn(best_net, train_dataset, val_dataset, writer, epochs=100)
+
     print("Testing against ground truth...")
     test_net(best_net, test_dataset, writer, True)
     visualize_predictions(best_net, val_dataset, writer, True)
