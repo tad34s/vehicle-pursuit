@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torchvision
+from torch._dynamo.utils import istype
 from torch.utils.data import Dataset, Sampler
 from torchvision.io import read_image
 
@@ -59,6 +60,8 @@ class MaskDataset(Dataset):
     #     )
 
     def __getitem__(self, id: int):
+        if istype(id, torch.Tensor):
+            id = id.item()
         img, mask = (
             read_image(self.input_images[id]),
             read_image(self.masks[id]),
