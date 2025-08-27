@@ -216,7 +216,7 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
     return best_net
 
 
-def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.3):
+def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.2):
     output = []
     sampler = OverSampler(dataset=train_dataset, losses=None, batch_size=64)
     train_load = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
