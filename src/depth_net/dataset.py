@@ -200,7 +200,7 @@ class OverSampler(Sampler):
                     yield batch
                     batch = []
         else:
-            bin_iters = [self.bin_iter(x) for x in self.bins]
+            bin_iters = [self.bin_iter(x) for x in self.bins if x]
 
             for _ in range(self.num_batches):
                 batch = []
