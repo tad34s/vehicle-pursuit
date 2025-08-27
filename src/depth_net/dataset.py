@@ -125,11 +125,12 @@ class ActiveLearningDataset(Dataset):
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
         id = self.ids[index]
-        gt = self.dataset_dict[id].squeeze(0)
+
+        y = self.dataset_dict[id]
         img = read_image(self.input_images[id])
         if self.transform:
             img = self.transform(img)
-        return img, gt
+        return img, y
 
 
 class OverSampler(Sampler):

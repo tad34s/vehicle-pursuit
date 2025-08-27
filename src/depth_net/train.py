@@ -216,10 +216,13 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
     return best_net
 
 
-def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.2):
-    output = []
+def get_unsure_examples_and_pred_values(
+    net: DepthNetwork, train_dataset, threshold=0.2
+) -> tuple[list[int], dict[int, torch.Tensor]]:
+    unsure_examples = []
     sampler = OverSampler(dataset=train_dataset, losses=None, batch_size=64)
     train_load = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
+    predicted_vals_dict = {}
     for batch in train_load:
         x, y, ids = batch
         x = x.to(net.device)
@@ -228,31 +231,12 @@ def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.2):
         with torch.no_grad():
             y_hat = net(x)
         loss = net.projector.loss(y_hat, y)
+        for j, pred_pos in enumerate(y_hat):
+            predicted_vals_dict[ids[j]] = pred_pos
         for j, loss_val in enumerate(loss):
             if loss_val > threshold:
-                output.append(ids[j].item())
-    return output
-
-
-def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
-    dataset = {}
-    losses = []
-    for id in unsure_examples:
-        x, y, _ = train_dataset[id]
-        x = x.to(net.device)
-        net.eval()
-        with torch.no_grad():
-            y_hat = net(x.unsqueeze(0))
-
-        estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
-        dataset[id] = estimate_gt.detach().cpu()
-        print(y_hat, estimate_gt)
-        losses.append(loss)
-
-    losses_tensor = torch.tensor(losses)
-    writer.add_histogram("Fianl optimized loss", losses_tensor, 0)
-
-    return dataset
+                unsure_examples.append(ids[j].item())
+    return unsure_examples, predicted_vals_dict
 
 
 def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
@@ -277,11 +261,35 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     return epoch_loss
 
 
+def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
+    dataset = {}
+    losses = []
+    for id in unsure_examples:
+        x, y, _ = train_dataset[id]
+        x = x.to(net.device)
+        net.eval()
+        with torch.no_grad():
+            y_hat = net(x.unsqueeze(0))
+
+        estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
+        dataset[id] = estimate_gt.squeeze(0).detach().cpu()
+        print(y_hat, estimate_gt)
+        losses.append(loss)
+
+    losses_tensor = torch.tensor(losses)
+    writer.add_histogram("Fianl optimized loss", losses_tensor, 0)
+
+    return dataset
+
+
 def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    unsure_examples = get_unsure_examples(net, train_dataset)
+    unsure_examples, predicted_vals = get_unsure_examples_and_pred_values(net, train_dataset)
     print(f"Generationg dataset for {len(unsure_examples)} entries")
     dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset, writer)
-    new_dataset = ActiveLearningDataset(train_dataset, dataset_dict)
+    for key, value in dataset_dict.items():
+        predicted_vals[key] = value
+
+    new_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
 
     train_dataloader = DataLoader(new_dataset, batch_size=64, shuffle=True, num_workers=4)
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
