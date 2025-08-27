@@ -246,6 +246,7 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
         x, y = batch
         x = x.to(net.device)
         y = y.to(net.device)
+        print(x, y)
         if x.shape[0] == 1:
             continue
         batch_size = x.shape[0]
@@ -298,7 +299,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
 
     best_val_loss = float("inf")
     epochs_from_best = 0
-    early_stopping = 40
+    early_stopping = 20
     losses = None
 
     for epoch in range(epochs):
