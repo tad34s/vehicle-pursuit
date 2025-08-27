@@ -216,7 +216,8 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
 
 def get_unsure_examples(net: DepthNetwork, train_dataset, threshold=0.3):
     output = []
-    train_load = DataLoader(train_dataset, batch_size=64, num_workers=4)
+    sampler = OverSampler(dataset=train_dataset, losses=None, batch_size=64)
+    train_load = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
     for batch in train_load:
         x, y, ids = batch
         x = x.to(net.device)
