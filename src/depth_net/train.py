@@ -262,10 +262,10 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     return epoch_loss
 
 
-def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
+def generate_dataset_dict(net: DepthNetwork, unsure_examples, train_dataset, writer: SummaryWriter):
     dataset = {}
     losses = []
-    for id in unsure_examples:
+    for i, id in enumerate(unsure_examples):
         x, y, _ = train_dataset[id]
         x = x.to(net.device)
         net.eval()
@@ -276,6 +276,11 @@ def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
         dataset[id] = estimate_gt.squeeze(0).detach().cpu()
         print(y_hat, estimate_gt)
         losses.append(loss)
+        if i % 30 == 0:
+            img1 = net.projector.visualize_prediction(y_hat.detach(), x.unsqueeze(0))
+            writer.add_image(f"Prediction {i / 30}  before GD", img1)
+            img2 = net.projector.visualize_prediction(estimate_gt.detach(), x.unsqueeze(0))
+            writer.add_image(f"Prediction {i / 30}  after GD", img2)
 
     losses_tensor = torch.tensor(losses)
     writer.add_histogram("Fianl optimized loss", losses_tensor, 0)
