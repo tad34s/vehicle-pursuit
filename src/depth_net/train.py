@@ -232,7 +232,7 @@ def get_unsure_examples_and_pred_values(
             y_hat = net(x)
         loss = net.projector.loss(y_hat, y)
         for j, pred_pos in enumerate(y_hat):
-            predicted_vals_dict[ids[j].item()] = pred_pos
+            predicted_vals_dict[ids[j].item()] = pred_pos.detach().cpu()
         for j, loss_val in enumerate(loss):
             if loss_val > threshold:
                 unsure_examples.append(ids[j].item())
