@@ -246,6 +246,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
 
         estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
         dataset[id] = estimate_gt.detach().cpu()
+        print(y_hat, estimate_gt)
         losses.append(loss)
 
     losses_tensor = torch.tensor(losses)
@@ -261,8 +262,8 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
         x, y = batch
         x = x.to(net.device)
         y = y.to(net.device)
-        print(x.shape)
-        print(y.shape)
+        if x.shape[0] == 1:
+            continue
         batch_size = x.shape[0]
         y_hat = net.forward(x)
         loss = loss_fn(y_hat, y)
@@ -282,9 +283,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
     dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset, writer)
     new_dataset = ActiveLearningDataset(train_dataset, dataset_dict)
 
-    train_dataloader = DataLoader(
-        new_dataset, batch_size=64, shuffle=True, num_workers=4, drop_last=True
-    )
+    train_dataloader = DataLoader(new_dataset, batch_size=64, shuffle=True, num_workers=4)
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
     val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     best_net = deepcopy(net)
