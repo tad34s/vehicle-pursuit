@@ -236,7 +236,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
     dataset = {}
     losses = []
     for id in unsure_examples:
-        x, y = train_dataset[id]
+        x, y, _ = train_dataset[id]
         x = x.to(net.device)
         net.eval()
         with torch.no_grad():
@@ -256,7 +256,7 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     loss_fn = torch.nn.MSELoss()
     epoch_loss = 0.0
     for batch in training_loader:
-        x, y = batch
+        x, y, _ = batch
         x = x.to(net.device)
         y = y.to(net.device)
         batch_size = x.shape[0]
