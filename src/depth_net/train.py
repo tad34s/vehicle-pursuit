@@ -109,11 +109,12 @@ def validate_net(net: DepthNetwork, val_loader):
     return running_cum_loss
 
 
-def test_net(net: DepthNetwork, test_dataset, writer):
+def test_net(net: DepthNetwork, test_dataset, writer, active_learned):
     test_loader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
     errors = []
     images_dir = "projections"
 
+    word = "after" if active_learned else "before"
     Path(images_dir).mkdir(exist_ok=True, parents=True)
     for i, data in enumerate(test_loader):
         x, t_ref = data
@@ -139,17 +140,20 @@ def test_net(net: DepthNetwork, test_dataset, writer):
     q2 = quantiles[1]  # 75% quantile (3/4) [3]
 
     # Print results (or return/store as needed)
-    writer.add_text("Mean error", str(mean))
-    writer.add_text("Std error", str(std))
-    writer.add_text("10% quantile", str(q1))
-    writer.add_text("90% quantile", str(q2))
+    writer.add_text(f"Mean error {word} AL", str(mean))
+    writer.add_text(f"Std error {word} AL", str(std))
+    writer.add_text(f"10% quantile {word} AL", str(q1))
+    writer.add_text(f"90% quantile {word} AL", str(q2))
 
     return
 
 
-def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter):
+def visualize_predictions(
+    best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter, active_learned: bool
+):
     val_loader = DataLoader(val_dataset, batch_size=1, num_workers=4)
     i = 0
+    word = "after" if active_learned else "before"
     for data in val_loader:
         x, ref_image, _ = data
         x = x.to(best_net.device)  # Move batch to GPU
@@ -157,7 +161,7 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
         with torch.no_grad():
             y_hat = best_net(x)
             img = best_net.projector.visualize_prediction(y_hat, ref_image)
-        writer.add_image(f"Prediction {i}", img)
+        writer.add_image(f"Prediction {i} {word} active_learning", img)
         i += 1
         if i >= 10:
             break
@@ -179,7 +183,7 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
             losses=losses,
             batch_size=64,
             nbins=8,
-            from_each=4,
+            from_each=6,
         )
         train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
 
@@ -345,10 +349,12 @@ def main():
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )
     print("Active learning...")
+    visualize_predictions(best_net, val_dataset, writer, False)
+    test_net(best_net, test_dataset, writer, False)
     active_learn(net, train_dataset, val_dataset, writer, epochs=100)
     print("Testing against ground truth...")
-    test_net(best_net, test_dataset, writer)
-    visualize_predictions(best_net, val_dataset, writer)
+    test_net(best_net, test_dataset, writer, True)
+    visualize_predictions(best_net, val_dataset, writer, True)
     writer.flush()
 
 
