@@ -236,7 +236,7 @@ def generate_dataset_dict(net, unsure_examples, train_dataset, writer):
     dataset = {}
     losses = []
     for id in unsure_examples:
-        x, y = train_dataset.get_by_id(id)
+        x, y = train_dataset[id]
         x = x.to(net.device)
         net.eval()
         with torch.no_grad():
