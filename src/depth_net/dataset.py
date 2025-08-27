@@ -109,8 +109,7 @@ class ActiveLearningDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor]:
-        id = self.ids[index]
+    def __getitem__(self, id: int) -> tuple[torch.Tensor, torch.Tensor]:
         y = self.dataset_dict[id]
         img = read_image(self.input_images[id])
         if self.transform:
