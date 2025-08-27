@@ -152,7 +152,8 @@ def test_net(net: DepthNetwork, test_dataset, writer, active_learned):
 def visualize_predictions(
     best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter, active_learned: bool
 ):
-    val_loader = DataLoader(val_dataset, batch_size=1, num_workers=4, shuffle=True)
+    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=1)
+    val_loader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     i = 0
     word = "after" if active_learned else "before"
     for data in val_loader:
