@@ -268,18 +268,18 @@ def generate_dataset_dict(net: DepthNetwork, unsure_examples, train_dataset, wri
     for i, id in enumerate(unsure_examples):
         x, y, _ = train_dataset[id]
         x = x.to(net.device)
+        y = y.to(net.device)
         net.eval()
         with torch.no_grad():
             y_hat = net(x.unsqueeze(0))
 
         estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
         dataset[id] = estimate_gt.squeeze(0).detach().cpu()
-        print(y_hat, estimate_gt)
         losses.append(loss)
         if i % 30 == 0:
-            img1 = net.projector.visualize_prediction(y_hat.detach(), x.unsqueeze(0))
+            img1 = net.projector.visualize_prediction(y_hat.detach(), y.unsqueeze(0).detach())
             writer.add_image(f"Prediction {i / 30}  before GD", img1)
-            img2 = net.projector.visualize_prediction(estimate_gt.detach(), x.unsqueeze(0))
+            img2 = net.projector.visualize_prediction(estimate_gt.detach(), y.unsqueeze(0).detach())
             writer.add_image(f"Prediction {i / 30}  after GD", img2)
 
     losses_tensor = torch.tensor(losses)
