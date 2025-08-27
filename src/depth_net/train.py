@@ -9,7 +9,7 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import ActiveLearningDataset, MaskDataset, TestDataset
+from dataset import ActiveLearningDataset, MaskDataset, OverSampler, TestDataset
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -20,7 +20,8 @@ def launch_tensor_board(logs_location: Path) -> None:
 
 
 def pretrain(net, dataset, writer, epochs=1) -> None:
-    dataloader = DataLoader(dataset, batch_size=64, num_workers=4, shuffle=True)
+    sampler = OverSampler(dataset=dataset, losses=None, batch_size=64)
+    dataloader = DataLoader(dataset, batch_sampler=sampler, num_workers=4)
     loss_fn = torch.nn.MSELoss()
 
     for epoch in range(epochs):
@@ -163,20 +164,28 @@ def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writ
 
 
 def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    val_dataloader = DataLoader(val_dataset, batch_size=64, num_workers=4)
-    train_dataloader = DataLoader(train_dataset, batch_size=64, num_workers=4)
+    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
+    val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     best_net = deepcopy(net)
 
-    best_val_loss = float("inf")
+    best_val_loss = 1000000.0
     epochs_from_best = 0
     early_stopping = 40
     losses = None
 
     for epoch in range(epochs):
+        sampler = OverSampler(
+            dataset=train_dataset,
+            losses=losses,
+            batch_size=64,
+            nbins=8,
+            from_each=4,
+        )
+        train_dataloader = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
+
         net.train(True)
         losses = train_step(net, train_dataloader, writer, epoch)
         net.train(False)
-
         avg_loss = sum(x for x in losses.values()) / len(losses)
         writer.add_scalar("Training loss", avg_loss, epoch)
 
@@ -329,7 +338,7 @@ def main():
     net.to(device)
 
     print("Pretraining...")
-    pretrain(net, train_dataset, writer, epochs=3)
+    pretrain(net, train_dataset, writer, epochs=2)
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
     test_dataset = TestDataset(

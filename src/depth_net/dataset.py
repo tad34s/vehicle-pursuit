@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torchvision
-from torch.utils.data import Dataset, Sampler, WeightedRandomSampler
+from torch.utils.data import Dataset, Sampler
 from torchvision.io import read_image
 
 
@@ -38,8 +38,27 @@ class MaskDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, int]:
-        id = self.ids[index]
+    # def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, int]:
+    #     id = self.ids[index]
+    #     img, mask = (
+    #         read_image(self.input_images[id]),
+    #         read_image(self.masks[id]),
+    #     )
+    #     if self.transform:
+    #         img = self.transform(img)
+    #         mask = self.transform(mask)
+    #     if self.flip:
+    #         if torch.rand(1) < self.flip_prob:
+    #             img = torch.flip(img, [-1])
+    #             mask = torch.flip(mask, [-1])
+    #
+    #     return (
+    #         img.type(torch.float32),
+    #         mask.type(torch.float32),
+    #         id,
+    #     )
+
+    def __getitem__(self, id: int):
         img, mask = (
             read_image(self.input_images[id]),
             read_image(self.masks[id]),
@@ -47,29 +66,11 @@ class MaskDataset(Dataset):
         if self.transform:
             img = self.transform(img)
             mask = self.transform(mask)
-        if self.flip:
-            if torch.rand(1) < self.flip_prob:
-                img = torch.flip(img, [-1])
-                mask = torch.flip(mask, [-1])
 
         return (
             img.type(torch.float32),
             mask.type(torch.float32),
             id,
-        )
-
-    def get_by_id(self, id: int):
-        img, mask = (
-            read_image(self.input_images[id]),
-            read_image(self.masks[id]),
-        )
-        if self.transform:
-            img = self.transform(img)
-            mask = self.transform(mask)
-
-        return (
-            img.type(torch.float32),
-            mask.type(torch.float32),
         )
 
 
@@ -135,21 +136,21 @@ class OverSampler(Sampler):
         losses: dict[int, float] | None = None,
         batch_size=64,
         nbins=16,
+        from_each=4,
         drop_last=False,
     ):
         self.batch_size = batch_size
         self.data = dataset
-        if losses is None:
-            sorted_indices = copy.copy(dataset.ids)
-            np.random.shuffle(sorted_indices)
-            self.bins = np.array_split(sorted_indices, nbins)
-        else:
+        if losses is not None:
             self.bins = self.create_histogram(losses, nbins)
+            for x in self.bins:
+                np.random.shuffle(x)
+        else:
+            self.bins = None
 
-        for x in self.bins:
-            np.random.shuffle(x)
         self.nbins = nbins
         self.drop_last = drop_last
+        self.from_each = from_each
         self.num_batches = len(self.data) // self.batch_size
         if not drop_last and len(self.data) % self.batch_size != 0:
             self.num_batches += 1
@@ -184,82 +185,31 @@ class OverSampler(Sampler):
             i = (i + 1) % len(bin)
 
     def __iter__(self):
-        bin_iters = [self.bin_iter(x) for x in self.bins]
-        for _ in range(self.num_batches):
+        random_ids = copy.copy(self.data.ids)
+        np.random.shuffle(random_ids)
+        all_iter = iter(x for x in random_ids)
+
+        if self.bins is None:
             batch = []
-            for _ in range(self.batch_size // self.nbins):
-                new_data = [next(x) for x in bin_iters]
-                batch.extend(new_data)
-            if len(batch) < self.batch_size and not self.drop_last:
-                while len(batch) < self.batch_size:
-                    for it in bin_iters:
-                        if len(batch) >= self.batch_size:
-                            break
-                        batch.append(next(it))
-            yield batch[: self.batch_size]  # Ensure exact batch size
+            for id in random_ids:
+                batch.append(id)
+                if len(batch) == self.batch_size:
+                    yield batch
+                    batch = []
+        else:
+            bin_iters = [self.bin_iter(x) for x in self.bins]
+
+            for _ in range(self.num_batches):
+                batch = []
+                for _ in range(self.from_each):
+                    new_data = [next(x) for x in bin_iters]
+                    batch.extend(new_data)
+
+                to_add = self.batch_size - len(batch)
+                new_data = [next(all_iter) for _ in range(to_add)]
+                batch += new_data
+
+                yield batch[: self.batch_size]
 
     def __len__(self):
         return self.num_batches
-
-
-class ImprovedOverSampler:
-    def __init__(
-        self,
-        dataset,
-        losses: dict[int, float] | None = None,
-        batch_size=64,
-        focus_factor=2.0,
-        min_weight=0.1,
-    ):
-        self.batch_size = batch_size
-        self.dataset = dataset
-        self.focus_factor = focus_factor  # Controls how much to focus on high-loss samples
-        self.min_weight = min_weight  # Minimum weight to ensure all samples have some chance
-
-        if losses is None:
-            # Uniform sampling if no losses provided
-            self.weights = torch.ones(len(dataset))
-            self.sampler = WeightedRandomSampler(self.weights, len(dataset), replacement=True)
-        else:
-            # Create weights based on losses with specialized scaling for [0,1] range
-            self.weights = self._create_weights_from_losses(losses)
-            self.sampler = WeightedRandomSampler(self.weights, len(self.weights), replacement=True)
-
-    def _create_weights_from_losses(self, losses):
-        """Create sampling weights from losses with specialized scaling for [0,1] range"""
-        # Get losses for all samples in the dataset
-        loss_values = []
-        for i, id in enumerate(self.dataset.ids):
-            if id in losses:
-                loss_values.append(losses[id])
-            else:
-                # Use median loss if not found (shouldn't happen in practice)
-                median_loss = np.median(list(losses.values()))
-                loss_values.append(median_loss)
-
-        # Convert to tensor
-        loss_tensor = torch.tensor(loss_values, dtype=torch.float32)
-
-        # Specialized scaling for [0,1] range
-        # We use a power function to emphasize high-loss samples
-        # The focus_factor controls how much we focus on high-loss samples
-        weights = (loss_tensor + self.min_weight) ** self.focus_factor
-
-        # Normalize to avoid extreme values
-        weights = weights / weights.mean()
-
-        return weights
-
-    def get_sampler(self):
-        return self.sampler
-
-    def update_parameters(self, focus_factor=None, min_weight=None):
-        """Update sampling parameters dynamically"""
-        if focus_factor is not None:
-            self.focus_factor = focus_factor
-        if min_weight is not None:
-            self.min_weight = min_weight
-
-    def update_weights(self, losses):
-        self.weights = self._create_weights_from_losses(losses)
-        self.sampler = WeightedRandomSampler(self.weights, len(self.weights), replacement=True)

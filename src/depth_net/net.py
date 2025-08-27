@@ -8,22 +8,20 @@ from projector import Projector
 class DepthNetwork(torch.nn.Module):
     LEARNING_RATE = 1e-3
     WEIGHT_DECAY = 1e-7
-    DROPOUT_RATE = 0.3
 
     def __init__(self, image_size, device):
         super().__init__()
 
         self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
+
         self.features = torchvision.models.alexnet(
             weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1
         ).features
 
-        self.features_len = 256 * 6 * 6
-
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
-            nn.BatchNorm1d(self.features_len),
-            nn.Linear(self.features_len, 256),
+            nn.BatchNorm1d(256 * 6 * 6),  # Added batch normalization
+            nn.Linear(256 * 6 * 6, 256),
             nn.ReLU(),
             nn.Linear(256, 64),
             nn.ReLU(),
@@ -37,7 +35,13 @@ class DepthNetwork(torch.nn.Module):
         )
 
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optim, mode="min", factor=0.1, patience=3, cooldown=1, threshold=0.01
+            self.optim,
+            mode="min",
+            patience=5,
+            factor=0.3,
+            threshold=1e-4,
+            min_lr=1e-7,
+            verbose=True,
         )
 
         self.device = device
@@ -54,8 +58,6 @@ class DepthNetwork(torch.nn.Module):
     def gradient_norm(self):
         total_norm = 0
         for p in self.parameters():
-            if not p.requires_grad:
-                continue
             param_norm = p.grad.detach().data.norm(2)
             total_norm += param_norm.item() ** 2
         total_norm = total_norm**0.5
@@ -81,7 +83,7 @@ class DepthNetwork(torch.nn.Module):
         img = img.view(-1, *self.input_shape)
         img = self.transforms(img)
         features = self.features(img)
-        features = features.view(-1, self.features_len)
+        features = features.view(-1, 256 * 6 * 6)
         preds = self.predict(features)
         preds = self.activation_fn(preds)
 
