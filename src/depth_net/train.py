@@ -246,7 +246,6 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
         x, y = batch
         x = x.to(net.device)
         y = y.to(net.device)
-        print(x, y)
         if x.shape[0] == 1:
             continue
         batch_size = x.shape[0]
@@ -295,9 +294,9 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
     for key, value in dataset_dict.items():
         predicted_vals[key] = value
 
-    new_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
+    active_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
 
-    train_dataloader = DataLoader(new_dataset, batch_size=64, shuffle=True, num_workers=4)
+    train_dataloader = DataLoader(active_dataset, batch_size=64, shuffle=True, num_workers=4)
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
     val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     best_net = deepcopy(net)
@@ -313,7 +312,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
         loss = active_train_step(net, train_dataloader, writer, epoch)
         net.train(False)
 
-        avg_loss = loss / len(unsure_examples)
+        avg_loss = loss / len(active_dataset)
         writer.add_scalar("Active Training loss", avg_loss, epoch)
 
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
