@@ -202,3 +202,53 @@ class OverSampler(Sampler):
 
     def __len__(self):
         return self.num_batches
+
+
+class ActiveOverSampler(Sampler):
+    def __init__(
+        self,
+        dataset: ActiveLearningDataset,
+        unsure_examples: list[int],
+        batch_size=64,
+        optimized_ratio=0.5,
+    ):
+        self.dataset = dataset
+        self.batch_size = batch_size
+        self.optimized_ratio = optimized_ratio
+
+        # Separate IDs into optimized and non-optimized
+        self.optimized_ids = unsure_examples
+        self.non_optimized_ids = [id for id in dataset.ids if id not in self.optimized_ids]
+
+        # Shuffle both lists
+        np.random.shuffle(self.optimized_ids)
+        np.random.shuffle(self.non_optimized_ids)
+
+        # Create iterators for both lists
+        self.optimized_iter = self.infinite_iterator(self.optimized_ids)
+        self.non_optimized_iter = self.infinite_iterator(self.non_optimized_ids)
+
+    @staticmethod
+    def infinite_iterator(lst):
+        while True:
+            for item in lst:
+                yield item
+
+    def __iter__(self):
+        for _ in range(len(self)):
+            batch = []
+
+            # Add optimized examples
+            num_optimized = int(self.batch_size * self.optimized_ratio)
+            for _ in range(num_optimized):
+                batch.append(next(self.optimized_iter))
+
+            # Add non-optimized examples
+            num_non_optimized = self.batch_size - num_optimized
+            for _ in range(num_non_optimized):
+                batch.append(next(self.non_optimized_iter))
+
+            yield batch
+
+    def __len__(self):
+        return len(self.dataset) // self.batch_size

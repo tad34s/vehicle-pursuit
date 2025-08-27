@@ -9,7 +9,7 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import ActiveLearningDataset, MaskDataset, OverSampler, TestDataset
+from dataset import ActiveLearningDataset, ActiveOverSampler, MaskDataset, OverSampler, TestDataset
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -295,10 +295,14 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
         predicted_vals[key] = value
 
     active_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
+    sampler = ActiveOverSampler(train_dataset, unsure_examples)
+    train_dataloader = DataLoader(
+        active_dataset, batch_size=64, batch_sampler=sampler, num_workers=4
+    )
 
-    train_dataloader = DataLoader(active_dataset, batch_size=64, shuffle=True, num_workers=4)
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
     val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
+
     best_net = deepcopy(net)
 
     best_val_loss = float("inf")
@@ -317,7 +321,6 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
 
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         writer.add_scalar("Active Training Validation loss", avg_val_loss, epoch)
-
         net.scheduler.step(avg_val_loss)
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
