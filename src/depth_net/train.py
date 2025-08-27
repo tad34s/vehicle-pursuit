@@ -99,6 +99,7 @@ def validate_net(net: DepthNetwork, val_loader):
         x, ref_image, _ = data
         x = x.to(net.device)  # Move batch to GPU
         ref_image = ref_image.to(net.device)
+        net.eval()
         with torch.no_grad():
             y_hat = net(x)
             loss = net.projector.loss(y_hat, ref_image).sum()
@@ -256,9 +257,11 @@ def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
     loss_fn = torch.nn.MSELoss()
     epoch_loss = 0.0
     for batch in training_loader:
-        x, y, _ = batch
+        x, y = batch
         x = x.to(net.device)
         y = y.to(net.device)
+        print(x.shape)
+        print(y.shape)
         batch_size = x.shape[0]
         y_hat = net.forward(x)
         loss = loss_fn(y_hat, y)
@@ -278,7 +281,9 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
     dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset, writer)
     new_dataset = ActiveLearningDataset(train_dataset, dataset_dict)
 
-    train_dataloader = DataLoader(new_dataset, batch_size=64, shuffle=True, num_workers=4)
+    train_dataloader = DataLoader(
+        new_dataset, batch_size=64, shuffle=True, num_workers=4, drop_last=True
+    )
     val_dataloader = DataLoader(val_dataset, batch_size=64, num_workers=4)
     best_net = deepcopy(net)
 
