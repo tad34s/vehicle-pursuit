@@ -284,7 +284,8 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
     train_dataloader = DataLoader(
         new_dataset, batch_size=64, shuffle=True, num_workers=4, drop_last=True
     )
-    val_dataloader = DataLoader(val_dataset, batch_size=64, num_workers=4)
+    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
+    val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     best_net = deepcopy(net)
 
     best_val_loss = float("inf")
