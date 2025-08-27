@@ -295,10 +295,8 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
         predicted_vals[key] = value
 
     active_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
-    sampler = ActiveOverSampler(train_dataset, unsure_examples)
-    train_dataloader = DataLoader(
-        active_dataset, batch_size=64, batch_sampler=sampler, num_workers=4
-    )
+    sampler = ActiveOverSampler(train_dataset, unsure_examples, batch_size=64)
+    train_dataloader = DataLoader(active_dataset, batch_sampler=sampler, num_workers=4)
 
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
     val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
