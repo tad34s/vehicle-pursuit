@@ -198,7 +198,7 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
         writer.add_scalar("Validation loss", avg_val_loss, epoch)
 
-        net.scheduler.step(avg_val_loss)
+        # net.scheduler.step(avg_val_loss)
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             best_net = deepcopy(net)
@@ -324,7 +324,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
 
         avg_train_loss = validate_net(net, train_dice_loader) / len(train_dataset)
         writer.add_scalar("Active Training Training Dice loss", avg_train_loss, epoch)
-        net.scheduler.step(avg_val_loss)
+        # net.scheduler.step(avg_val_loss)
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             best_net = deepcopy(net)
