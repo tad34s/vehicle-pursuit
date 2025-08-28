@@ -89,11 +89,6 @@ class DepthNetwork(torch.nn.Module):
 
         return preds
 
-    def freeze_batch_norm_(self):
-        for module in self.modules():
-            if isinstance(module, (torch.nn.BatchNorm1d, torch.nn.BatchNorm2d)):
-                module.eval()
-
 
 if __name__ == "__main__":
     net = DepthNetwork((512, 512), torch.device("cpu"))
