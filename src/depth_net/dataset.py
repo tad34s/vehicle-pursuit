@@ -211,14 +211,16 @@ class ActiveOverSampler(Sampler):
         batch_size=64,
         optimized_ratio=0.5,
     ):
+        self.ids = copy.copy(dataset.ids)
         self.dataset = dataset
         self.batch_size = batch_size
         self.optimized_ratio = optimized_ratio
 
         # Separate IDs into optimized and non-optimized
         self.optimized_ids = unsure_examples
-        self.non_optimized_ids = [id for id in dataset.ids if id not in self.optimized_ids]
+        self.non_optimized_ids = [id for id in self.ids if id not in self.optimized_ids]
 
+        assert all(x in self.ids for x in (self.optimized_ids + self.non_optimized_ids))
         # Shuffle both lists
         np.random.shuffle(self.optimized_ids)
         np.random.shuffle(self.non_optimized_ids)
@@ -247,6 +249,8 @@ class ActiveOverSampler(Sampler):
             for _ in range(num_non_optimized):
                 batch.append(next(self.non_optimized_iter))
 
+            assert all(x in self.ids for x in batch)
+            assert all(x in self.ids for x in (self.optimized_ids + self.non_optimized_ids))
             yield batch
 
     def __len__(self):
