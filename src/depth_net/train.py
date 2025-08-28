@@ -328,7 +328,9 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
             epochs_from_best += 1
 
         # EARLY STOPPING
-        if epochs_from_best > early_stopping: print("Early stopping now") return best_net
+        if epochs_from_best > early_stopping:
+            print("Early stopping now")
+            return best_net
 
         writer.flush()
 
