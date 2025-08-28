@@ -98,24 +98,6 @@ class TestDataset(Dataset):
         return img.type(torch.float32), t_ref
 
 
-class ActiveLearningDataset(Dataset):
-    def __init__(self, train_dataset: MaskDataset, dataset_dict: dict[int, torch.Tensor]) -> None:
-        self.input_images = train_dataset.input_images
-        self.transform = train_dataset.transform
-        self.dataset_dict = dataset_dict
-        self.ids = list(self.dataset_dict.keys())
-
-    def __len__(self) -> int:
-        return len(self.ids)
-
-    def __getitem__(self, id: int) -> tuple[torch.Tensor, torch.Tensor]:
-        y = self.dataset_dict[id]
-        img = read_image(self.input_images[id])
-        if self.transform:
-            img = self.transform(img)
-        return img, y
-
-
 class OverSampler(Sampler):
     def __init__(
         self,
@@ -200,55 +182,3 @@ class OverSampler(Sampler):
 
     def __len__(self):
         return self.num_batches
-
-
-class ActiveOverSampler(Sampler):
-    def __init__(
-        self,
-        dataset: ActiveLearningDataset,
-        unsure_examples: list[int],
-        batch_size=64,
-        optimized_ratio=0.5,
-    ):
-        self.ids = copy.copy(dataset.ids)
-        self.dataset = dataset
-        self.batch_size = batch_size
-        self.optimized_ratio = optimized_ratio
-
-        # Separate IDs into optimized and non-optimized
-        self.optimized_ids = unsure_examples
-        self.non_optimized_ids = [id for id in self.ids if id not in self.optimized_ids]
-
-        assert all(x in self.ids for x in (self.optimized_ids + self.non_optimized_ids))
-        # Shuffle both lists
-        np.random.shuffle(self.optimized_ids)
-        np.random.shuffle(self.non_optimized_ids)
-
-        # Create iterators for both lists
-        self.optimized_iter = self.infinite_iterator(self.optimized_ids)
-        self.non_optimized_iter = self.infinite_iterator(self.non_optimized_ids)
-
-    @staticmethod
-    def infinite_iterator(lst):
-        while True:
-            for item in lst:
-                yield item
-
-    def __iter__(self):
-        for _ in range(len(self)):
-            batch = []
-
-            # Add optimized examples
-            num_optimized = int(self.batch_size * self.optimized_ratio)
-            for _ in range(num_optimized):
-                batch.append(next(self.optimized_iter))
-
-            # Add non-optimized examples
-            num_non_optimized = self.batch_size - num_optimized
-            for _ in range(num_non_optimized):
-                batch.append(next(self.non_optimized_iter))
-
-            yield batch
-
-    def __len__(self):
-        return len(self.dataset) // self.batch_size

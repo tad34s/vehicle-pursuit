@@ -9,7 +9,7 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import ActiveLearningDataset, ActiveOverSampler, MaskDataset, OverSampler, TestDataset
+from dataset import MaskDataset, OverSampler, TestDataset
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -110,12 +110,11 @@ def validate_net(net: DepthNetwork, val_loader):
     return running_cum_loss
 
 
-def test_net(net: DepthNetwork, test_dataset, writer, active_learned):
+def test_net(net: DepthNetwork, test_dataset, writer):
     test_loader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
     errors = []
     images_dir = "projections"
 
-    word = "after" if active_learned else "before"
     Path(images_dir).mkdir(exist_ok=True, parents=True)
     for i, data in enumerate(test_loader):
         x, t_ref = data
@@ -141,21 +140,18 @@ def test_net(net: DepthNetwork, test_dataset, writer, active_learned):
     q2 = quantiles[1]  # 75% quantile (3/4) [3]
 
     # Print results (or return/store as needed)
-    writer.add_text(f"Mean error {word} AL", str(mean))
-    writer.add_text(f"Std error {word} AL", str(std))
-    writer.add_text(f"10% quantile {word} AL", str(q1))
-    writer.add_text(f"90% quantile {word} AL", str(q2))
+    writer.add_text("Mean error", str(mean))
+    writer.add_text("Std error", str(std))
+    writer.add_text("10% quantile", str(q1))
+    writer.add_text("90% quantile", str(q2))
 
     return
 
 
-def visualize_predictions(
-    best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter, active_learned: bool
-):
+def visualize_predictions(best_net: DepthNetwork, val_dataset: MaskDataset, writer: SummaryWriter):
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=1)
     val_loader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
     i = 0
-    word = "after" if active_learned else "before"
     for data in val_loader:
         x, ref_image, _ = data
         x = x.to(best_net.device)  # Move batch to GPU
@@ -163,7 +159,7 @@ def visualize_predictions(
         with torch.no_grad():
             y_hat = best_net(x)
             img = best_net.projector.visualize_prediction(y_hat, ref_image)
-        writer.add_image(f"Prediction {i} {word} active_learning", img)
+        writer.add_image(f"Prediction {i}", img)
         i += 1
         if i >= 10:
             break
@@ -216,132 +212,6 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
     return best_net
 
 
-def get_unsure_examples_and_pred_values(
-    net: DepthNetwork, train_dataset, threshold=0.2
-) -> tuple[list[int], dict[int, torch.Tensor]]:
-    unsure_examples = []
-    sampler = OverSampler(dataset=train_dataset, losses=None, batch_size=64)
-    train_load = DataLoader(train_dataset, batch_sampler=sampler, num_workers=4)
-    predicted_vals_dict = {}
-    for batch in train_load:
-        x, y, ids = batch
-        x = x.to(net.device)
-
-        net.eval()
-        with torch.no_grad():
-            y_hat = net(x)
-        loss = net.projector.loss(y_hat, y)
-        for j, pred_pos in enumerate(y_hat):
-            predicted_vals_dict[ids[j].item()] = pred_pos.detach().cpu()
-        for j, loss_val in enumerate(loss):
-            if loss_val > threshold:
-                unsure_examples.append(ids[j].item())
-    return unsure_examples, predicted_vals_dict
-
-
-def active_train_step(net: DepthNetwork, training_loader, writer, epoch_number):
-    loss_fn = torch.nn.MSELoss()
-    epoch_loss = 0.0
-    for batch in training_loader:
-        x, y = batch
-        x = x.to(net.device)
-        y = y.to(net.device)
-        if x.shape[0] == 1:
-            continue
-        batch_size = x.shape[0]
-        y_hat = net.forward(x)
-        loss = loss_fn(y_hat, y)
-
-        net.optim.zero_grad()
-        loss.backward()
-        net.optim.step()
-
-        epoch_loss += loss.item() * batch_size
-
-    return epoch_loss
-
-
-def generate_dataset_dict(net: DepthNetwork, unsure_examples, train_dataset, writer: SummaryWriter):
-    dataset = {}
-    losses = []
-    for i, id in enumerate(unsure_examples):
-        x, y, _ = train_dataset[id]
-        x = x.to(net.device)
-        y = y.to(net.device)
-        net.eval()
-        with torch.no_grad():
-            y_hat = net(x.unsqueeze(0))
-
-        estimate_gt, loss = net.projector.optimize(y_hat, y.unsqueeze(0))
-        dataset[id] = estimate_gt.squeeze(0).detach().cpu()
-        losses.append(loss)
-        if i % 30 == 0:
-            img1 = net.projector.visualize_prediction(y_hat.detach(), y.unsqueeze(0).detach())
-            writer.add_image(f"Prediction {i / 30}  before GD", img1)
-            img2 = net.projector.visualize_prediction(estimate_gt.detach(), y.unsqueeze(0).detach())
-            writer.add_image(f"Prediction {i / 30}  after GD", img2)
-
-    losses_tensor = torch.tensor(losses)
-    writer.add_histogram("Fianl optimized loss", losses_tensor, 0)
-
-    return dataset
-
-
-def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> DepthNetwork:
-    unsure_examples, predicted_vals = get_unsure_examples_and_pred_values(net, train_dataset)
-    print(f"Generationg dataset for {len(unsure_examples)} entries")
-    dataset_dict = generate_dataset_dict(net, unsure_examples, train_dataset, writer)
-    for key, value in dataset_dict.items():
-        predicted_vals[key] = value
-
-    active_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
-    sampler = ActiveOverSampler(active_dataset, unsure_examples, batch_size=64)
-    train_dataloader = DataLoader(active_dataset, batch_sampler=sampler, num_workers=4)
-
-    val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
-    val_dataloader = DataLoader(val_dataset, batch_sampler=val_sampler, num_workers=4)
-
-    train_dice_sampler = OverSampler(dataset=train_dataset, losses=None, batch_size=64)
-    train_dice_loader = DataLoader(train_dataset, batch_sampler=train_dice_sampler, num_workers=4)
-    best_net = deepcopy(net)
-
-    best_val_loss = float("inf")
-    epochs_from_best = 0
-    early_stopping = 20
-    losses = None
-
-    for epoch in range(epochs):
-        net.train(True)
-        net.freeze_batch_norm_()
-        loss = active_train_step(net, train_dataloader, writer, epoch)
-        net.train(False)
-
-        avg_loss = loss / len(active_dataset)
-        writer.add_scalar("Active Training loss", avg_loss, epoch)
-
-        avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
-        writer.add_scalar("Active Training Validation Dice loss", avg_val_loss, epoch)
-
-        avg_train_loss = validate_net(net, train_dice_loader) / len(train_dataset)
-        writer.add_scalar("Active Training Training Dice loss", avg_train_loss, epoch)
-        # net.scheduler.step(avg_val_loss)
-        if avg_val_loss < best_val_loss:
-            best_val_loss = avg_val_loss
-            best_net = deepcopy(net)
-            epochs_from_best = 0
-        else:
-            epochs_from_best += 1
-
-        # EARLY STOPPING
-        if epochs_from_best > early_stopping:
-            print("Early stopping now")
-            return best_net
-
-        writer.flush()
-
-    return best_net
-
-
 def main():
     log_location = Path(__file__).parent / "runs"
     writer = SummaryWriter(log_location / datetime.datetime.now().strftime("%y-%m-%d %H%M%S"))
@@ -376,16 +246,10 @@ def main():
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )
-
-    print("Active learning...")
-    train_dataset.flip = False
-    visualize_predictions(best_net, val_dataset, writer, False)
-    test_net(best_net, test_dataset, writer, False)
-    best_net = active_learn(best_net, train_dataset, val_dataset, writer, epochs=100)
-
+    visualize_predictions(best_net, val_dataset, writer)
     print("Testing against ground truth...")
-    test_net(best_net, test_dataset, writer, True)
-    visualize_predictions(best_net, val_dataset, writer, True)
+    test_net(best_net, test_dataset, writer)
+
     writer.flush()
 
 
