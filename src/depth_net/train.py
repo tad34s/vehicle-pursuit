@@ -318,7 +318,10 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
         writer.add_scalar("Active Training loss", avg_loss, epoch)
 
         avg_val_loss = validate_net(net, val_dataloader) / len(val_dataset)
-        writer.add_scalar("Active Training Validation loss", avg_val_loss, epoch)
+        writer.add_scalar("Active Training Validation Dice loss", avg_val_loss, epoch)
+
+        avg_train_loss = validate_net(net, train_dataloader) / len(train_dataset)
+        writer.add_scalar("Active Training Training Dice loss", avg_train_loss, epoch)
         net.scheduler.step(avg_val_loss)
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
