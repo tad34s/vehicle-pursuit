@@ -295,7 +295,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
         predicted_vals[key] = value
 
     active_dataset = ActiveLearningDataset(train_dataset, predicted_vals)
-    sampler = ActiveOverSampler(train_dataset, unsure_examples, batch_size=64)
+    sampler = ActiveOverSampler(active_dataset, unsure_examples, batch_size=64)
     train_dataloader = DataLoader(active_dataset, batch_sampler=sampler, num_workers=4)
 
     val_sampler = OverSampler(dataset=val_dataset, losses=None, batch_size=64)
@@ -328,9 +328,7 @@ def active_learn(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1
             epochs_from_best += 1
 
         # EARLY STOPPING
-        if epochs_from_best > early_stopping:
-            print("Early stopping now")
-            return best_net
+        if epochs_from_best > early_stopping: print("Early stopping now") return best_net
 
         writer.flush()
 

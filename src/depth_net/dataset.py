@@ -104,7 +104,6 @@ class ActiveLearningDataset(Dataset):
         self.transform = train_dataset.transform
         self.dataset_dict = dataset_dict
         self.ids = list(self.dataset_dict.keys())
-        print(dataset_dict)
 
     def __len__(self) -> int:
         return len(self.ids)
@@ -249,8 +248,6 @@ class ActiveOverSampler(Sampler):
             for _ in range(num_non_optimized):
                 batch.append(next(self.non_optimized_iter))
 
-            assert all(x in self.ids for x in batch)
-            assert all(x in self.ids for x in (self.optimized_ids + self.non_optimized_ids))
             yield batch
 
     def __len__(self):
