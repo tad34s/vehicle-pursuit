@@ -223,6 +223,7 @@ class Projector:
             ref_image = ref_image.repeat(3, 1, 1)
 
         mask_bool = mask.squeeze().bool()
+        ref_image = ref_image[[2, 1, 0], :, :]  # BGR to RGB
 
         # Draw the mask onto the input image
         visualization = torchvision.utils.draw_segmentation_masks(
