@@ -212,6 +212,18 @@ class Projector:
         mask = (silhouette_mask > 0.5).float()
         plt.imsave(file_name, mask[0].cpu().numpy(), cmap="gray")
 
+    def visualize_prediction_on_input(self, prediction, ref_image):
+        mask = self.calculate_mask(prediction)
+
+        mask_bool = mask.squeeze().bool()
+
+        # Draw the mask onto the input image
+        visualization = torchvision.utils.draw_segmentation_masks(
+            ref_image, mask_bool.unsqueeze(0), colors=["red"], alpha=0.5
+        )
+
+        return visualization
+
     def visualize_prediction(self, prediction, ref_image):
         mask = self.calculate_mask(prediction)
         ref_image = ref_image / 255.0  # 1, 1, H, W

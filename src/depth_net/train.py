@@ -110,7 +110,7 @@ def validate_net(net: DepthNetwork, val_loader):
     return running_cum_loss
 
 
-def test_net(net: DepthNetwork, test_dataset, writer):
+def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
     test_loader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
     errors = []
     images_dir = "projections"
@@ -122,13 +122,15 @@ def test_net(net: DepthNetwork, test_dataset, writer):
         t_ref = t_ref.to(net.device)
         with torch.no_grad():
             y_hat = net(x)
-        position = y_hat[0]
-        x = position[0].item()
-        y = position[1].item()
-        theta = position[2].item()
 
-        # net.projector.render_mask(x, y, theta, file_name=f"projections/{i}.png")
-        error = y_hat - t_ref
+        error = y_hat - t_ref  # B, 3
+        for j, error_vec in enumerate(error):
+            for val in error_vec:
+                if val.item() > 10:
+                    img = net.projector.visualize_prediction_on_input(y_hat[j].unsqueeze(0), x[j])
+                    writer.add_image(f"Larger error, pred:{y_hat[j]}, correct:{t_ref[j]}", img)
+                break
+
         errors.append(error.cpu())
 
     all_errors = torch.cat(errors, dim=0)
