@@ -145,6 +145,10 @@ def test_net(net: DepthNetwork, test_dataset, writer):
     writer.add_text("10% quantile", str(q1))
     writer.add_text("90% quantile", str(q2))
 
+    error_names = ["x_error", "y_error", "theta_error"]
+    for i, name in enumerate(error_names):
+        writer.add_histogram(f"test_errors/{name}", all_errors[:, i])
+
     return
 
 
