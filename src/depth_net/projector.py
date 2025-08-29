@@ -215,6 +215,13 @@ class Projector:
     def visualize_prediction_on_input(self, prediction, ref_image):
         mask = self.calculate_mask(prediction)
 
+        if ref_image.dtype != torch.uint8:
+            ref_image = (ref_image * 255).byte()
+        if ref_image.dim() == 4:
+            ref_image = ref_image.squeeze(0)
+        if ref_image.size(0) == 1:
+            ref_image = ref_image.repeat(3, 1, 1)
+
         mask_bool = mask.squeeze().bool()
 
         # Draw the mask onto the input image
