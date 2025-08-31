@@ -149,7 +149,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
     error_names = ["x_error", "y_error", "theta_error"]
     for i, name in enumerate(error_names):
         writer.add_histogram(f"test_errors/{name}", all_errors[:, i])
-    print(all_errors)
+    print("\n".join(str(x) for x in all_errors))
 
     return
 
