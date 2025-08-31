@@ -117,7 +117,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
 
     Path(images_dir).mkdir(exist_ok=True, parents=True)
     for i, data in enumerate(test_loader):
-        x, t_ref = data
+        x, t_ref, masks = data
         x = x.to(net.device)
         t_ref = t_ref.to(net.device)
         with torch.no_grad():
@@ -127,7 +127,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
         for j, error_vec in enumerate(error):
             for val in error_vec:
                 if val.item() > 10:
-                    img = net.projector.visualize_prediction_on_input(y_hat[j].unsqueeze(0), x[j])
+                    img = net.projector.visualize_prediction(y_hat[j].unsqueeze(0), masks[j])
                     writer.add_image(f"Larger error, pred:{y_hat[j]}, correct:{t_ref[j]}", img)
                 break
 
@@ -249,11 +249,11 @@ def main():
 
     print("Fitting...")
     best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
+    visualize_predictions(best_net, val_dataset, writer)
+    print("Testing against ground truth...")
     test_dataset = TestDataset(
         "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
     )
-    visualize_predictions(best_net, val_dataset, writer)
-    print("Testing against ground truth...")
     test_net(best_net, test_dataset, writer)
 
     writer.flush()
