@@ -216,7 +216,7 @@ class Projector:
         mask = self.calculate_mask(prediction)
 
         if ref_image.dtype != torch.uint8:
-            ref_image = (ref_image * 255).byte()
+            ref_image = ref_image.byte()
         if ref_image.dim() == 4:
             ref_image = ref_image.squeeze(0)
         if ref_image.size(0) == 1:
