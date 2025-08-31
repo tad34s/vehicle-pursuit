@@ -120,6 +120,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
         x, t_ref, masks = data
         x = x.to(net.device)
         t_ref = t_ref.to(net.device)
+        masks = masks.to(net.device)
         with torch.no_grad():
             y_hat = net(x)
 
