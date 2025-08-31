@@ -113,9 +113,7 @@ def validate_net(net: DepthNetwork, val_loader):
 def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
     test_loader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
     errors = []
-    images_dir = "projections"
 
-    Path(images_dir).mkdir(exist_ok=True, parents=True)
     for i, data in enumerate(test_loader):
         x, t_ref, masks = data
         x = x.to(net.device)
@@ -127,7 +125,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
         error = y_hat - t_ref  # B, 3
         for j, error_vec in enumerate(error):
             for val in error_vec:
-                if val.item() > 10:
+                if math.fabs(val.item()) > 10:
                     img = net.projector.visualize_prediction(y_hat[j].unsqueeze(0), masks[j])
                     writer.add_image(f"Larger error, pred:{y_hat[j]}, correct:{t_ref[j]}", img)
                 break
@@ -151,6 +149,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
     error_names = ["x_error", "y_error", "theta_error"]
     for i, name in enumerate(error_names):
         writer.add_histogram(f"test_errors/{name}", all_errors[:, i])
+    print(all_errors)
 
     return
 
