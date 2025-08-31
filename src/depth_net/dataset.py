@@ -98,6 +98,7 @@ class TestDataset(Dataset):
         t_ref = np.load(self.t_refs[id])
         if self.transform:
             img = self.transform(img)
+            mask = self.transform(mask)
         t_ref = torch.tensor(t_ref, dtype=torch.float32)
         return img.type(torch.float32), t_ref, mask
 
