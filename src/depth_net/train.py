@@ -252,7 +252,7 @@ def main():
     visualize_predictions(best_net, val_dataset, writer)
     print("Testing against ground truth...")
     test_dataset = TestDataset(
-        "dataset/images", "dataset/t_ref", val_dataset_ids, device, image_size
+        "dataset/images", "dataset/masks", "dataset/t_ref", val_dataset_ids, device, image_size
     )
     test_net(best_net, test_dataset, writer)
 
