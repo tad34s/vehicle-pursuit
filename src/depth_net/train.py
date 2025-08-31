@@ -125,10 +125,10 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
         error = y_hat - t_ref  # B, 3
         for j, error_vec in enumerate(error):
             for val in error_vec:
-                if math.fabs(val.item()) > 10:
+                if math.fabs(val.item()) > 30:
                     img = net.projector.visualize_prediction(y_hat[j].unsqueeze(0), masks[j])
                     writer.add_image(f"Larger error, pred:{y_hat[j]}, correct:{t_ref[j]}", img)
-                break
+                    break
 
         errors.append(error.cpu())
 
@@ -149,7 +149,6 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
     error_names = ["x_error", "y_error", "theta_error"]
     for i, name in enumerate(error_names):
         writer.add_histogram(f"test_errors/{name}", all_errors[:, i])
-    print("\n".join(str(x) for x in all_errors))
 
     return
 
