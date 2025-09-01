@@ -7,8 +7,7 @@ from projector import Projector
 
 class DepthNetwork(torch.nn.Module):
     LEARNING_RATE = 1e-3
-    WEIGHT_DECAY = 1e-7
-    DROPOUT_P = 0.3
+    WEIGHT_DECAY = 1e-6
 
     def __init__(self, image_size, device):
         super().__init__()
@@ -22,7 +21,6 @@ class DepthNetwork(torch.nn.Module):
         self.predict = torch.nn.Sequential(
             nn.Flatten(),
             nn.BatchNorm1d(256 * 6 * 6),  # Added batch normalization
-            nn.Dropout1d(p=self.DROPOUT_P),  # Added batch normalization
             nn.Linear(256 * 6 * 6, 256),
             nn.ReLU(),
             nn.Linear(256, 64),
