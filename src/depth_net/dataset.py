@@ -91,7 +91,7 @@ class TestDataset(Dataset):
     def __len__(self) -> int:
         return len(self.ids)
 
-    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, int]:
         id = self.ids[index]
         img = read_image(self.input_images[id])
         mask = read_image(self.masks[id])
@@ -99,8 +99,9 @@ class TestDataset(Dataset):
         if self.transform:
             img = self.transform(img)
             mask = self.transform(mask)
+
         t_ref = torch.tensor(t_ref, dtype=torch.float32)
-        return img.type(torch.float32), t_ref, mask
+        return img.type(torch.float32), t_ref, mask, id
 
 
 class OverSampler(Sampler):

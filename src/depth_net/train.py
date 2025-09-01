@@ -115,7 +115,7 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
     errors = []
 
     for i, data in enumerate(test_loader):
-        x, t_ref, masks = data
+        x, t_ref, masks, ids = data
         x = x.to(net.device)
         t_ref = t_ref.to(net.device)
         masks = masks.to(net.device)
@@ -127,7 +127,9 @@ def test_net(net: DepthNetwork, test_dataset, writer: SummaryWriter):
             for val in error_vec:
                 if math.fabs(val.item()) > 30:
                     img = net.projector.visualize_prediction(y_hat[j].unsqueeze(0), masks[j])
-                    writer.add_image(f"Larger error, pred:{y_hat[j]}, correct:{t_ref[j]}", img)
+                    writer.add_image(
+                        f"Larger error {ids[j]}, pred:{y_hat[j]}, correct:{t_ref[j]}", img
+                    )
                     break
 
         errors.append(error.cpu())
