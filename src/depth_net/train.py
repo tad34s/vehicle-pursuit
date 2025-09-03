@@ -10,6 +10,7 @@ from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
 from dataset import MaskDataset, OverSampler, TestDataset
+from variables import MODEL_PATH
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -257,6 +258,8 @@ def main():
     )
     test_net(best_net, test_dataset, writer)
 
+    model_path = Path(MODEL_PATH) / f"depth_net/ net_{str(datetime.datetime.now())}"
+    best_net.to_onnx(str(model_path))
     writer.flush()
 
 

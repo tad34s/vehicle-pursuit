@@ -9,12 +9,12 @@ from PIL import Image
 from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor, SamModel, SamProcessor
 
 # Configuration
-INPUT_DIR = Path("dataset") / "images"
-OUTPUT_DIR = Path("dataset") / "masks"
+INPUT_DIR = Path("dataset") / "pokus" / "images"
+OUTPUT_DIR = Path("dataset") / "pokus" / "masks"
 
-VIZ_DIR = Path("dataset") / "overlayed_masks"
+VIZ_DIR = Path("dataset") / "pokus" / "overlayed_masks"
 
-TEXT_PROMPT = "red car"
+TEXT_PROMPT = "little house"
 BOX_THRESHOLD = 0.25
 TEXT_THRESHOLD = 0.25
 
@@ -27,7 +27,7 @@ def load_models():
     print("Loading models...")
 
     # Grounding DINO
-    dino_id = "IDEA-Research/grounding-dino-tiny"
+    dino_id = "IDEA-Research/grounding-dino-base"
     dino_processor = AutoProcessor.from_pretrained(dino_id)
     dino_model = AutoModelForZeroShotObjectDetection.from_pretrained(dino_id).to(device)
 

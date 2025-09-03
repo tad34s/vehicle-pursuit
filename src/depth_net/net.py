@@ -89,6 +89,24 @@ class DepthNetwork(torch.nn.Module):
 
         return preds
 
+    def to_onnx(self, name):
+        self.eval()
+
+        dummy_input = torch.randn(1, *self.input_shape).to(self.device)
+
+        torch.onnx.export(
+            self,
+            dummy_input,
+            f"{name}.onnx",
+            export_params=True,
+            opset_version=13,
+            do_constant_folding=True,
+            input_names=["input"],
+            output_names=["output"],
+            dynamic_axes={"input": {0: "batch_size"}, "output": {0: "batch_size"}},
+            training=torch.onnx.TrainingMode.EVAL,
+        )
+
 
 if __name__ == "__main__":
     net = DepthNetwork((512, 512), torch.device("cpu"))
