@@ -2,7 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
-from projector import Projector
+
+from depth_net.projector import Projector
 
 
 class DepthNetwork(torch.nn.Module):
@@ -12,7 +13,10 @@ class DepthNetwork(torch.nn.Module):
     def __init__(self, image_size, device):
         super().__init__()
 
-        self.transforms = torchvision.models.AlexNet_Weights.IMAGENET1K_V1.transforms()
+        self.transforms = torch.nn.Sequential(
+            torchvision.transforms.Resize((224, 224)),  # Resize to AlexNet input size
+            torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        )
 
         self.features = torchvision.models.alexnet(
             weights=torchvision.models.AlexNet_Weights.IMAGENET1K_V1

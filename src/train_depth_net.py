@@ -4,12 +4,12 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-from net import DepthNetwork
 from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from dataset import MaskDataset, OverSampler, TestDataset
+from depth_net.dataset import MaskDataset, OverSampler, TestDataset
+from depth_net.net import DepthNetwork
 from variables import MODEL_PATH
 
 
@@ -258,7 +258,8 @@ def main():
     )
     test_net(best_net, test_dataset, writer)
 
-    model_path = Path(MODEL_PATH) / f"depth_net/ net_{str(datetime.datetime.now())}"
+    model_path = Path(MODEL_PATH) / "depth_net" / f"net_{str(datetime.datetime.now())}"
+    model_path.parent.mkdir(exist_ok=True, parents=True)
     best_net.to_onnx(str(model_path))
     writer.flush()
 
