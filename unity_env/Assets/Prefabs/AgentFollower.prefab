@@ -10900,6 +10900,7 @@ GameObject:
   - component: {fileID: 6282186034757043640}
   - component: {fileID: 7970076265675784750}
   - component: {fileID: 4633599328643637399}
+  - component: {fileID: 2888127290955259942}
   - component: {fileID: 4133665731673211277}
   m_Layer: 0
   m_Name: AgentFollower
@@ -10973,7 +10974,7 @@ MonoBehaviour:
   MaxStep: 0
   parentCheckpoint: {fileID: 0}
   currentCheckpoint: 0
-  carController: {fileID: 6282186034757043643}
+  carController: {fileID: 2888127290955259942}
   carCamera: {fileID: 6282186036672718647}
   rBody: {fileID: -1987677041437309144}
   carLeader: {fileID: 0}
@@ -11044,11 +11045,11 @@ MonoBehaviour:
     VectorObservationSize: 6
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 0
-      BranchSizes: 02000000020000000200000002000000
-    VectorActionSize: 02000000020000000200000002000000
+      m_NumContinuousActions: 2
+      BranchSizes: 
+    VectorActionSize: 02000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
@@ -11092,6 +11093,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f07460b9e2c9547aff4d2f4c12bf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2888127290955259942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282186036658918038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c94fd0c4d9443e6348900a62906cdb07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 30
+  maxReverseSpeed: 20
+  accelerationMultiplier: 3
+  maxSteeringAngle: 20
+  steeringSpeed: 1
+  brakeForce: 600
+  decelerationMultiplier: 1
+  handbrakeDriftMultiplier: 0
+  useControls: 0
+  bodyMassCenter: {x: 0, y: 0, z: 0}
+  frontLeftMesh: {fileID: 0}
+  frontLeftCollider: {fileID: 0}
+  frontRightMesh: {fileID: 0}
+  frontRightCollider: {fileID: 0}
+  rearLeftMesh: {fileID: 0}
+  rearLeftCollider: {fileID: 0}
+  rearRightMesh: {fileID: 0}
+  rearRightCollider: {fileID: 0}
+  useEffects: 0
+  RLWParticleSystem: {fileID: 0}
+  RRWParticleSystem: {fileID: 0}
+  RLWTireSkid: {fileID: 0}
+  RRWTireSkid: {fileID: 0}
+  useUI: 0
+  carSpeedText: {fileID: 0}
+  useSounds: 0
+  carEngineSound: {fileID: 0}
+  tireScreechSound: {fileID: 0}
+  useTouchControls: 0
+  throttleButton: {fileID: 0}
+  reverseButton: {fileID: 0}
+  turnRightButton: {fileID: 0}
+  turnLeftButton: {fileID: 0}
+  handbrakeButton: {fileID: 0}
+  carSpeed: 0
+  isDrifting: 0
+  isTractionLocked: 0
+  steeringAxis: 0
+  deceleratingCar: 0
 --- !u!114 &4133665731673211277
 MonoBehaviour:
   m_ObjectHideFlags: 0
