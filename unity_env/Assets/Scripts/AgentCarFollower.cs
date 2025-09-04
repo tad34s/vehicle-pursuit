@@ -121,8 +121,10 @@ public class AgentCarFollower : Agent
     {
         float speed = actions.ContinuousActions[k_Speed];
         float steering = actions.ContinuousActions[k_Steering];
-
+        
         carController.Movement(true, speed, steering);
+        Debug.Log(speed);
+        Debug.Log(steering);
     }
         
     public override void OnActionReceived(ActionBuffers actions)
@@ -131,6 +133,8 @@ public class AgentCarFollower : Agent
             return;
 
         SetReward(calcDistanceToLeader());
+
+        Debug.Log(carController.getAmountOfWheelsOnRoad());
 
         if (carController.getAmountOfWheelsOnRoad() <= 2)
         {
