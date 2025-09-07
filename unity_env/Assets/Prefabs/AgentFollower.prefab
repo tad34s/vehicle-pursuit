@@ -11115,14 +11115,14 @@ MonoBehaviour:
   handbrakeDriftMultiplier: 0
   useControls: 0
   bodyMassCenter: {x: 0, y: 0, z: 0}
-  frontLeftMesh: {fileID: 0}
-  frontLeftCollider: {fileID: 0}
-  frontRightMesh: {fileID: 0}
-  frontRightCollider: {fileID: 0}
-  rearLeftMesh: {fileID: 0}
-  rearLeftCollider: {fileID: 0}
-  rearRightMesh: {fileID: 0}
-  rearRightCollider: {fileID: 0}
+  frontLeftMesh: {fileID: 6282186034747460593}
+  frontLeftCollider: {fileID: 6282186035272500274}
+  frontRightMesh: {fileID: 6282186035612197117}
+  frontRightCollider: {fileID: 6282186035657605405}
+  rearLeftMesh: {fileID: 6282186034724044169}
+  rearLeftCollider: {fileID: 6282186035000444791}
+  rearRightMesh: {fileID: 6282186035755541268}
+  rearRightCollider: {fileID: 6282186035318932182}
   useEffects: 0
   RLWParticleSystem: {fileID: 0}
   RRWParticleSystem: {fileID: 0}
