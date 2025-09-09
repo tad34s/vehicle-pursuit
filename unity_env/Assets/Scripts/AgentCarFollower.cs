@@ -43,7 +43,7 @@ public class AgentCarFollower : Agent
 
         currentCheckpoint = 0;
 
-        transform.position = transform.parent.position - new Vector3(0, 0, 2); ;
+        transform.position = transform.parent.position - new Vector3(0, 0, 5); ;
         transform.rotation = Quaternion.identity;
 
 

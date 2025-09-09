@@ -83,7 +83,9 @@ class FollowerControllerAgent(Agent):
         else:
             t_ref = self.depth_net.run(None, {"input": state.img})  # mby unsqueeze
 
-        actions = self.controllers[agent_id].optimize_controls(state.speed, t_ref)
+        actions = self.controllers[agent_id].optimize_controls(
+            state.speed, state.leader_speed, t_ref
+        )
         actions = actions[0], actions[1]
         print("actions", actions)
         return actions
