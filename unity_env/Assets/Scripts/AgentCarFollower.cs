@@ -43,7 +43,7 @@ public class AgentCarFollower : Agent
 
         currentCheckpoint = 0;
 
-        transform.position = transform.parent.position - new Vector3(0, 0, 5); ;
+        transform.position = transform.parent.position - new Vector3(0, 0, 2); ;
         transform.rotation = Quaternion.identity;
 
 
@@ -117,16 +117,16 @@ public class AgentCarFollower : Agent
     }
 
 
-   void TriggerAction(ActionBuffers actions)
+    void TriggerAction(ActionBuffers actions)
     {
         float speed = actions.ContinuousActions[k_Speed];
         float steering = actions.ContinuousActions[k_Steering];
-        
+
         carController.Movement(true, speed, steering);
         Debug.Log(speed);
-        Debug.Log(steering);
+        // Debug.Log(steering);
     }
-        
+
     public override void OnActionReceived(ActionBuffers actions)
     {
         if (pauseLearning)
