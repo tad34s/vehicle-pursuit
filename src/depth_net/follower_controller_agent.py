@@ -1,9 +1,11 @@
 from pathlib import Path
 
+import cv2
 import numpy as np
 import onnxruntime as ort
 import torch
 import torch.onnx
+import torchvision
 from mlagents_envs.base_env import DecisionStep, TerminalStep
 from mlagents_envs.environment import ActionTuple, DecisionSteps, TerminalSteps
 from torch.utils.tensorboard.writer import SummaryWriter
@@ -11,6 +13,13 @@ from torch.utils.tensorboard.writer import SummaryWriter
 from agent_interface import Agent
 from depth_net.controller import ModelPredictiveControl
 from follower_agent.buffer import State
+
+
+def show_tensor_image(image):
+    # Clone, detach, and move to CPU
+
+    # Display the image
+    torchvision.io.write_png(torch.tensor(image, dtype=torch.uint8), "ex.png")
 
 
 class FollowerControllerAgent(Agent):
@@ -35,7 +44,7 @@ class FollowerControllerAgent(Agent):
 
         # self.controllers = [ModelPredictiveControl() * num_agents]
         self.controllers: dict[int, ModelPredictiveControl] = {}
-        self.inject_correct_values = True
+        self.inject_correct_values = False
 
         # load onnx
         self.depth_net = ort.InferenceSession(model_path)
@@ -81,21 +90,28 @@ class FollowerControllerAgent(Agent):
         if self.inject_correct_values:
             t_ref = state.t_ref
         else:
-            t_ref = self.depth_net.run(None, {"input": state.img})  # mby unsqueeze
+            # print(np.expand_dims(state.img, 0).shape)
+            t_ref = self.depth_net.run(
+                None, {"input": np.expand_dims(state.img, 0)}
+            )  # mby unsqueeze
+            t_ref = t_ref[0][0]
+            print(t_ref, state.t_ref)
 
         actions = self.controllers[agent_id].optimize_controls(
             state.speed, state.leader_speed, t_ref
         )
         actions = actions[0], actions[1]
-        print("actions", actions)
+        # print("actions", actions)
         return actions
 
     def get_state_and_reward(self, step: DecisionStep | TerminalStep) -> tuple[State, float]:
         state = State(step.obs)
+        state.img *= 255
+        # print("img", state.img[state.img > 1])
+        state.img = state.img.transpose(1, 2, 0)
 
-        # img_rgb = state.img.transpose(1, 2, 0)
-
-        # state.img = cv2.resize(state.img, (128, 128), interpolation=cv2.INTER_LANCZOS4)
-
+        state.img = cv2.resize(state.img, (256, 256))
+        state.img = state.img.transpose(2, 0, 1)
         reward = step.reward
+
         return state, reward

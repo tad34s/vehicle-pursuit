@@ -27,15 +27,22 @@ class ModelPredictiveControl:
         num_inputs = 2
         self.u = np.zeros(self.horizon * num_inputs)
         self.bounds = []
+        max_steering_angle = 20
+        self.max_in_rads = 20 * np.pi / 180
         for i in range(self.horizon):
-            self.bounds += [[-1, 1]]  # Normalized pedal
-            self.bounds += [[-0.8, 0.8]]  # Steering
+            self.bounds += [[-1, 1]]
+            self.bounds += [[-self.max_in_rads, self.max_in_rads]]
 
     def optimize_controls(self, current_speed_kph, leader_speed_kph, current_relative):
         """
         current_relative: [x_rel_m, y_rel_m, theta_rel_deg] (current relative position/heading)
         """
         self.u = np.zeros(self.horizon * 2)
+
+        # self.u = np.delete(self.u, 0)
+        # self.u = np.delete(self.u, 0)
+        # self.u = np.append(self.u, self.u[-2])
+        # self.u = np.append(self.u, self.u[-2])
         current_v_mps = current_speed_kph / 3.6
         v_lead_mps = leader_speed_kph / 3.6  # Leader speed for relative updates
 
@@ -62,17 +69,17 @@ class ModelPredictiveControl:
             tol=1e-3,
         )
         self.u = u_solution.x
-        print("curr relative state (m, rad, mps)", current_state)
-        print("curr v (kph)", current_speed_kph, "leader v (kph)", leader_speed_kph)
-        print("fixed ref", reference)
-        print("best_controls (pedal_norm, steering)", *self.u)
+        # print("curr relative state (m, rad, mps)", current_state)
+        # print("curr v (kph)", current_speed_kph, "leader v (kph)", leader_speed_kph)
+        # print("fixed ref", reference)
+        # print("best_controls (pedal_norm, steering)", *self.u)
         next_state = self.plant_model(current_state, self.dt, self.u[0], self.u[1], v_lead_mps)
-        print("next rel state (m, rad, mps)", next_state)
-        print("next v (kph)", next_state[3] * 3.6)
+        # print("next rel state (m, rad, mps)", next_state)
+        # print("next v (kph)", next_state[3] * 3.6)
         pedal_out = self.u[0]
         steering_out = -self.u[1]  # Negate steering for your convention
-        print("output actions", pedal_out, steering_out)
-        return pedal_out, steering_out
+        # print("output actions", pedal_out, steering_out)
+        return pedal_out, steering_out / self.max_in_rads
 
     def plant_model(self, prev_state, dt, pedal, steering, v_lead_mps):
         """Relative dynamics: Follower relative to fixed/moving leader (assumes leader straight, constant v_lead along y)."""
