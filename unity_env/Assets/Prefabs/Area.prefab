@@ -123,7 +123,7 @@ MonoBehaviour:
   trackPieceSize: 20
   activeTracksAtOnce: 4
   track: []
-  triesPerTrack: 5
+  triesPerTrack: 1
   checkpointParent: {fileID: 3090871700077183156}
   checkpointMarker: {fileID: 4096870464940643553, guid: 34cf1552bf198ac4c9b60a9e17836c05, type: 3}
   checkpoints: []
@@ -310,6 +310,10 @@ PrefabInstance:
     - target: {fileID: 6282186036658918038, guid: e9c7c3637b31d5515a4a368dab6e2dc3, type: 3}
       propertyPath: m_Name
       value: AgentFollower
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282186036672718647, guid: e9c7c3637b31d5515a4a368dab6e2dc3, type: 3}
+      propertyPath: field of view
+      value: 69.98404
       objectReference: {fileID: 0}
     - target: {fileID: 6282186036672718647, guid: e9c7c3637b31d5515a4a368dab6e2dc3, type: 3}
       propertyPath: m_projectionMatrixMode
