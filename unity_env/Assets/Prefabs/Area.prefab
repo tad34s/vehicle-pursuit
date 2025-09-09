@@ -123,7 +123,7 @@ MonoBehaviour:
   trackPieceSize: 20
   activeTracksAtOnce: 4
   track: []
-  triesPerTrack: 2
+  triesPerTrack: 3
   checkpointParent: {fileID: 3090871700077183156}
   checkpointMarker: {fileID: 4096870464940643553, guid: 34cf1552bf198ac4c9b60a9e17836c05, type: 3}
   checkpoints: []
