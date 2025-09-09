@@ -6,12 +6,11 @@ from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.exception import UnityActionException
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
 
-import follower_agent.hyperparameters as follower_hyperparams
 import leader_agent.hyperparameters as leader_hyperparams
 from agent_interface import Agent
 from data_channel import DataChannel
+from depth_net.follower_controller_agent import FollowerControllerAgent
 from environment_parameters import set_parameters
-from follower_agent.agent import FollowerAgent
 from leader_agent.agent import LeaderAgent
 
 parser = argparse.ArgumentParser()
@@ -75,14 +74,7 @@ if __name__ == "__main__":
         leader_hyperparams.NONVISUAL_INPUT_SHAPE,
     )
     if follower_path:
-        follower_agent = Agent.from_onnyx(
-            FollowerAgent,
-            follower_path,
-            follower_hyperparams.VISUAL_INPUT_SHAPE,
-            follower_hyperparams.NONVISUAL_INPUT_SHAPE,
-            inject_correct=inject_correct,
-            create_dataset=create_dataset,
-        )
+        follower_agent = FollowerControllerAgent(follower_path, device)
 
         agents = [leader_agent, follower_agent]
     else:

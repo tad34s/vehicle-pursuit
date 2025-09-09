@@ -311,7 +311,7 @@ if __name__ == "__main__":
     ref_image = transform(ref_image)
     t_ref: np.ndarray = np.load(f"dataset/t_ref/{data_num}.npy")
     t_ref_worse = t_ref.copy()
-    t_ref_worse[1] = t_ref_worse[1] - 1
+    t_ref_worse[2] = t_ref_worse[2] - 80
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, device)
@@ -330,6 +330,8 @@ if __name__ == "__main__":
         dtype=torch.float32,
         requires_grad=True,
     )
+
+    projector.render_mask(t_ref_worse[0], t_ref_worse[1], t_ref_worse[2])
 
     print(position, position_worse)
     print(position.shape, ref_image.shape)
