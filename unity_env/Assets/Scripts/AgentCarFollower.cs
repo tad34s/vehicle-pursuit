@@ -136,7 +136,7 @@ public class AgentCarFollower : Agent
 
         Debug.Log(carController.getAmountOfWheelsOnRoad());
 
-        if (carController.getAmountOfWheelsOnRoad() <= 2)
+        if (carController.getAmountOfWheelsOnRoad() <= 2 && carController.getAmountOfWheelsOnRoad() != 0)
         {
             SetReward(deathPenalty);
             carLeader.SetReward(carLeader.calcDistanceToCenter());

@@ -120,7 +120,7 @@ public class AgentCar : Agent
             trackGenerator.UpdateTrack(currentCheckpoint);
         }
 
-        if (carController.getAmountOfWheelsOnRoad() <= 2)
+        if (carController.getAmountOfWheelsOnRoad() <= 2 && carController.getAmountOfWheelsOnRoad() != 0)
         {
             SetReward(deathPenalty);
             carFollower.SetReward(carFollower.calcDistanceToLeader());
