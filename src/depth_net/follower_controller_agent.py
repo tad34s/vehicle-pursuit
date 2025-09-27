@@ -31,6 +31,7 @@ class FollowerControllerAgent(Agent):
         model_path: str,
         device: torch.device,
         num_agents: int = 1,
+        inject_correct_values=False,
         writer: SummaryWriter | None = None,
     ) -> None:
         super().__init__()
@@ -44,7 +45,7 @@ class FollowerControllerAgent(Agent):
 
         # self.controllers = [ModelPredictiveControl() * num_agents]
         self.controllers: dict[int, ModelPredictiveControl] = {}
-        self.inject_correct_values = False
+        self.inject_correct_values = inject_correct_values
 
         # load onnx
         self.depth_net = ort.InferenceSession(model_path)
@@ -56,9 +57,10 @@ class FollowerControllerAgent(Agent):
         cont_action_values = []
 
         if len(decision_steps) == 0:
-            return None
             for agent_id in terminal_steps:
                 self.controllers.pop(agent_id)
+            print("Dying")
+            return None
 
         for agent_id in decision_steps:
             if agent_id not in self.controllers.keys():

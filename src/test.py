@@ -74,7 +74,11 @@ if __name__ == "__main__":
         leader_hyperparams.NONVISUAL_INPUT_SHAPE,
     )
     if follower_path:
-        follower_agent = FollowerControllerAgent(follower_path, device)
+        follower_agent = FollowerControllerAgent(
+            follower_path,
+            device,
+            inject_correct_values=inject_correct,
+        )
 
         agents = [leader_agent, follower_agent]
     else:

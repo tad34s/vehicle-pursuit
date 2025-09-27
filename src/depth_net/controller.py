@@ -6,23 +6,23 @@ from depth_net.projector import Projector
 
 class ModelPredictiveControl:
     CAR_LEN = Projector.CAR_SIZES[2]
-    FRICTION_DISCOUNT = 0.90  # Tune for steady speeds
+    FRICTION_DISCOUNT = 0.80
     dt = 0.1
-    max_accel_mps2 = 2.5  # Forward (m/s²)
+    max_accel_mps2 = 5.0  # Forward (m/s²)
     max_decel_mps2 = 5.0  # Braking/reverse (m/s²)
-    desired_dist = 1.0  # Safe following distance (m); tune
+    desired_dist = 3.0  # Safe following distance (m); tune
 
     def __init__(
         self,
         weights={
             "x": 1,
             "y": 2,
-            "theta": 1,
-            "control": 0.1,
+            "theta": 2,
+            "control": 0.2,
             "distance_cost": 0.5,
-        },  # Higher y weight for distance priority
+        },
     ):
-        self.horizon = 10
+        self.horizon = 15
         self.weights = weights
         num_inputs = 2
         self.u = np.zeros(self.horizon * num_inputs)
@@ -32,11 +32,22 @@ class ModelPredictiveControl:
         for i in range(self.horizon):
             self.bounds += [[-1, 1]]
             self.bounds += [[-self.max_in_rads, self.max_in_rads]]
+        self.counter = 0
 
     def optimize_controls(self, current_speed_kph, leader_speed_kph, current_relative):
         """
         current_relative: [x_rel_m, y_rel_m, theta_rel_deg] (current relative position/heading)
         """
+        # self.counter = (self.counter + 1) % 5
+        # if self.counter != 0:
+        #     pedal_out = self.u[0]
+        #     steering_out = -self.u[1]  # Negate steering for your convention
+        #     self.u = np.delete(self.u, 0)
+        #     self.u = np.delete(self.u, 0)
+        #     self.u = np.append(self.u, self.u[-2])
+        #     self.u = np.append(self.u, self.u[-2])
+        #     return pedal_out, steering_out / self.max_in_rads
+
         self.u = np.zeros(self.horizon * 2)
 
         # self.u = np.delete(self.u, 0)
@@ -73,7 +84,7 @@ class ModelPredictiveControl:
         # print("curr v (kph)", current_speed_kph, "leader v (kph)", leader_speed_kph)
         # print("fixed ref", reference)
         # print("best_controls (pedal_norm, steering)", *self.u)
-        next_state = self.plant_model(current_state, self.dt, self.u[0], self.u[1], v_lead_mps)
+        # next_state = self.plant_model(current_state, self.dt, self.u[0], self.u[1], v_lead_mps)
         # print("next rel state (m, rad, mps)", next_state)
         # print("next v (kph)", next_state[3] * 3.6)
         pedal_out = self.u[0]
@@ -105,7 +116,6 @@ class ModelPredictiveControl:
         else:
             accel = pedal * self.max_decel_mps2
         v_t = self.FRICTION_DISCOUNT * v_t + accel * dt
-        v_t = np.clip(v_t, -12.5, 25.0)  # Realistic limits (m/s)
 
         return [x_t, y_t, theta_t, v_t]
 
