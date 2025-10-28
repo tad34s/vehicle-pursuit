@@ -83,39 +83,36 @@ class AgentOnnyx(Agent):
         for agent_id in decision_steps:
             step = decision_steps[agent_id]
 
+            # if self.name == "Follower":
+            #     dis_action_values.append([])
+            #     cont_action_values.append([100, 0])
             if self.name == "Leader":
                 from leader_agent.agent import LeaderAgent
 
                 visual_ob = LeaderAgent.image_preprocessing(
                     self.visual_input_shape, step.obs[0]
                 ).reshape(1, *self.visual_input_shape)
-            else:
-                dim = (128, 128)
-                visual_ob = step.obs[0]
-                visual_ob = np.transpose(visual_ob, (1, 2, 0))
-                visual_ob = cv2.resize(visual_ob, dsize=dim, interpolation=cv2.INTER_AREA)
-                visual_ob = np.transpose(visual_ob, (2, 0, 1))
-                visual_ob = visual_ob.reshape(1, *self.visual_input_shape)
 
-            nonvis_ob = step.obs[1].reshape(1, *self.nonvis_input_shape)
+                nonvis_ob = step.obs[1].reshape(1, *self.nonvis_input_shape)
 
-            if not self.inject_correct:
-                nonvis_ob[0, 3:] = torch.nan
+                if not self.inject_correct:
+                    nonvis_ob[0, 3:] = torch.nan
 
-            if self.save_dataset:
-                self.save_state(State(step.obs))
+                if self.save_dataset:
+                    self.save_state(State(step.obs))
 
-            outputs = self.model.run(None, {"visual_obs": visual_ob, "nonvis_obs": nonvis_ob})
+                outputs = self.model.run(None, {"visual_obs": visual_ob, "nonvis_obs": nonvis_ob})
 
-            actions = outputs[1]
-            dis_action_values.append(actions[0])
-            cont_action_values.append([])
+                actions = outputs[1]
+                dis_action_values.append(actions[0])
+                cont_action_values.append([])
 
         action_tuple = ActionTuple()
         final_dis_action_values = np.array(dis_action_values)
         final_cont_action_values = np.array(cont_action_values)
         action_tuple.add_discrete(final_dis_action_values)
         action_tuple.add_continuous(final_cont_action_values)
+        print(action_tuple.continuous)
 
         return action_tuple
 

@@ -59,7 +59,6 @@ class FollowerControllerAgent(Agent):
         if len(decision_steps) == 0:
             for agent_id in terminal_steps:
                 self.controllers.pop(agent_id)
-            print("Dying")
             return None
 
         for agent_id in decision_steps:
