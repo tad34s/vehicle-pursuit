@@ -51,10 +51,9 @@ class DepthNetwork(torch.nn.Module):
         self.input_shape = (3, *image_size)
 
         self.projector = Projector(
-            "dataset/deepracer/deepracer.obj",
+            "dataset/deepracer/car_small.obj",
             image_size,
             self.device,
-            opencv_calibration_location="dataset/deepracer/calibration_data.npz",
         )
         self.focal_length = self.projector.camera.focal_length[0][
             1
@@ -119,7 +118,7 @@ class DepthNetwork(torch.nn.Module):
 if __name__ == "__main__":
     net = DepthNetwork((512, 512), torch.device("cpu"))
     position_raw = torch.tensor(
-        [[10000, 30.0, 0, 1]],
+        [[0.1, 100.0, 0]],
         dtype=torch.float32,
     )
     position = net.activation_fn(position_raw)

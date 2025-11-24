@@ -19,7 +19,6 @@ from pytorch3d.renderer import (
 from pytorch3d.structures import Meshes
 from pytorch3d.transforms import axis_angle_to_matrix
 from pytorch3d.utils import cameras_from_opencv_projection
-from torchvision.io import read_image
 
 
 def dice_loss(pred, target, smooth=1):
@@ -44,7 +43,7 @@ def dice_loss(pred, target, smooth=1):
     return 1 - dice
 
 
-def center_mesh(mesh: Meshes) -> Meshes:
+def preprocess_mesh(mesh: Meshes, scale) -> Meshes:
     """
     Centers mesh in xz-plane and aligns lowest point to y=0.
 
@@ -67,15 +66,14 @@ def center_mesh(mesh: Meshes) -> Meshes:
             new_verts_list.append(verts)
             continue
 
-        # Compute bounding box minima and maxima
         min_vals, _ = verts.min(dim=0)
         max_vals, _ = verts.max(dim=0)
 
         # Calculate center in xz-plane (ignore y)
-        center_xz = torch.tensor(
+        center_xyz = torch.tensor(
             [
                 (min_vals[0] + max_vals[0]) / 2.0,
-                0,  # We'll handle y separately
+                (min_vals[1] + max_vals[1]) / 2.0,
                 (min_vals[2] + max_vals[2]) / 2.0,
             ],
             device=verts.device,
@@ -84,8 +82,9 @@ def center_mesh(mesh: Meshes) -> Meshes:
 
         # Center mesh in xz-plane
         verts_centered = verts.clone()
-        verts_centered[:, [0, 2]] -= center_xz[[0, 2]]
-
+        verts_centered[:, [0, 2]] -= center_xyz[[0, 2]]
+        # Now cale them
+        verts_centered *= scale
         # Align bottom to y=0
         min_y = verts_centered[:, 1].min()
         verts_centered[:, 1] -= min_y
@@ -96,13 +95,13 @@ def center_mesh(mesh: Meshes) -> Meshes:
 
 
 class Projector:
-    CAMERA_POS = torch.tensor([0, 0, 0], dtype=torch.float32)
-    CAMERA_ROT = torch.tensor([[25, 0, 0]], dtype=torch.float32)
+    CAMERA_POS = torch.tensor([0, 16, 0], dtype=torch.float32)
+    CAMERA_ROT = torch.tensor([[15, 0, 0]], dtype=torch.float32)
 
-    CAR_SIZES = [11, 18, 35]  # in x,y,z direction, in cm
+    # CAR_SIZES = [11, 18, 35]  # in x,y,z direction, in cm
 
-    FOCAL_LENGTH_MM = 50
-    SENSOR_WIDTH_MM = 70
+    FOCAL_LENGTH_MM = 1.8
+    SENSOR_WIDTH_MM = 3
 
     def __init__(
         self,
@@ -112,9 +111,8 @@ class Projector:
         opencv_calibration_location: str | None = None,
     ) -> None:
         mesh = IO().load_mesh(car_model_path, device=device)
-        scale, move_y = self.calc_scale_move(mesh)
-        mesh.scale_verts_(scale)
-        mesh = center_mesh(mesh)
+        mesh = preprocess_mesh(mesh, 100)
+        # mesh.scale_verts_(100)  # convert meters to cm
 
         self.car_mesh = mesh
         self.device = device
@@ -125,11 +123,10 @@ class Projector:
             self.camera = self.create_camera()
         else:
             self.camera = self.camera_from_opencv(Path(opencv_calibration_location))
-        self.fov = 2 * np.arctan(self.SENSOR_WIDTH_MM / self.FOCAL_LENGTH_MM * 2)
         self.renderer = self.create_renderer()
 
     def create_camera(self) -> PerspectiveCameras:
-        W, H = self.image_size
+        H, W = self.image_size
         focal_len = (self.FOCAL_LENGTH_MM / self.SENSOR_WIDTH_MM) * W
 
         cam_R = axis_angle_to_matrix(math.pi * self.CAMERA_ROT / 180)
@@ -139,10 +136,8 @@ class Projector:
             [focal_len, focal_len], device=self.device, dtype=torch.float32
         ).unsqueeze(0)
         principal_point = torch.tensor(
-            [self.image_size[0] / 2, self.image_size[1] / 2],
-            device=self.device,
-            dtype=torch.float32,
-        ).unsqueeze(0)
+            [[W / 2.0, H / 2.0]], device=self.device, dtype=torch.float32
+        )
 
         camera = PerspectiveCameras(
             R=cam_R,
@@ -171,13 +166,16 @@ class Projector:
             image_size=torch.tensor([self.image_size], dtype=torch.float32, device=self.device),
         )
         camera.to(self.device)
+        print(camera.get_principal_point())
         return camera
 
     def create_renderer(self):
         raster_settings = RasterizationSettings(
             image_size=self.image_size,
-            blur_radius=1e-6,
-            faces_per_pixel=50,
+            blur_radius=0,
+            faces_per_pixel=1,
+            # cull_backfaces=True,
+            max_faces_per_bin=20000,
         )
 
         renderer = MeshRenderer(
@@ -234,7 +232,7 @@ class Projector:
         ).to(self.device)
 
     def render_mask(self, x, y, theta, file_name="out.png"):
-        mesh = self.move_car_tensor(torch.tensor([[x, y, theta]]))
+        mesh = self.move_car_tensor(torch.tensor([[x, y, theta]], device=self.device))
         silhouette = self.renderer(mesh, cameras=self.camera)
 
         silhouette_mask = silhouette[..., 3]
@@ -331,54 +329,12 @@ class Projector:
 if __name__ == "__main__":
     import torchvision
 
-    projector = Projector(
-        "dataset/deepracer/deepracer.obj",
-        (256, 256),
-        torch.device("cpu"),
-        opencv_calibration_location="dataset/deepracer/calibration_data.npz",
-    )
-
-    data_num = 107
-    ref_image = read_image(f"dataset/simulation/masks/{data_num}.png").unsqueeze(0)
-    image_size = (128, 128)
-
-    t_ref: np.ndarray = np.load(f"dataset/simulation/t_ref/{data_num}.npy")
-    t_ref_worse = t_ref.copy()
-    t_ref_worse[2] = t_ref_worse[2] - 80
-
-    projector.render_mask(t_ref_worse[0], t_ref_worse[1], t_ref_worse[2])
-
-    transform = torchvision.transforms.Resize(image_size, antialias=True)
-    ref_image = transform(ref_image)
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, device)
-    position = torch.tensor(
-        t_ref.reshape(1, 3), device=device, dtype=torch.float32, requires_grad=True
-    )
-    position_worse = torch.tensor(
-        t_ref_worse.reshape(1, 3),
-        device=device,
-        dtype=torch.float32,
-        requires_grad=True,
-    )
-    position_worst = torch.tensor(
-        [[137.2555, -136.3660, -15.0732]],
-        device=device,
-        dtype=torch.float32,
-        requires_grad=True,
+    projector = Projector(
+        "dataset/deepracer/car_small.obj",
+        (240, 320),
+        device,
+        # opencv_calibration_location="dataset/deepracer/calibration_data.npz",
     )
 
-    projector.render_mask(t_ref_worse[0], t_ref_worse[1], t_ref_worse[2])
-
-    print(position, position_worse)
-    print(position.shape, ref_image.shape)
-    print("good estimate", projector.loss(position, ref_image))
-    print("worse estimate", projector.loss(position_worse, ref_image))
-    print("worst estimate", projector.loss(position_worst, ref_image))
-
-    loss_value = projector.loss(position_worse, ref_image)
-    # Compute gradients
-    loss_value.backward()
-    print("Loss:", loss_value.item())
-    print("Gradient:", position_worse.grad)
+    projector.render_mask(0, 100, 0)

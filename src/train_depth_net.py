@@ -32,7 +32,7 @@ def pretrain(net, dataset, writer, epochs=1) -> None:
             x, _, _ = batch
             x = x.to(net.device)
             batch_size = x.shape[0]
-            y = torch.tensor([[0.0, 70.0, 0.0]] * batch_size, device=net.device)
+            y = torch.tensor([[0.0, 80.0, 0.0]] * batch_size, device=net.device)
             # y[:, 2] = torch.rand(batch_size, device=net.device) * 360 - 180
             y_hat = net.forward(x)
             loss = loss_fn(y_hat, y)
