@@ -175,7 +175,7 @@ class Projector:
             blur_radius=0,
             faces_per_pixel=1,
             # cull_backfaces=True,
-            max_faces_per_bin=20000,
+            # max_faces_per_bin=20000,
         )
 
         renderer = MeshRenderer(
