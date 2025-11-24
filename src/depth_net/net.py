@@ -45,13 +45,17 @@ class DepthNetwork(torch.nn.Module):
             factor=0.3,
             threshold=1e-4,
             min_lr=1e-7,
-            verbose=True,
         )
 
         self.device = device
         self.input_shape = (3, *image_size)
 
-        self.projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, self.device)
+        self.projector = Projector(
+            "dataset/deepracer/deepracer.obj",
+            image_size,
+            self.device,
+            opencv_calibration_location="dataset/deepracer/calibration_data.npz",
+        )
         self.focal_length = self.projector.camera.focal_length[0][
             1
         ].item()  # focal length in image coordinates

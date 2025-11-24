@@ -21,6 +21,7 @@ dependencies = [
     "assimp-py>=1.1.0",
     "transformers>=4.54.1",
     "opencv-python>=4.6.0.66",
+    "pytorch3d==0.7.5+pt2.1.1cu121",
 ]
 
 [tool.ruff]

@@ -24,8 +24,9 @@ class MaskDataset(Dataset):
         }
         self.masks = {int(x.name[:-4]): str(x) for x in Path(masks_path).glob("*.png")}
         self.ids = sorted(ids)
-        if len(self.input_images) != len(self.masks):
-            raise ValueError
+        assert len(self.input_images) == len(self.masks), (
+            f"imgs: {len(self.input_images)} != masks: {len(self.masks)}"
+        )
 
         if resized_image_size is not None:
             self.transform = torchvision.transforms.Resize(resized_image_size, antialias=True)

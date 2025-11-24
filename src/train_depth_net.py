@@ -8,9 +8,9 @@ from tensorboard import program
 from torch.utils.data import DataLoader, random_split
 from torch.utils.tensorboard.writer import SummaryWriter
 
-from depth_net.dataset import MaskDataset, OverSampler, TestDataset
+from depth_net.dataset import MaskDataset, OverSampler
 from depth_net.net import DepthNetwork
-from variables import MODEL_PATH
+from depth_net.variables import MODEL_PATH
 
 
 def launch_tensor_board(logs_location: Path) -> None:
@@ -229,7 +229,9 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    input_images_path = "dataset/images"
+    input_images_path = "dataset/deepracer/combined/imgs"
+    input_masks_path = "dataset/deepracer/combined/masks"
+
     available_ids = [int(x.name[:-4]) for x in Path(input_images_path).glob("*.png")]
     generator = torch.Generator().manual_seed(42)
     train_dataset_ids, val_dataset_ids = random_split(
@@ -237,10 +239,10 @@ def main():
     )
 
     train_dataset = MaskDataset(
-        input_images_path, "dataset/masks", train_dataset_ids, device, image_size, flip=True
+        input_images_path, input_masks_path, train_dataset_ids, device, image_size, flip=True
     )
     val_dataset = MaskDataset(
-        input_images_path, "dataset/masks", val_dataset_ids, device, image_size
+        input_images_path, input_masks_path, val_dataset_ids, device, image_size
     )
 
     net = DepthNetwork(image_size, device)
@@ -253,10 +255,11 @@ def main():
     best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
     visualize_predictions(best_net, val_dataset, writer)
     print("Testing against ground truth...")
-    test_dataset = TestDataset(
-        "dataset/images", "dataset/masks", "dataset/t_ref", val_dataset_ids, device, image_size
-    )
-    test_net(best_net, test_dataset, writer)
+
+    # test_dataset = TestDataset(
+    #     "dataset/images", "dataset/masks", "dataset/t_ref", val_dataset_ids, device, image_size
+    # )
+    # test_net(best_net, test_dataset, writer)
 
     model_path = Path(MODEL_PATH) / "depth_net" / f"net_{str(datetime.datetime.now())}"
     model_path.parent.mkdir(exist_ok=True, parents=True)

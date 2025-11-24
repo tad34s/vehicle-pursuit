@@ -1,5 +1,6 @@
 import math
 from copy import deepcopy
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -17,6 +18,7 @@ from pytorch3d.renderer import (
 )
 from pytorch3d.structures import Meshes
 from pytorch3d.transforms import axis_angle_to_matrix
+from pytorch3d.utils import cameras_from_opencv_projection
 from torchvision.io import read_image
 
 
@@ -94,15 +96,21 @@ def center_mesh(mesh: Meshes) -> Meshes:
 
 
 class Projector:
-    CAMERA_POS = torch.tensor([0, 2, 2], dtype=torch.float32)
+    CAMERA_POS = torch.tensor([0, 0, 0], dtype=torch.float32)
     CAMERA_ROT = torch.tensor([[25, 0, 0]], dtype=torch.float32)
 
-    CAR_SIZES = [2.188, 1.273, 5.416]  # in x,y,z direction
+    CAR_SIZES = [11, 18, 35]  # in x,y,z direction, in cm
 
     FOCAL_LENGTH_MM = 50
     SENSOR_WIDTH_MM = 70
 
-    def __init__(self, car_model_path: str, image_size, device=torch.device("cpu")) -> None:
+    def __init__(
+        self,
+        car_model_path: str,
+        image_size,
+        device=torch.device("cpu"),
+        opencv_calibration_location: str | None = None,
+    ) -> None:
         mesh = IO().load_mesh(car_model_path, device=device)
         scale, move_y = self.calc_scale_move(mesh)
         mesh.scale_verts_(scale)
@@ -113,7 +121,10 @@ class Projector:
         self.car_mesh.to(self.device)
 
         self.image_size = image_size
-        self.camera = self.create_camera()
+        if opencv_calibration_location is None:
+            self.camera = self.create_camera()
+        else:
+            self.camera = self.camera_from_opencv(Path(opencv_calibration_location))
         self.fov = 2 * np.arctan(self.SENSOR_WIDTH_MM / self.FOCAL_LENGTH_MM * 2)
         self.renderer = self.create_renderer()
 
@@ -142,6 +153,24 @@ class Projector:
             image_size=[self.image_size],
             device=self.device,
         )
+        return camera
+
+    def camera_from_opencv(self, file_location: Path):
+        data = np.load(file_location)
+        matrix = torch.tensor([data["camera_matrix"]], dtype=torch.float32, device=self.device)
+        print(matrix)
+        self.CAMERA_POS = self.CAMERA_POS.to(self.device)
+        self.CAMERA_ROT = self.CAMERA_ROT.to(self.device)
+        cam_R = axis_angle_to_matrix(math.pi * self.CAMERA_ROT / 180)
+        T = -self.CAMERA_POS @ cam_R
+
+        camera = cameras_from_opencv_projection(
+            R=cam_R,
+            tvec=T,
+            camera_matrix=matrix,
+            image_size=torch.tensor([self.image_size], dtype=torch.float32, device=self.device),
+        )
+        camera.to(self.device)
         return camera
 
     def create_renderer(self):
@@ -302,16 +331,25 @@ class Projector:
 if __name__ == "__main__":
     import torchvision
 
-    torch.autograd.set_detect_anomaly(True)  # Add this first
+    projector = Projector(
+        "dataset/deepracer/deepracer.obj",
+        (256, 256),
+        torch.device("cpu"),
+        opencv_calibration_location="dataset/deepracer/calibration_data.npz",
+    )
+
     data_num = 107
-    ref_image = read_image(f"dataset/masks/{data_num}.png").unsqueeze(0)
+    ref_image = read_image(f"dataset/simulation/masks/{data_num}.png").unsqueeze(0)
     image_size = (128, 128)
+
+    t_ref: np.ndarray = np.load(f"dataset/simulation/t_ref/{data_num}.npy")
+    t_ref_worse = t_ref.copy()
+    t_ref_worse[2] = t_ref_worse[2] - 80
+
+    projector.render_mask(t_ref_worse[0], t_ref_worse[1], t_ref_worse[2])
 
     transform = torchvision.transforms.Resize(image_size, antialias=True)
     ref_image = transform(ref_image)
-    t_ref: np.ndarray = np.load(f"dataset/t_ref/{data_num}.npy")
-    t_ref_worse = t_ref.copy()
-    t_ref_worse[2] = t_ref_worse[2] - 80
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     projector = Projector("src/depth_net/utils/Prometheus.obj", image_size, device)
