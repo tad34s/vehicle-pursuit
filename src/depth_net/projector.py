@@ -174,7 +174,7 @@ class Projector:
             image_size=self.image_size,
             blur_radius=0,
             faces_per_pixel=1,
-            bin_size=0,
+            # bin_size=0,
             # cull_backfaces=True,
             # max_faces_per_bin=20000,
         )

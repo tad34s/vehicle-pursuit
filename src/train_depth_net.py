@@ -180,7 +180,7 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
 
     best_val_loss = 1000000.0
     epochs_from_best = 0
-    early_stopping = 40
+    early_stopping = None
     losses = None
 
     for epoch in range(epochs):
@@ -211,7 +211,7 @@ def fit(net: DepthNetwork, train_dataset, val_dataset, writer, epochs=1) -> Dept
             epochs_from_best += 1
 
         # EARLY STOPPING
-        if epochs_from_best > early_stopping and epoch > 200:
+        if early_stopping is not None and epochs_from_best > early_stopping and epoch > 200:
             print("Early stopping now")
             return best_net
 
