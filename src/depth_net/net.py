@@ -7,8 +7,8 @@ from depth_net.projector import Projector
 
 
 class DepthNetwork(torch.nn.Module):
-    LEARNING_RATE = 1e-3
-    WEIGHT_DECAY = 1e-6
+    LEARNING_RATE = 1e-4
+    WEIGHT_DECAY = 1e-7
 
     def __init__(self, image_size, device):
         super().__init__()
