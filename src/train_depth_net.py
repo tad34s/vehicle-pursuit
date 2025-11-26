@@ -252,7 +252,7 @@ def main():
     pretrain(net, train_dataset, writer, epochs=2)
 
     print("Fitting...")
-    best_net = fit(net, train_dataset, val_dataset, writer, epochs=500)
+    best_net = fit(net, train_dataset, val_dataset, writer, epochs=1000)
     visualize_predictions(best_net, val_dataset, writer)
     print("Testing against ground truth...")
 
