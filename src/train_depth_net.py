@@ -229,8 +229,8 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    input_images_path = "dataset/deepracer/combined/imgs"
-    input_masks_path = "dataset/deepracer/combined/masks"
+    input_images_path = "dataset/deepracer/hall/imgs"
+    input_masks_path = "dataset/deepracer/hall/masks"
 
     available_ids = [int(x.name[:-4]) for x in Path(input_images_path).glob("*.png")]
     generator = torch.Generator().manual_seed(42)
